@@ -752,15 +752,22 @@ const SlideshowPicture = async (src = null) =>
     ],
   }, [
     Card([
-      h("img", {
-        src: src,
-        classList: [
-          "max-h-[70vh]", "max-w-[70vw]",
-        ],
-      }),
+      h("a", {
+        href: src,
+        target: "_blank",
+      }, [
+        h("img", {
+          src: src,
+          loading: "lazy",
+          classList: [
+            "max-h-[70vh]", "max-w-[70vw]",
+          ],
+        }),
+      ]),
     ], 
     Math.round(Math.random() * 6) - 3, 
-    "./assets/images/paper-4.jpg"),
+    "./assets/images/paper-4.jpg",
+    ["hover:scale-[1.05]"]),
   ])
 
 const Title = async (content, classList = []) =>
@@ -1140,7 +1147,7 @@ const SectionContainer = async (children, classList = []) =>
     ]),
   ])
 
-const Card = async (children, rotation = 0, backgroundURL = null) => 
+const Card = async (children, rotation = 0, backgroundURL = null, classList = []) => 
   h("article", {
     dataSet: { role: "card", }, 
     classList: [
@@ -1148,6 +1155,7 @@ const Card = async (children, rotation = 0, backgroundURL = null) =>
       "p-5", "md:p-7",
       `bg-[url('${backgroundURL}')]`,
       "bg-contain",
+      ...classList,
     ],
   }, [
     children,
