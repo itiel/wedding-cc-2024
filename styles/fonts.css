@@ -1,11 +1,11 @@
 @font-face {
   font-family: "Roboto Mono";
-  src: url("/assets/fonts/Roboto_Mono/RobotoMono-VariableFont_wght.ttf");
+  src: url("../assets/fonts/Roboto_Mono/RobotoMono-VariableFont_wght.ttf");
 }
 
 @font-face {
   font-family: "Alice";
-  src: url("/fonts/Alice/Alice-Regular.ttf");
+  src: url("./fonts/Alice/Alice-Regular.ttf");
 }
 
 .font-roboto {

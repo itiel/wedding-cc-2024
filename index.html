@@ -3,16 +3,17 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta charset="utf-8">
-  <link rel="stylesheet" type="text/css" href="/styles/fonts.css">
-  <script src="/scripts/tailwind.js"></script>
+  <link rel="stylesheet" type="text/css" href="./styles/fonts.css">
+  <link rel="icon" href="./favicon.ico" type="image/x-icon">
+  <script src="./scripts/tailwind.js"></script>
   <title>Carlos & Chelsea - 2024</title>
 </head>
 <body>
 
 <script type="module">
 
-import { replaceNode as replace, appendChildren as append, composeHTML as h } from "/scripts/compose.js"
-import copyTextToClipboard from "/scripts/clipboard.js"
+import { replaceNode as replace, appendChildren as append, composeHTML as h } from "./scripts/compose.js"
+import copyTextToClipboard from "./scripts/clipboard.js"
 
 const COLOR_LIGHTEST = "#FBF9F2"
 const COLOR_LIGHT = "#F3F1EB"
@@ -90,7 +91,7 @@ const IntroPrologue = async () =>
 const IntroLogo = async () => 
   Item([
     h("img", {
-      src: "/assets/images/logo.png",
+      src: "./assets/images/logo.png",
       classList: [
         "h-[12rem]", "sm:h-[15rem]", "md:h-[21rem]", 
       ],
@@ -100,7 +101,7 @@ const IntroLogo = async () =>
 const IntroStamp = async () => 
   Item([
     h("img", {
-      src: "/assets/images/stamp.png",
+      src: "./assets/images/stamp.png",
       classList: [
         "opacity-70",
         "h-[6rem]", "md:h-[8rem]", 
@@ -129,13 +130,13 @@ const DateCalendar = async () =>
         dataSet: { role: "calendar", },
       }, [
         h("img", {
-          src: "/assets/images/calendar.png",
+          src: "./assets/images/calendar.png",
           classList: [
             "w-96", "md:w-[40rem]",
           ],
         }),
       ]),
-    ], -1, "/assets/images/paper-5.jpg"),
+    ], -1, "./assets/images/paper-5.jpg"),
   ])
 
 const DateCountdown = async () => 
@@ -188,7 +189,7 @@ const AttendancePrologue = async () =>
         ], 3),
         AttendanceForm(),
       ], 5),
-    ], 1, "/assets/images/paper-5.jpg"),
+    ], 1, "./assets/images/paper-5.jpg"),
   ])
 
 const AttendanceEpilogue = async () =>
@@ -214,7 +215,7 @@ const AttendanceEpilogue = async () =>
           ], 3),
         ]),
       ], 7),
-    ], -1, "/assets/images/paper-4.jpg"),
+    ], -1, "./assets/images/paper-4.jpg"),
   ])
 
 const AttendanceForm = async () =>
@@ -357,7 +358,7 @@ const SpeechTimeCard = async () =>
           ]),
         ]),
       ], 1),
-    ], -1, "/assets/images/paper-4.jpg"),
+    ], -1, "./assets/images/paper-4.jpg"),
   ])
 
 const SpeechGeoCard = async () =>
@@ -397,7 +398,7 @@ const SpeechGeoCard = async () =>
           ),
         ]),
       ], 5),
-    ], 1, "/assets/images/paper-5.jpg"),
+    ], 1, "./assets/images/paper-5.jpg"),
   ])
 
 const ItinerarySection2 = async () => 
@@ -435,7 +436,7 @@ const ReceptionTimeCard = async () =>
           ]),
         ]),
       ], 1),
-    ], 1, "/assets/images/paper-5.jpg"),
+    ], 1, "./assets/images/paper-5.jpg"),
   ])
 
 const ReceptionGeoCard = async () =>
@@ -474,7 +475,7 @@ const ReceptionGeoCard = async () =>
           ),
         ]),
       ], 5),
-    ], -1, "/assets/images/paper-4.jpg"),
+    ], -1, "./assets/images/paper-4.jpg"),
   ])
 
 const ItinerarySection3 = async () => 
@@ -503,7 +504,7 @@ const ItineraryEpilogueCard = async () =>
               Subtitle("Vestimenta formal.", [`text-[${COLOR_MEDIUM_DARK}]`]),
             ]),
           ])
-        ], -1, "/assets/images/paper-4.jpg"),
+        ], -1, "./assets/images/paper-4.jpg"),
       ]),
       Item([
         Card([
@@ -521,7 +522,7 @@ const ItineraryEpilogueCard = async () =>
                 ["font-bold", `text-[${COLOR_LIGHT}]`]),
             ], 5),
           ]),
-        ], 1, "/assets/images/paper-5.jpg"),
+        ], 1, "./assets/images/paper-5.jpg"),
       ]),
     ], 5)
   ])
@@ -575,7 +576,7 @@ const GiftRegistryCard1 = async () =>
           ),
         ]),
       ]),
-    ], 1, "/assets/images/paper-5.jpg"),
+    ], 1, "./assets/images/paper-5.jpg"),
   ])
 
 const GiftRegistryCard2 = async () =>
@@ -606,7 +607,7 @@ const GiftRegistryCard2 = async () =>
           ),
         ]),
       ]),
-    ], -1, "/assets/images/paper-4.jpg"),
+    ], -1, "./assets/images/paper-4.jpg"),
   ])
 
 const GiftRegistrySection2 = async () => 
@@ -674,7 +675,7 @@ const GiftRegistryCard3 = async () =>
           ]),
         ]),
       ]),
-    ], -1, "/assets/images/paper-4.jpg"),
+    ], -1, "./assets/images/paper-4.jpg"),
   ])
 
 const GiftRegistryCard4 = async () =>
@@ -696,7 +697,7 @@ const GiftRegistryCard4 = async () =>
           ], 3),
         ]),
       ]),
-    ], 1, "/assets/images/paper-5.jpg"),
+    ], 1, "./assets/images/paper-5.jpg"),
   ])
 
 const Title = async (content, classList = []) =>
