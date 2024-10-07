@@ -111,6 +111,20 @@ const IntroStamp = async () =>
         "opacity-70",
         "h-[6rem]", "md:h-[8rem]", 
       ],
+      on: () => {
+        return ({
+          click: async () => {
+            await document.documentElement.requestFullscreen()
+
+            if (screen.orientation && screen.orientation.lock) 
+              try {
+                await screen.orientation.lock("portrait")
+              } catch (error) {
+                console.error(error)
+              }
+          }
+        })
+      }
     }),
   ])
 
@@ -739,7 +753,6 @@ const GallerySlideshow = async () =>
       SlideshowPicture("./assets/images/slideshow/3.jpg"),
       SlideshowPicture("./assets/images/slideshow/4.jpg"),
       SlideshowPicture("./assets/images/slideshow/5.jpg"),
-      SlideshowPicture("./assets/images/slideshow/6.jpg"),
     ])
   ])
 
@@ -752,18 +765,13 @@ const SlideshowPicture = async (src = null) =>
     ],
   }, [
     Card([
-      h("a", {
-        href: src,
-        target: "_blank",
-      }, [
-        h("img", {
-          src: src,
-          loading: "lazy",
-          classList: [
-            "max-h-[70vh]", "max-w-[70vw]",
-          ],
-        }),
-      ]),
+      h("img", {
+        src: src,
+        loading: "lazy",
+        classList: [
+          "max-h-[70vh]", "max-w-[70vw]",
+        ],
+      }),
     ], 
     Math.round(Math.random() * 6) - 3, 
     "./assets/images/paper-4.jpg",
