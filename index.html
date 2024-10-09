@@ -838,34 +838,20 @@ const BankTransferCard = async () =>
                       "text-[1.3rem]",
                       "font-roboto", "font-bold", 
                     ], {}, {
-                      on: (self) => {
-                        let timeoutID = null
+                      on: { 
+                        click: async (e) => {
+                          e.preventDefault()
 
-                        return { 
-                          click: async (e) => {
-                            e.preventDefault()
+                          const cardNum = await findByData({
+                            role: "card-number",
+                          })
 
-                            const cardNum = await findByData({
-                              role: "card-number",
-                            })
+                          cardNum.select()
+                          cardNum.setSelectionRange(0, 99999)
 
-                            cardNum.select()
-                            cardNum.setSelectionRange(0, 99999)
-
-                            if (navigator && navigator.clipboard) {
-                              navigator.clipboard.writeText(cardNum.value)
-
-                              self.innerHTML = "Copiado"
-
-                              if (timeoutID !== null) 
-                                clearTimeout(timeoutID)
-
-                              timeoutID = setTimeout(() => {
-                                self.innerHTML = "Copiar"
-                              }, 1500)
-                            }
-                          },
-                        }
+                          if (navigator && navigator.clipboard) 
+                            navigator.clipboard.writeText(cardNum.value)
+                        },
                       },
                     }),
                   ]),
@@ -899,34 +885,20 @@ const BankTransferCard = async () =>
                       "text-[1.3rem]",
                       "font-roboto", "font-bold", 
                     ], {}, {
-                      on: (self) => {
-                        let timeoutID = null
+                      on: { 
+                        click: async (e) => {
+                          e.preventDefault()
 
-                        return { 
-                          click: async (e) => {
-                            e.preventDefault()
+                          const cardNum = await findByData({
+                            role: "clabe-number",
+                          })
 
-                            const cardNum = await findByData({
-                              role: "clabe-number",
-                            })
+                          cardNum.select()
+                          cardNum.setSelectionRange(0, 99999)
 
-                            cardNum.select()
-                            cardNum.setSelectionRange(0, 99999)
-
-                            if (navigator && navigator.clipboard) {
-                              navigator.clipboard.writeText(cardNum.value)
-
-                              self.innerHTML = "Copiado"
-
-                              if (timeoutID !== null) 
-                                clearTimeout(timeoutID)
-
-                              timeoutID = setTimeout(() => {
-                                self.innerHTML = "Copiar"
-                              }, 1500)
-                            }
-                          },
-                        }
+                          if (navigator && navigator.clipboard) 
+                            navigator.clipboard.writeText(cardNum.value)
+                        },
                       },
                     }),
                   ]),
@@ -1139,6 +1111,57 @@ const RowToColumn =
       ], ...attributes,
     }, [children])
 
+const Card = 
+  async (children, rotation = 0, backgroundURL = null, classList = [], dataAttributes = {}, attributes) => 
+  Wrapper(children, [
+    "p-5", "md:p-7",
+    "shadow-xl",
+    "bg-contain",
+    `rotate-[${rotation}deg]`, 
+    `bg-[url('${backgroundURL}')]`,
+    ...classList,
+  ], { 
+    role: "card",
+    ...dataAttributes,
+  }, attributes)
+
+const LightCard = 
+  async (children, rotation = 0, classList = [], dataAttributes = {}, attributes) => 
+  Card(children, rotation, 
+    "./assets/images/textures/1.jpg", 
+    classList, dataAttributes, attributes)
+
+const DarkCard = 
+  async (children, rotation = 0, classList = [], dataAttributes = {}, attributes) => 
+  Card(children, rotation, 
+    "./assets/images/textures/2.jpg", 
+    classList, dataAttributes, attributes)
+
+const Link = 
+  async (children, ref = "#", classList = [], dataAttributes = {}, attributes = {}) => 
+    h("a", {
+      dataSet: { 
+        role: "link", 
+        ...dataAttributes,
+      }, classList: [
+        ...classList
+      ], href: ref, 
+      ...attributes,
+    }, [children])
+
+const Paragraph = async (content, classList = []) => 
+  h("p", {
+    classList: [
+      "font-roboto", 
+      "text-lg", "md:text-xl", 
+      ...classList,
+    ],
+  }, [
+    content,
+  ])
+
+// -- Icons --
+
 const PostageIcon = async (classList = []) =>
   h("svg:svg", {
     fill: "currentColor", 
@@ -1167,18 +1190,6 @@ const SpinnerIcon = async (classList = []) =>
     }),
     h("svg:path", {
       d: "M2 12C2 6.47715 6.47715 2 12 2V5C8.13401 5 5 8.13401 5 12H2Z",
-    }),
-  ])
-
-const TelephoneIcon = async (classList = []) =>
-  h("svg:svg", {
-    fill: "currentColor", 
-    $viewBox: "0 0 16 16",
-    classList: [...classList],
-  }, [
-    h("svg:path", {
-      fillRule: "evenodd", 
-      d: "M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z",
     }),
   ])
 
@@ -1389,54 +1400,7 @@ const ClockIcon = async (classList = []) =>
     }),
   ])
 
-const Card = 
-  async (children, rotation = 0, backgroundURL = null, classList = [], dataAttributes = {}, attributes) => 
-  Wrapper(children, [
-    "p-5", "md:p-7",
-    "shadow-xl",
-    "bg-contain",
-    `rotate-[${rotation}deg]`, 
-    `bg-[url('${backgroundURL}')]`,
-    ...classList,
-  ], { 
-    role: "card",
-    ...dataAttributes,
-  }, attributes)
-
-const LightCard = 
-  async (children, rotation = 0, classList = [], dataAttributes = {}, attributes) => 
-  Card(children, rotation, 
-    "./assets/images/textures/1.jpg", 
-    classList, dataAttributes, attributes)
-
-const DarkCard = 
-  async (children, rotation = 0, classList = [], dataAttributes = {}, attributes) => 
-  Card(children, rotation, 
-    "./assets/images/textures/2.jpg", 
-    classList, dataAttributes, attributes)
-
-const Link = 
-  async (children, ref = "#", classList = [], dataAttributes = {}, attributes = {}) => 
-    h("a", {
-      dataSet: { 
-        role: "link", 
-        ...dataAttributes,
-      }, classList: [
-        ...classList
-      ], href: ref, 
-      ...attributes,
-    }, [children])
-
-const Paragraph = async (content, classList = []) => 
-  h("p", {
-    classList: [
-      "font-roboto", 
-      "text-lg", "md:text-xl", 
-      ...classList,
-    ],
-  }, [
-    content,
-  ])
+// -- Util --
 
 const daysLeft = async () => {
   const diff = new Date("2024-12-07") - new Date()
@@ -1468,6 +1432,8 @@ const postAttendance = async (name, attendance) => {
       [false, responseData.data]
   )
 }
+
+// -- Main Call --
 
 main()
 
