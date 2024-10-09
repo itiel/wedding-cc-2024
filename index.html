@@ -96,6 +96,7 @@ const IntroStamp = async () =>
       classList: [
         "opacity-70",
         "h-[6rem]", "md:h-[8rem]", 
+        "hover:scale-[1.02]", "active:scale-[1.02]", 
       ],
       on: {
         click: async () => {
@@ -148,7 +149,7 @@ const DateCountdown = async () =>
   JustifiedRow([
     Title([
       async () => {
-        const days = await daysLeft()
+        const days = await getRemainingDays("2024-12-07")
         return `Faltan ${days} días`
       },
     ], [`text-[${COLOR_MEDIUM_DARK}]`]),
@@ -189,7 +190,7 @@ const AttendancePrologue = async () =>
               "text-center",
               `text-[${COLOR_LIGHT}]`,
             ]),
-            Paragraph("Octubre 13, 2024", [
+            Paragraph("Octubre 23, 2024", [
               "text-center",
               `text-[${COLOR_LIGHT}]`,
             ]),
@@ -275,7 +276,7 @@ const AttendanceForm = async () =>
               "Sí podré asistir",
             ]),
           ])
-        ], ["gap-2"]),
+        ], ["gap-3"]),
       ]),
       JustifiedRow([
         h("button", {
@@ -283,6 +284,7 @@ const AttendanceForm = async () =>
           classList: [
             `bg-[${COLOR_LIGHT}]`, 
             "opacity-100", "hover:opacity-90", "active:opacity-80",
+            "hover:scale-[1.02]", "active:scale-[1.02]", 
             "p-2",
           ]
         }, [
@@ -307,7 +309,7 @@ const AttendanceEpilogue = async () =>
         JustifiedRow([
           JustifiedColumn([
             JustifiedRow([
-              Subtitle("O por mensaje", [`text-[${COLOR_MEDIUM_DARK}]`]),
+              Subtitle("O en un mensaje", [`text-[${COLOR_MEDIUM_DARK}]`]),
             ]),
             JustifiedRow([
               JustifiedColumn([
@@ -333,6 +335,7 @@ const AttendanceEpilogue = async () =>
                     "gap-2", "p-2",
                     `bg-[${COLOR_MEDIUM_LIGHT}]`, 
                     "opacity-100", "hover:opacity-90", "active:opacity-80",
+                    "hover:scale-[1.02]", "active:scale-[1.02]", 
                   ]),
                 ], "https://wa.me/qr/KKWAAEAGEP25O1", [], {}, { 
                   target: "_blank",
@@ -359,6 +362,7 @@ const AttendanceEpilogue = async () =>
                     "gap-2", "p-2",
                     `bg-[${COLOR_MEDIUM_LIGHT}]`, 
                     "opacity-100", "hover:opacity-90", "active:opacity-80",
+                    "hover:scale-[1.02]", "active:scale-[1.02]", 
                   ]),
                 ], "https://wa.me/qr/WNLUZI5D727TA1", [], {}, { 
                   target: "_blank",
@@ -459,6 +463,7 @@ const SpeechGeoCard = async () =>
               Link("Ver Mapa", "https://maps.app.goo.gl/iJiiv4FQhBk2BTaz7", [
                 `bg-[${COLOR_LIGHT}]`, 
                 "opacity-100", "hover:opacity-90", "active:opacity-80",
+                "hover:scale-[1.02]", "active:scale-[1.02]", 
                 "p-2",
                 "text-[1.3rem]",
                 "font-roboto", "font-bold", 
@@ -553,6 +558,7 @@ const ReceptionGeoCard = async () =>
               Link("Ver Mapa", "https://maps.app.goo.gl/PCBKeFJTs2nqAg1M9", [
                 `bg-[${COLOR_MEDIUM_LIGHT}]`, 
                 "opacity-100", "hover:opacity-90", "active:opacity-80",
+                "hover:scale-[1.02]", "active:scale-[1.02]", 
                 "p-2",
                 "text-[1.3rem]",
                 "font-roboto", "font-bold", 
@@ -685,6 +691,7 @@ const LiverpoolRegistryCard = async () =>
                   "https://mesaderegalos.liverpool.com.mx/milistaderegalos/51537751", [
                   `bg-[${COLOR_LIGHT}]`, 
                   "opacity-100", "hover:opacity-90", "active:opacity-80",
+                  "hover:scale-[1.02]", "active:scale-[1.02]", 
                   "p-2",
                   "text-[1.3rem]",
                   "font-roboto", "font-bold", 
@@ -720,12 +727,13 @@ const AmazonRegistryCard = async () =>
               JustifiedRow([
                 Link("Visitar", 
                   "https://www.amazon.com.mx/wedding/share/carlos-chelsea-2024", [
-                  `bg-[${COLOR_MEDIUM_LIGHT}]`, 
+                  `bg-[${COLOR_MEDIUM_DARK}]`, 
                   "opacity-100", "hover:opacity-90", "active:opacity-80",
+                  "hover:scale-[1.02]", "active:scale-[1.02]", 
                   "p-2",
                   "text-[1.3rem]",
                   "font-roboto", "font-bold", 
-                  `text-[${COLOR_MEDIUM_DARK}]`,
+                  `text-[${COLOR_LIGHT}]`,
                 ], {}, {
                   target: "_blank",
                 }),
@@ -840,6 +848,7 @@ const BankTransferCard = async () =>
                         `bg-[${COLOR_MEDIUM_LIGHT}]`, 
                         `text-[${COLOR_MEDIUM_DARK}]`,
                         "opacity-100", "hover:opacity-90", "active:opacity-80",
+                        "hover:scale-[1.02]", "active:scale-[1.02]", 
                         "p-1",
                         "font-roboto", "font-bold", 
                       ], {}, {
@@ -891,6 +900,7 @@ const BankTransferCard = async () =>
                         `bg-[${COLOR_MEDIUM_LIGHT}]`, 
                         `text-[${COLOR_MEDIUM_DARK}]`,
                         "opacity-100", "hover:opacity-90", "active:opacity-80",
+                        "hover:scale-[1.02]", "active:scale-[1.02]", 
                         "p-1",
                         "font-roboto", "font-bold", 
                       ], {}, {
@@ -1421,10 +1431,9 @@ const ClockIcon = async (classList = []) =>
 
 // -- Util --
 
-const daysLeft = async () => {
-  const diff = new Date("2024-12-07") - new Date()
+const getRemainingDays = async (date) => {
+  const diff = new Date(date) - new Date()
   const daysLeft = Math.ceil(diff / (1000 * 60 * 60 * 24))
-
   return daysLeft
 }
 
@@ -1442,8 +1451,6 @@ const postAttendance = async (name, attendance) => {
   })
 
   const responseData = await response.json()
-
-  console.log("Response data: ", responseData)
 
   return (
     responseData.status !== "success" ?
