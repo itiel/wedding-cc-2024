@@ -180,7 +180,7 @@ const AttendancePrologue = async () =>
       JustifiedColumn([
         JustifiedColumn([
           Subtitle(
-            "Confirma tu Asistencia", 
+            "Confirma tu asistencia aquí", 
             [`text-[${COLOR_LIGHT}]`]
           ),
           JustifiedColumn([
@@ -307,14 +307,14 @@ const AttendanceEpilogue = async () =>
         JustifiedRow([
           JustifiedColumn([
             JustifiedRow([
-              WhatsAppIcon(["h-10", "md:h-12", `text-[${COLOR_MEDIUM_DARK}]`]),
+              Subtitle("O por mensaje", [`text-[${COLOR_MEDIUM_DARK}]`]),
             ]),
             JustifiedRow([
               JustifiedColumn([
                 Link([
                   JustifiedRow([
                     JustifiedColumn([
-                      TelephoneIcon(["h-4", "md:h-6", `text-[${COLOR_LIGHT}]`,]),
+                      WhatsAppIcon(["h-6", "md:h-8", `text-[${COLOR_LIGHT}]`,]),
                     ]),
                     JustifiedRow([
                       JustifiedColumn([
@@ -337,7 +337,7 @@ const AttendanceEpilogue = async () =>
                 Link([
                   JustifiedRow([
                     JustifiedColumn([
-                      TelephoneIcon(["h-4", "md:h-6", `text-[${COLOR_LIGHT}]`,]),
+                      WhatsAppIcon(["h-6", "md:h-8", `text-[${COLOR_LIGHT}]`,]),
                     ]),
                     JustifiedRow([
                       JustifiedColumn([
