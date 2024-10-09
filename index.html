@@ -314,7 +314,10 @@ const AttendanceEpilogue = async () =>
                 Link([
                   JustifiedRow([
                     JustifiedColumn([
-                      WhatsAppIcon(["h-6", "md:h-8", `text-[${COLOR_LIGHT}]`,]),
+                      WhatsAppIcon([
+                        "h-6", "md:h-8", 
+                        `text-[${COLOR_MEDIUM_DARK}]`,
+                      ]),
                     ]),
                     JustifiedRow([
                       JustifiedColumn([
@@ -322,13 +325,13 @@ const AttendanceEpilogue = async () =>
                           "font-bold", 
                           "text-[1.3rem]",
                           "text-center",
-                          `text-[${COLOR_LIGHT}]`,
+                          `text-[${COLOR_MEDIUM_DARK}]`,
                         ]),
                       ]),
                     ]),
                   ], [
                     "gap-2", "p-2",
-                    `bg-[${COLOR_MEDIUM_DARK}]`, 
+                    `bg-[${COLOR_MEDIUM_LIGHT}]`, 
                     "opacity-100", "hover:opacity-90", "active:opacity-80",
                   ]),
                 ], "https://wa.me/qr/KKWAAEAGEP25O1", [], {}, { 
@@ -337,7 +340,10 @@ const AttendanceEpilogue = async () =>
                 Link([
                   JustifiedRow([
                     JustifiedColumn([
-                      WhatsAppIcon(["h-6", "md:h-8", `text-[${COLOR_LIGHT}]`,]),
+                      WhatsAppIcon([
+                        "h-6", "md:h-8", 
+                        `text-[${COLOR_MEDIUM_DARK}]`,
+                      ]),
                     ]),
                     JustifiedRow([
                       JustifiedColumn([
@@ -345,13 +351,13 @@ const AttendanceEpilogue = async () =>
                           "font-bold", 
                           "text-[1.3rem]",
                           "text-center",
-                          `text-[${COLOR_LIGHT}]`,
+                          `text-[${COLOR_MEDIUM_DARK}]`,
                         ]),
                       ]),
                     ]),
                   ], [
                     "gap-2", "p-2",
-                    `bg-[${COLOR_MEDIUM_DARK}]`, 
+                    `bg-[${COLOR_MEDIUM_LIGHT}]`, 
                     "opacity-100", "hover:opacity-90", "active:opacity-80",
                   ]),
                 ], "https://wa.me/qr/WNLUZI5D727TA1", [], {}, { 
@@ -545,12 +551,12 @@ const ReceptionGeoCard = async () =>
             ]),
             JustifiedRow([
               Link("Ver Mapa", "https://maps.app.goo.gl/PCBKeFJTs2nqAg1M9", [
-                `bg-[${COLOR_MEDIUM_DARK}]`, 
+                `bg-[${COLOR_MEDIUM_LIGHT}]`, 
                 "opacity-100", "hover:opacity-90", "active:opacity-80",
                 "p-2",
                 "text-[1.3rem]",
                 "font-roboto", "font-bold", 
-                `text-[${COLOR_LIGHT}]`,
+                `text-[${COLOR_MEDIUM_DARK}]`,
               ], {}, {
                 target: "_blank",
               }),
@@ -714,12 +720,12 @@ const AmazonRegistryCard = async () =>
               JustifiedRow([
                 Link("Visitar", 
                   "https://www.amazon.com.mx/wedding/share/carlos-chelsea-2024", [
-                  `bg-[${COLOR_MEDIUM_DARK}]`, 
+                  `bg-[${COLOR_MEDIUM_LIGHT}]`, 
                   "opacity-100", "hover:opacity-90", "active:opacity-80",
                   "p-2",
                   "text-[1.3rem]",
                   "font-roboto", "font-bold", 
-                  `text-[${COLOR_LIGHT}]`,
+                  `text-[${COLOR_MEDIUM_DARK}]`,
                 ], {}, {
                   target: "_blank",
                 }),
@@ -750,7 +756,7 @@ const InPersonGiftCard = async () =>
                   ], ["gap-4"]),
                 ]),
               ]),
-            ], ["gap-4", "md:gap-6"]),
+            ], ["gap-6", "md:gap-4"]),
           ]),
         ]),
       ], 1),
@@ -781,20 +787,25 @@ const BankTransferCard = async () =>
     JustifiedColumn([
       LightCard([
         JustifiedColumn([
+
           JustifiedRow([
             JustifiedColumn([
+              
               JustifiedRow([
                 JustifiedColumn([
                   CreditCardIcon(["h-20", `text-[${COLOR_MEDIUM_DARK}]`]),
                 ]),
               ]),
+
               JustifiedRow([
                 JustifiedColumn([
                   Subtitle("Transferencia", [`text-[${COLOR_MEDIUM_DARK}]`]),
                 ]),
               ]),
+
             ]),
           ]),
+
           JustifiedRow([
             JustifiedColumn([
               JustifiedColumn([
@@ -803,107 +814,115 @@ const BankTransferCard = async () =>
                 Paragraph("STP", 
                   [`text-[${COLOR_MEDIUM_DARK}]`]),
               ]),
+
               JustifiedColumn([
                 Paragraph("Titular", 
                   ["font-bold", `text-[${COLOR_MEDIUM_DARK}]`]),
                 Paragraph("CARLOS ITIEL LOPEZ ESPINOZA", 
                   [`text-[${COLOR_MEDIUM_DARK}]`]),
               ]),
-              JustifiedRow([ 
-                JustifiedColumn([
-                  Paragraph("No. de Tarjeta", [
-                    "text-left",
-                    "font-bold", 
-                    `text-[${COLOR_MEDIUM_DARK}]`, 
+
+              JustifiedColumn([
+                Row([
+                  JustifiedRow([
+                    JustifiedColumn([
+                      Paragraph("No. de Tarjeta", [
+                        "text-left",
+                        "font-bold", 
+                        `text-[${COLOR_MEDIUM_DARK}]`, 
+                      ]),
+                    ]),
                   ]),
-                  h("input", {
-                    value: "5428 7801 5717 1356",
-                    dataSet: { role: "card-number" },
-                    readonly: true,
-                    classList: [
-                      "w-auto",
-                      "text-lg", "md:text-xl", 
-                      "font-roboto",
-                      `text-[${COLOR_MEDIUM_DARK}]`,
-                    ],
-                  }),
-                ], ["grow"]),
-                JustifiedRow([
-                  JustifiedColumn([
-                    Link("Copiar", "#", [
-                      `bg-[${COLOR_MEDIUM_DARK}]`, 
-                      `text-[${COLOR_LIGHT}]`,
-                      "opacity-100", "hover:opacity-90", "active:opacity-80",
-                      "p-2",
-                      "text-[1.3rem]",
-                      "font-roboto", "font-bold", 
-                    ], {}, {
-                      on: { 
-                        click: async (e) => {
-                          e.preventDefault()
 
-                          const cardNum = await findByData({
-                            role: "card-number",
-                          })
+                  JustifiedRow([
+                    JustifiedColumn([
+                      Link("Copiar", "#", [
+                        `bg-[${COLOR_MEDIUM_LIGHT}]`, 
+                        `text-[${COLOR_MEDIUM_DARK}]`,
+                        "opacity-100", "hover:opacity-90", "active:opacity-80",
+                        "p-1",
+                        "font-roboto", "font-bold", 
+                      ], {}, {
+                        on: { 
+                          click: async (e) => {
+                            e.preventDefault()
 
-                          cardNum.select()
-                          cardNum.setSelectionRange(0, 99999)
+                            const input = await findByData({
+                              role: "card-number",
+                            })
 
-                          if (navigator && navigator.clipboard) 
-                            navigator.clipboard.writeText(cardNum.value)
+                            await copyToClipboardFromInput(input)
+                          },
                         },
-                      },
-                    }),
+                      })
+                    ]),
                   ]),
-                ]),
+                ], ["gap-2"]),
+
+                h("input", {
+                  value: "5428 7801 5717 1356",
+                  dataSet: { role: "card-number" },
+                  readonly: true,
+                  classList: [
+                    "w-auto",
+                    "text-lg", "md:text-xl", 
+                    "font-roboto",
+                    `text-[${COLOR_MEDIUM_DARK}]`,
+                  ],
+                }),
               ], ["gap-2"]),
-              JustifiedRow([
-                JustifiedColumn([
-                  Paragraph("CLABE", [
-                    "text-left",
-                    "font-bold", 
-                    `text-[${COLOR_MEDIUM_DARK}]`, 
+
+
+              JustifiedColumn([
+                Row([
+                  JustifiedRow([
+                    JustifiedColumn([
+                      Paragraph("CLABE", [
+                        "text-left",
+                        "font-bold", 
+                        `text-[${COLOR_MEDIUM_DARK}]`, 
+                      ]),
+                    ]),
                   ]),
-                  h("input", {
-                    value: "646069206856994873",
-                    dataSet: { role: "clabe-number" },
-                    readonly: true,
-                    classList: [
-                      "text-lg", "md:text-xl", 
-                      "font-roboto",
-                      `text-[${COLOR_MEDIUM_DARK}]`,
-                    ],
-                  }),
-                ], ["grow"]),
-                JustifiedRow([
-                  JustifiedColumn([
-                    Link("Copiar", "#", [
-                      `bg-[${COLOR_MEDIUM_DARK}]`, 
-                      `text-[${COLOR_LIGHT}]`,
-                      "opacity-100", "hover:opacity-90", "active:opacity-80",
-                      "p-2",
-                      "text-[1.3rem]",
-                      "font-roboto", "font-bold", 
-                    ], {}, {
-                      on: { 
-                        click: async (e) => {
-                          e.preventDefault()
 
-                          const cardNum = await findByData({
-                            role: "clabe-number",
-                          })
+                  JustifiedRow([
+                    JustifiedColumn([
+                      Link("Copiar", "#", [
+                        `bg-[${COLOR_MEDIUM_LIGHT}]`, 
+                        `text-[${COLOR_MEDIUM_DARK}]`,
+                        "opacity-100", "hover:opacity-90", "active:opacity-80",
+                        "p-1",
+                        "font-roboto", "font-bold", 
+                      ], {}, {
+                        on: { 
+                          click: async (e) => {
+                            e.preventDefault()
 
-                          cardNum.select()
-                          cardNum.setSelectionRange(0, 99999)
+                            const input = await findByData({
+                              role: "clabe-number",
+                            })
 
-                          if (navigator && navigator.clipboard) 
-                            navigator.clipboard.writeText(cardNum.value)
+                            await copyToClipboardFromInput(input)
+                          },
                         },
-                      },
-                    }),
+                      })
+                    ]),
                   ]),
-                ]),
+                ], ["gap-2"]),
+
+                h("input", {
+                  value: "646069206856994873",
+                  dataSet: { role: "clabe-number" },
+                  readonly: true,
+                  classList: [
+                    "w-auto",
+                    "text-lg", "md:text-xl", 
+                    "font-roboto",
+                    `text-[${COLOR_MEDIUM_DARK}]`,
+                  ],
+                }),
               ], ["gap-2"]),
+
             ], ["gap-3"]),
           ]),
         ], ["gap-5"]),
@@ -1431,6 +1450,19 @@ const postAttendance = async (name, attendance) => {
       [true, null] :
       [false, responseData.data]
   )
+}
+
+const copyToClipboardFromInput = async (input) => {
+  input.select()
+  input.setSelectionRange(0, 99999)
+
+  if (!(navigator && navigator.clipboard)) {    
+    return [true]
+  }
+
+  navigator.clipboard.writeText(input.value)
+
+  return [false]
 }
 
 // -- Main Call --
