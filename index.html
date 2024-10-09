@@ -16,8 +16,8 @@ import {
   composeHTML as h, 
   replaceNode as replace, 
   appendChildren as append, 
+  findByData,
 } from "./scripts/compose.js"
-import copyTextToClipboard from "./scripts/clipboard.js"
 
 // -- Constants --
 
@@ -809,16 +809,24 @@ const BankTransferCard = async () =>
                 Paragraph("CARLOS ITIEL LOPEZ ESPINOZA", 
                   [`text-[${COLOR_MEDIUM_DARK}]`]),
               ]),
-              JustifiedRow([  
+              JustifiedRow([ 
                 JustifiedColumn([
                   Paragraph("No. de Tarjeta", [
                     "text-left",
                     "font-bold", 
                     `text-[${COLOR_MEDIUM_DARK}]`, 
                   ]),
-                  Paragraph("5428 7801 5717 1356", [
-                    `text-[${COLOR_MEDIUM_DARK}]`
-                  ]),
+                  h("input", {
+                    value: "5428 7801 5717 1356",
+                    dataSet: { role: "card-number" },
+                    readonly: true,
+                    classList: [
+                      "w-auto",
+                      "text-lg", "md:text-xl", 
+                      "font-roboto",
+                      `text-[${COLOR_MEDIUM_DARK}]`,
+                    ],
+                  }),
                 ], ["grow"]),
                 JustifiedRow([
                   JustifiedColumn([
@@ -837,16 +845,25 @@ const BankTransferCard = async () =>
                           click: async (e) => {
                             e.preventDefault()
 
-                            self.innerHTML = "Copiado"
+                            const cardNum = await findByData({
+                              role: "card-number",
+                            })
 
-                            if (timeoutID !== null) 
-                              clearTimeout(timeoutID)
+                            cardNum.select()
+                            cardNum.setSelectionRange(0, 99999)
 
-                            timeoutID = setTimeout(() => {
-                              self.innerHTML = "Copiar"
-                            }, 1500)
+                            if (navigator && navigator.clipboard) {
+                              navigator.clipboard.writeText(cardNum.value)
 
-                            copyTextToClipboard("5428780157171356")
+                              self.innerHTML = "Copiado"
+
+                              if (timeoutID !== null) 
+                                clearTimeout(timeoutID)
+
+                              timeoutID = setTimeout(() => {
+                                self.innerHTML = "Copiar"
+                              }, 1500)
+                            }
                           },
                         }
                       },
@@ -861,9 +878,16 @@ const BankTransferCard = async () =>
                     "font-bold", 
                     `text-[${COLOR_MEDIUM_DARK}]`, 
                   ]),
-                  Paragraph("646069206856994873", [
-                    `text-[${COLOR_MEDIUM_DARK}]`
-                  ]),
+                  h("input", {
+                    value: "646069206856994873",
+                    dataSet: { role: "clabe-number" },
+                    readonly: true,
+                    classList: [
+                      "text-lg", "md:text-xl", 
+                      "font-roboto",
+                      `text-[${COLOR_MEDIUM_DARK}]`,
+                    ],
+                  }),
                 ], ["grow"]),
                 JustifiedRow([
                   JustifiedColumn([
@@ -882,16 +906,25 @@ const BankTransferCard = async () =>
                           click: async (e) => {
                             e.preventDefault()
 
-                            self.innerHTML = "Copiado"
+                            const cardNum = await findByData({
+                              role: "clabe-number",
+                            })
 
-                            if (timeoutID !== null) 
-                              clearTimeout(timeoutID)
+                            cardNum.select()
+                            cardNum.setSelectionRange(0, 99999)
 
-                            timeoutID = setTimeout(() => {
-                              self.innerHTML = "Copiar"
-                            }, 1500)
+                            if (navigator && navigator.clipboard) {
+                              navigator.clipboard.writeText(cardNum.value)
 
-                            copyTextToClipboard("646069206856994873")
+                              self.innerHTML = "Copiado"
+
+                              if (timeoutID !== null) 
+                                clearTimeout(timeoutID)
+
+                              timeoutID = setTimeout(() => {
+                                self.innerHTML = "Copiar"
+                              }, 1500)
+                            }
                           },
                         }
                       },
