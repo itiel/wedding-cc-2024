@@ -19,6 +19,8 @@ import {
 } from "./scripts/compose.js"
 import copyTextToClipboard from "./scripts/clipboard.js"
 
+// -- Constants --
+
 const COLOR_LIGHTEST = "#FBF9F2"
 const COLOR_LIGHT = "#F3F1EB"
 const COLOR_MEDIUM_LIGHT = "#E1D8CC"
@@ -26,60 +28,44 @@ const COLOR_MEDIUM_DARK = "#9C836B"
 const COLOR_DARK = "#8b6338"
 const COLOR_DARKEST = "#704f2c"
 
+// -- Main --
+
 const main = async () => {
   await append(App())
 }
 
+// -- App --
+
 const App = async () => 
   [
-    Slider([
-      SliderSection(IntroSection()),
-      SliderSection(DateSection()),
-      SliderSection(AttendanceSection()),
-      SliderSection(ItinerarySection1()),
-      SliderSection(ItinerarySection2()),
-      SliderSection(ItinerarySection3()),
-      SliderSection(GiftRegistrySection1()),
-      SliderSection(GiftRegistrySection2()),
-      SliderSection(GallerySection()),
-    ])
+    FullscreenWrapper([
+      VerticalSlider([
+        SliderPanel(IntroSection(), ["min-w-screen", "min-h-svh"]),
+        SliderPanel(DateSection(), ["min-w-screen", "min-h-svh"]),
+        SliderPanel(AttendanceSection(), ["min-w-screen", "min-h-svh"]),
+        SliderPanel(ItinerarySection1(), ["min-w-screen", "min-h-svh"]),
+        SliderPanel(ItinerarySection2(), ["min-w-screen", "min-h-svh"]),
+        SliderPanel(ItinerarySection3(), ["min-w-screen", "min-h-svh"]),
+        SliderPanel(GiftRegistrySection1(), ["min-w-screen", "min-h-svh"]),
+        SliderPanel(GiftRegistrySection2(), ["min-w-screen", "min-h-svh"]),
+        SliderPanel(GallerySection(), ["min-w-screen", "min-h-svh"]),
+      ], ["w-full", "h-full"]),
+    ]),
   ]
 
-const Slider = async (children) => 
-  h("section", {
-    dataSet: { role: "slider", },
-    classList: [
-      "fixed", 
-      "w-screen", "h-screen",
-      "flex", "flex-col",
-      "snap-y", "snap-mandatory", "overflow-y-auto",
-    ],
-  }, [
-    children,
-  ])
-
-const SliderSection = async (children) =>
-  h("section", {
-    dataSet: { role: "slider-section", },
-    classList: [
-      "snap-center",
-      "min-w-screen", "min-h-svh", "h-auto",
-    ],
-  }, [
-    children
-  ])
+// -- Intro Section --
   
 const IntroSection = async () => 
-  SectionContainer([
-    EvenColumn([
+  Section([
+    JustifiedColumn([
       IntroPrologue(),
       IntroLogo(),
       IntroStamp(),
-    ])
-  ], [`bg-[${COLOR_LIGHTEST}]`])
+    ], ["w-full", "h-full"])
+  ], COLOR_LIGHTEST)
 
 const IntroPrologue = async () =>
-  Item([
+  CenteredColumn([
     h("span", {
       classList: [
         "font-roboto", 
@@ -94,7 +80,7 @@ const IntroPrologue = async () =>
   ])
 
 const IntroLogo = async () => 
-  Item([
+  CenteredColumn([
     h("img", {
       src: "./assets/images/logo.png",
       classList: [
@@ -104,47 +90,42 @@ const IntroLogo = async () =>
   ])
 
 const IntroStamp = async () => 
-  Item([
+  CenteredColumn([
     h("img", {
       src: "./assets/images/stamp.png",
       classList: [
         "opacity-70",
         "h-[6rem]", "md:h-[8rem]", 
       ],
-      on: () => {
-        return ({
-          click: async () => {
-            await document.documentElement.requestFullscreen()
+      on: {
+        click: async () => {
+          await document.documentElement.requestFullscreen()
 
-            if (screen.orientation && screen.orientation.lock) 
-              try {
-                await screen.orientation.lock("portrait")
-              } catch (error) {
-                console.error(error)
-              }
-          }
-        })
+          if (screen.orientation && screen.orientation.lock) 
+            try {
+              await screen.orientation.lock("portrait")
+            } catch (error) {
+              console.error(error)
+            }
+        }
       }
     }),
   ])
 
+// -- Date Section --
+    
 const DateSection = async () => 
-  SectionContainer([
-    EvenColumn([
+  Section([
+    JustifiedColumn([
       DateCalendar(),
       DateTitle(),
       DateCountdown(),
-    ]),
-  ], [`bg-[${COLOR_LIGHT}]`])
-
-const DateTitle = async () =>
-  Item([
-    CalendarIcon(["w-14", "md:w-16", `text-[${COLOR_MEDIUM_DARK}]`])
-  ])
+    ], ["w-full", "h-full"]),
+  ], COLOR_LIGHT)
 
 const DateCalendar = async () => 
-  Item([
-    Card([
+  JustifiedRow([
+    DarkCard([
       h("article", { 
         dataSet: { role: "calendar", },
       }, [
@@ -155,86 +136,68 @@ const DateCalendar = async () =>
           ],
         }),
       ]),
-    ], -1, "./assets/images/paper-5.jpg"),
-  ])
+    ], -1),
+  ], ["px-4"])
+
+const DateTitle = async () =>
+  JustifiedRow([
+    CalendarIcon(["w-14", "md:w-16", `text-[${COLOR_MEDIUM_DARK}]`]),
+  ], ["px-4"])
 
 const DateCountdown = async () => 
-  Item([
+  JustifiedRow([
     Title([
       async () => {
         const days = await daysLeft()
         return `Faltan ${days} días`
       },
-    ], [`text-[${COLOR_MEDIUM_DARK}]`])
-  ])
+    ], [`text-[${COLOR_MEDIUM_DARK}]`]),
+  ], ["px-4"])
+
+// -- Attendance --
 
 const AttendanceSection = async () => 
-  SectionContainer([
-    EvenColumn([
+  Section([
+    JustifiedColumn([
       AttendanceTitle(),
-      Item([
-        ColumnRow([
+      JustifiedRow([
+        ColumnToRow([
           AttendancePrologue(),
           AttendanceEpilogue(),
-        ], 10),
-      ]),
-    ]),
-  ], [`bg-[${COLOR_MEDIUM_LIGHT}]`])
+        ], ["gap-6", "md:gap-16"]),
+      ], ["px-4"]),
+    ], ["w-full", "h-full"]),
+  ], COLOR_MEDIUM_LIGHT)
 
 const AttendanceTitle = async () =>
-  Item([
-    ClipboardIcon(["h-14", "md:h-16", `text-[${COLOR_MEDIUM_DARK}]`]),
-  ])
+  JustifiedRow([
+    ClipboardIcon(["h-16", "md:h-20", `text-[${COLOR_MEDIUM_DARK}]`]),
+  ], ["px-4"])
 
 const AttendancePrologue = async () =>
-  Item([
-    Card([
-      EvenColumn([
-        EvenColumn([
+  JustifiedColumn([
+    DarkCard([
+      JustifiedColumn([
+        JustifiedColumn([
           Subtitle(
             "Confirma tu Asistencia", 
             [`text-[${COLOR_LIGHT}]`]
           ),
-          EvenColumn([
-            Paragraph(
-              "Fecha límite:", 
-              [`text-[${COLOR_LIGHT}]`]
-            ),
-            Paragraph(
-              "Octubre 13, 2024", 
-              [`text-[${COLOR_LIGHT}]`]
-            ),
-          ], 0),
-        ], 3),
+          JustifiedColumn([
+            Paragraph("Fecha límite", [
+              "font-bold",
+              "text-center",
+              `text-[${COLOR_LIGHT}]`,
+            ]),
+            Paragraph("Octubre 13, 2024", [
+              "text-center",
+              `text-[${COLOR_LIGHT}]`,
+            ]),
+          ]),
+        ], ["gap-3"]),
         AttendanceForm(),
-      ], 5),
-    ], 1, "./assets/images/paper-5.jpg"),
-  ])
-
-const AttendanceEpilogue = async () =>
-  Item([
-    Card([
-      EvenColumn([
-        Item([
-          WhatsAppIcon(["h-10", "md:h-12", `text-[${COLOR_MEDIUM_DARK}]`]),
-        ]),
-        Item([
-          EvenColumn([
-            Paragraph([
-              Link(
-                "(+52)811-222-3642",  
-                "https://wa.me/qr/KKWAAEAGEP25O1"), 
-            ],["font-bold", `text-[${COLOR_MEDIUM_DARK}]`]),
-            Paragraph(
-              Link(
-                "(+52)812-627-1626", 
-                "https://wa.me/qr/WNLUZI5D727TA1"), 
-              ["font-bold", `text-[${COLOR_MEDIUM_DARK}]`]
-            ),
-          ], 3),
-        ]),
-      ], 7),
-    ], -1, "./assets/images/paper-4.jpg"),
+      ], ["gap-5"]),
+    ], 1),
   ])
 
 const AttendanceForm = async () =>
@@ -245,7 +208,7 @@ const AttendanceForm = async () =>
       submit: async (e) => {
         e.preventDefault()
 
-        console.log(localStorage.getItem("attendance-was-sent"))
+        localStorage.getItem("attendance-was-sent")
         
         const name = e.target.elements.name.value
         const attendance = e.target.elements.attendance.checked
@@ -270,70 +233,136 @@ const AttendanceForm = async () =>
       }
     })
   }, [
-      EvenColumn([
-        Item([
+    JustifiedColumn([
+      JustifiedRow([
+        h("input", {
+          type: "text", name: "name", 
+          placeholder: "Persona o Familia", 
+          required: true,
+          classList: [
+            "w-full",
+            `bg-[${COLOR_LIGHT}]/70`, 
+            `text-[${COLOR_MEDIUM_DARK}]`, 
+            `placeholder:text-[${COLOR_MEDIUM_DARK}]/60`, 
+            "font-roboto",
+            "text-[1.3rem]",
+            "text-center",
+            "p-2",
+          ],
+        })
+      ]),
+      JustifiedRow([
+        JustifiedRow([
           h("input", {
-            type: "text", name: "name", 
-            placeholder: "Persona o Familia", 
-            required: true,
+            name: "attendance",
+            id: "attendance-check",
+            type: "checkbox",
+            checked: true,
             classList: [
-              "w-[15rem]",
-              `bg-[${COLOR_LIGHTEST}]/70`, 
-              `text-[${COLOR_DARK}]`, 
-              "font-roboto",
-              "text-[1.3rem]",
-              "text-center",
-              "p-2",
+              "w-5",
             ],
-          })
-        ]),
-        Item([
-          EvenRow([
-            h("input", {
-              name: "attendance",
-              id: "attendance-check",
-              type: "checkbox",
-              checked: true,
-              classList: [
-                "w-5",
-              ],
-            }),
-            h("label", {
-              for: "attendance-check",
-            }, [
-              h("span", { 
-                classList: [
-                  "text-[1.3rem]",
-                  "font-roboto", 
-                  `text-[${COLOR_LIGHT}]`,
-                ],
-              }, [
-                "Sí podré asistir",
-              ]),
-            ])
-          ]),
-        ]),
-        Item([
-          h("button", {
-            type: "submit",
-            classList: [
-              `bg-[${COLOR_LIGHT}]`, 
-              "opacity-100", "hover:opacity-90", "active:opacity-80",
-              "p-2",
-            ]
+          }),
+          h("label", {
+            for: "attendance-check",
           }, [
             h("span", { 
               classList: [
                 "text-[1.3rem]",
-                "font-roboto", "font-bold", 
-                `text-[${COLOR_MEDIUM_DARK}]`,
+                "font-roboto", 
+                `text-[${COLOR_LIGHT}]`,
               ],
             }, [
-              "Enviar",
+              "Sí podré asistir",
             ]),
           ])
-        ]),
+        ], ["gap-2"]),
       ]),
+      JustifiedRow([
+        h("button", {
+          type: "submit",
+          classList: [
+            `bg-[${COLOR_LIGHT}]`, 
+            "opacity-100", "hover:opacity-90", "active:opacity-80",
+            "p-2",
+          ]
+        }, [
+          h("span", { 
+            classList: [
+              "text-[1.3rem]",
+              "font-roboto", "font-bold", 
+              `text-[${COLOR_MEDIUM_DARK}]`,
+            ],
+          }, [
+            "Enviar",
+          ]),
+        ])
+      ]),
+    ], ["gap-2"]),
+  ])
+
+const AttendanceEpilogue = async () =>
+  JustifiedColumn([
+    JustifiedRow([
+      LightCard([
+        JustifiedRow([
+          JustifiedColumn([
+            JustifiedRow([
+              WhatsAppIcon(["h-10", "md:h-12", `text-[${COLOR_MEDIUM_DARK}]`]),
+            ]),
+            JustifiedRow([
+              JustifiedColumn([
+                Link([
+                  JustifiedRow([
+                    JustifiedColumn([
+                      TelephoneIcon(["h-4", "md:h-6", `text-[${COLOR_LIGHT}]`,]),
+                    ]),
+                    JustifiedRow([
+                      JustifiedColumn([
+                        Paragraph("(+52) 811-222-3642", [
+                          "font-bold", 
+                          "text-[1.3rem]",
+                          "text-center",
+                          `text-[${COLOR_LIGHT}]`,
+                        ]),
+                      ]),
+                    ]),
+                  ], [
+                    "gap-2", "p-2",
+                    `bg-[${COLOR_MEDIUM_DARK}]`, 
+                    "opacity-100", "hover:opacity-90", "active:opacity-80",
+                  ]),
+                ], "https://wa.me/qr/KKWAAEAGEP25O1", [], {}, { 
+                  target: "_blank",
+                }),
+                Link([
+                  JustifiedRow([
+                    JustifiedColumn([
+                      TelephoneIcon(["h-4", "md:h-6", `text-[${COLOR_LIGHT}]`,]),
+                    ]),
+                    JustifiedRow([
+                      JustifiedColumn([
+                        Paragraph("(+52) 812-627-1626", [
+                          "font-bold", 
+                          "text-[1.3rem]",
+                          "text-center",
+                          `text-[${COLOR_LIGHT}]`,
+                        ]),
+                      ]),
+                    ]),
+                  ], [
+                    "gap-2", "p-2",
+                    `bg-[${COLOR_MEDIUM_DARK}]`, 
+                    "opacity-100", "hover:opacity-90", "active:opacity-80",
+                  ]),
+                ], "https://wa.me/qr/WNLUZI5D727TA1", [], {}, { 
+                  target: "_blank",
+                }),
+              ], ["gap-2"]),
+            ]),
+          ], ["gap-4"]),
+        ]),
+      ], -1),
+    ]),
   ])
 
 const AttendanceFormThanks = async () =>
@@ -341,442 +370,713 @@ const AttendanceFormThanks = async () =>
     "Gracias por responder", 
     [`text-[${COLOR_LIGHT}]`])
 
+// -- Itinerary Section 1 --
+
 const ItinerarySection1 = async () => 
-  SectionContainer([
-    EvenColumn([
+  Section([
+    JustifiedColumn([
       ItineraryTitle1(),
-      Item([
-        ColumnRow([
+      JustifiedRow([
+        ColumnToRow([
           SpeechTimeCard(),
           SpeechGeoCard(),
-        ], 5),
-      ]),
-    ]),
-  ], [`bg-[${COLOR_MEDIUM_DARK}]`])
+        ], ["gap-12", "md:gap-16"]),
+      ], ["px-4"]),
+    ], ["w-full", "h-full"]),
+  ], COLOR_MEDIUM_DARK)
 
 const ItineraryTitle1 = async () =>
-  Item([
-    EvenColumn([
+  JustifiedRow([
+    JustifiedColumn([
       WatchIcon(["h-12", "md:h-14", `text-[${COLOR_LIGHTEST}]`]),
       Title("Itinerario", [`text-[${COLOR_LIGHTEST}]`]),
-    ], 5),
-  ])
+    ], ["gap-3"]),
+  ], ["px-4"])
 
 const SpeechTimeCard = async () =>
-  Item([
-    Card([
-      EvenRow([
-        Item([
-          EvenColumn([
-            BookIcon(["h-8", "md:h-10", `text-[${COLOR_MEDIUM_DARK}]`]),
-            Subtitle("Discurso", [`text-[${COLOR_MEDIUM_DARK}]`]),
-          ]),
-        ]),
-        Item([
-          EvenColumn([
+  JustifiedRow([
+    JustifiedColumn([
+      LightCard([
+        RowToColumn([
+          JustifiedColumn([
             ClockIcon(["h-8", "md:h-10", `text-[${COLOR_MEDIUM_DARK}]`]),
             Subtitle("3:00 PM", [`text-[${COLOR_MEDIUM_DARK}]`]),
-          ]),
-        ]),
-      ], 1),
-    ], -1, "./assets/images/paper-4.jpg"),
+          ], ["gap-1"]),
+          JustifiedColumn([
+            BookIcon(["h-8", "md:h-10", `text-[${COLOR_MEDIUM_DARK}]`]),
+            Subtitle("Discurso", [`text-[${COLOR_MEDIUM_DARK}]`]),
+          ], ["gap-1"]),
+        ], ["gap-5"]),
+      ], -1),
+    ]),
   ])
 
 const SpeechGeoCard = async () =>
-  Item([
-    Card([
-      EvenColumn([
-        Item([
-          GeoIcon(["h-8", "md:h-10", `text-[${COLOR_LIGHT}]`]),
+  JustifiedRow([
+    JustifiedColumn([
+      DarkCard([
+        JustifiedRow([
+          JustifiedColumn([
+            JustifiedRow([
+              GeoIcon(["h-8", "md:h-10", `text-[${COLOR_LIGHT}]`]),
+            ]),
+            JustifiedRow([
+              JustifiedColumn([
+                Paragraph("Salón del Reino", [
+                  "font-bold", 
+                  "text-center", 
+                  `text-[${COLOR_LIGHT}]`,
+                ]),
+                Paragraph("de los Testigos de Jehová", [
+                  "font-bold", 
+                  "text-center", 
+                  `text-[${COLOR_LIGHT}]`,
+                ]),
+                Paragraph("Calle Rosas #3401", [
+                  "font-bold", 
+                  "text-center", 
+                  `text-[${COLOR_LIGHT}]`,
+                ]),
+                Paragraph("Col. Balcones de Aztlan", [
+                  "font-bold", 
+                  "text-center", 
+                  `text-[${COLOR_LIGHT}]`,
+                ]),
+                Paragraph("Monterrey, N.L.", [
+                  "font-bold", 
+                  "text-center", 
+                  `text-[${COLOR_LIGHT}]`,
+                ]),
+              ]),
+            ]),
+            JustifiedRow([
+              Link("Ver Mapa", "https://maps.app.goo.gl/iJiiv4FQhBk2BTaz7", [
+                `bg-[${COLOR_LIGHT}]`, 
+                "opacity-100", "hover:opacity-90", "active:opacity-80",
+                "p-2",
+                "text-[1.3rem]",
+                "font-roboto", "font-bold", 
+                `text-[${COLOR_MEDIUM_DARK}]`,
+              ], {}, {
+                target: "_blank",
+              }),
+            ]),
+          ], ["gap-4"]),
         ]),
-        Item([
-          EvenColumn([
-            Paragraph(
-              "Salón del Reino de los Testigos de Jehová", 
-              ["font-bold", `text-[${COLOR_LIGHT}]`]),
-            Paragraph(
-              "Calle Rosas #3401, Col. Balcones de Aztlan", 
-              ["font-bold", `text-[${COLOR_LIGHT}]`]),
-            Paragraph(
-              "Monterrey, N.L.", 
-              ["font-bold", `text-[${COLOR_LIGHT}]`]),
-          ], 0),
-        ]),
-        Item([
-          Link(
-            "Ver Mapa", 
-            "https://maps.app.goo.gl/iJiiv4FQhBk2BTaz7",
-            null,
-            [
-              `bg-[${COLOR_LIGHT}]`, 
-              "opacity-100", "hover:opacity-90", "active:opacity-80",
-              "p-2",
-              "text-[1.3rem]",
-              "font-roboto", "font-bold", 
-              `text-[${COLOR_MEDIUM_DARK}]`,
-            
-            ]
-          ),
-        ]),
-      ], 5),
-    ], 1, "./assets/images/paper-5.jpg"),
+      ], 1),
+    ]),
   ])
+
+// -- Itinerary Section 2 --
 
 const ItinerarySection2 = async () => 
-  SectionContainer([
-    EvenColumn([
+  Section([
+    JustifiedColumn([
       ItineraryTitle2(),
-      Item([
-        ColumnRow([
+      JustifiedRow([
+        ColumnToRow([
           ReceptionTimeCard(),
           ReceptionGeoCard(),
-        ], 5),
-      ]),
-    ]),
-  ], [`bg-[${COLOR_MEDIUM_LIGHT}]`])
+        ], ["gap-12", "md:gap-16"]),
+      ], ["px-4"]),
+    ], ["w-full", "h-full"]),
+  ], COLOR_MEDIUM_LIGHT)
 
 const ItineraryTitle2 = async () =>
-  Item([
-     WatchIcon(["h-14", "md:h-16", `text-[${COLOR_MEDIUM_DARK}]`]),
-  ])
+  JustifiedRow([
+     WatchIcon(["h-16", "md:h-20", `text-[${COLOR_MEDIUM_DARK}]`]),
+  ], ["px-4"])
 
 const ReceptionTimeCard = async () =>
-  Item([
-    Card([
-      EvenRow([
-        Item([
-          EvenColumn([
-            ForkKnifeIcon(["h-10", "md:h-12", `text-[${COLOR_LIGHT}]`]),
-            Subtitle("Recepción", [`text-[${COLOR_LIGHT}]`]),
-          ]),
-        ]),
-        Item([
-          EvenColumn([
+  JustifiedRow([
+    JustifiedColumn([
+      DarkCard([
+        RowToColumn([
+          JustifiedColumn([
             ClockFillIcon(["h-8", "md:h-10", `text-[${COLOR_LIGHT}]`]),
             Subtitle("7:30 PM", [`text-[${COLOR_LIGHT}]`]),
+          ], ["gap-1"]),
+          JustifiedColumn([
+            ForkKnifeIcon(["h-10", "md:h-12", `text-[${COLOR_LIGHT}]`]),
+            Subtitle("Recepción", [`text-[${COLOR_LIGHT}]`]),
+          ], ["gap-1"]),
+        ], ["gap-5"]),
+      ], 1),
+    ]),
+  ], ["px-4"])
+
+const ReceptionGeoCard = async () =>
+  JustifiedRow([
+    JustifiedColumn([
+      LightCard([
+        JustifiedRow([
+          JustifiedColumn([
+            JustifiedRow([
+              GeoIcon(["h-8", "md:h-10", `text-[${COLOR_MEDIUM_DARK}]`]),
+            ]),
+            JustifiedRow([
+              JustifiedColumn([
+                Paragraph("Restaurante Las Pampas", [
+                  "font-bold", 
+                  "text-center", 
+                  `text-[${COLOR_MEDIUM_DARK}]`,
+                ]),
+                Paragraph("Salón Redondel", [
+                  "font-bold", 
+                  "text-center", 
+                  `text-[${COLOR_MEDIUM_DARK}]`,
+                ]),
+                Paragraph("Av. Eugenio Garza Sada Sur #2401", [
+                  "font-bold", 
+                  "text-center", 
+                  `text-[${COLOR_MEDIUM_DARK}]`,
+                ]),
+                Paragraph("Col. Roma", [
+                  "font-bold", 
+                  "text-center", 
+                  `text-[${COLOR_MEDIUM_DARK}]`,
+                ]),
+                Paragraph("Monterrey, N.L.", [
+                  "font-bold", 
+                  "text-center", 
+                  `text-[${COLOR_MEDIUM_DARK}]`,
+                ]),
+              ]),
+            ]),
+            JustifiedRow([
+              Link("Ver Mapa", "https://maps.app.goo.gl/PCBKeFJTs2nqAg1M9", [
+                `bg-[${COLOR_MEDIUM_DARK}]`, 
+                "opacity-100", "hover:opacity-90", "active:opacity-80",
+                "p-2",
+                "text-[1.3rem]",
+                "font-roboto", "font-bold", 
+                `text-[${COLOR_LIGHT}]`,
+              ], {}, {
+                target: "_blank",
+              }),
+            ]),
+          ], ["gap-4"]),
+        ]),
+      ], -1),
+    ]),
+  ], ["px-4"])
+
+// -- Itinerary Section 3 --
+
+const ItinerarySection3 = async () => 
+  Section([
+    JustifiedColumn([
+      ItineraryTitle3(),
+      JustifiedRow([
+        ColumnToRow([
+          DressCodeCard(),
+          ReceptionEpilogueCard(),
+        ], ["gap-12", "md:gap-16"])
+      ], ["px-4"]),
+    ], ["w-full", "h-full"]),
+  ], COLOR_LIGHT)
+
+const ItineraryTitle3 = async () =>
+  JustifiedRow([
+     WatchIcon(["h-16", "md:h-20", `text-[${COLOR_MEDIUM_DARK}]`]),
+  ], ["px-4"])
+
+const DressCodeCard = async () =>
+  JustifiedRow([
+    JustifiedColumn([
+      LightCard([
+        JustifiedColumn([
+          JustifiedRow([
+            JustifiedColumn([
+              TieIcon(["h-12", "md:h-14", `text-[${COLOR_MEDIUM_DARK}]`]),
+            ]),
+          ]),
+          JustifiedRow([
+            JustifiedColumn([
+              Subtitle("Vestimenta formal.", [`text-[${COLOR_MEDIUM_DARK}]`]),
+            ]),
+          ]),
+        ], ["gap-5"]),
+      ], -1),
+    ]),
+  ])
+
+const ReceptionEpilogueCard = () =>
+  JustifiedRow([
+    JustifiedColumn([
+      DarkCard([
+        JustifiedRow([
+          JustifiedColumn([
+            JustifiedRow([
+              ForkKnifeIcon(["h-14", "md:h-16", `text-[${COLOR_LIGHT}]`]),
+            ]),
+            JustifiedColumn([
+              Paragraph("Cena a tres tiempos", [
+                  "font-bold", 
+                  "text-center", 
+                  `text-[${COLOR_LIGHT}]`,
+                ]), 
+              Paragraph("Comida y bebida con moderación (1 Cor 10:31)", [
+                  "font-bold", 
+                  "text-center", 
+                  `text-[${COLOR_LIGHT}]`,
+                ]),
+              Paragraph("Costo Valet Parking: $50", [
+                  "font-bold", 
+                  "text-center", 
+                  `text-[${COLOR_LIGHT}]`,
+                ]),
+            ], ["gap-3"]),
+          ], ["gap-5"]),
+        ]),
+      ], 1),
+    ]),
+  ])
+
+// -- Gift Registry Section 1 --
+
+const GiftRegistrySection1 = async () => 
+  Section([
+    JustifiedColumn([
+      GiftRegistryTitle1(),
+      JustifiedRow([
+        ColumnToRow([
+          LiverpoolRegistryCard(),
+          AmazonRegistryCard(),
+          InPersonGiftCard(),
+        ], ["gap-6", "md:gap-20"]),
+      ], ["px-4"]),
+    ], ["w-full", "h-full"]),
+  ], COLOR_MEDIUM_LIGHT)
+
+const GiftRegistryTitle1 = async () =>
+  JustifiedRow([
+    JustifiedColumn([
+      GiftIcon(["h-12", "md:h-14", `text-[${COLOR_MEDIUM_DARK}]`]),
+      Title("Mesa de Regalos", [`text-[${COLOR_MEDIUM_DARK}]`]),
+    ], ["gap-3"]),
+  ], ["px-4"])
+
+const LiverpoolRegistryCard = async () =>
+  JustifiedRow([
+    JustifiedColumn([
+      DarkCard([
+        JustifiedRow([
+          RowToColumn([
+            JustifiedRow([
+              JustifiedColumn([
+                LiverpoolIcon(["h-20", `text-[${COLOR_LIGHT}]`]),
+              ]),
+            ]),
+            JustifiedColumn([
+              JustifiedRow([
+                JustifiedColumn([
+                  Subtitle("Liverpool", [`text-[${COLOR_LIGHT}]`]),
+                ]),
+              ]),
+              JustifiedRow([
+                Link("Visitar", 
+                  "https://mesaderegalos.liverpool.com.mx/milistaderegalos/51537751", [
+                  `bg-[${COLOR_LIGHT}]`, 
+                  "opacity-100", "hover:opacity-90", "active:opacity-80",
+                  "p-2",
+                  "text-[1.3rem]",
+                  "font-roboto", "font-bold", 
+                  `text-[${COLOR_MEDIUM_DARK}]`,
+                ], {}, {
+                  target: "_blank",
+                }),
+              ]),
+            ], ["gap-4"]),
+          ], ["gap-6", "md:gap-4"]),
+        ]),
+      ], 1),
+    ]),
+  ])
+
+const AmazonRegistryCard = async () =>
+  JustifiedRow([
+    JustifiedColumn([
+      LightCard([
+        JustifiedRow([
+          RowToColumn([
+            JustifiedRow([
+              JustifiedColumn([
+                AmazonIcon(["h-20", `text-[${COLOR_MEDIUM_DARK}]`]),
+              ]),
+            ]),
+            JustifiedColumn([
+              JustifiedRow([
+                JustifiedColumn([
+                  Subtitle("Amazon", [`text-[${COLOR_MEDIUM_DARK}]`]),
+                ]),
+              ]),
+              JustifiedRow([
+                Link("Visitar", 
+                  "https://www.amazon.com.mx/wedding/share/carlos-chelsea-2024", [
+                  `bg-[${COLOR_MEDIUM_DARK}]`, 
+                  "opacity-100", "hover:opacity-90", "active:opacity-80",
+                  "p-2",
+                  "text-[1.3rem]",
+                  "font-roboto", "font-bold", 
+                  `text-[${COLOR_LIGHT}]`,
+                ], {}, {
+                  target: "_blank",
+                }),
+              ]),
+            ], ["gap-4"]),
+          ], ["gap-6", "md:gap-4"]),
+        ]),
+      ], -1),
+    ]),
+  ])
+
+const InPersonGiftCard = async () =>
+  JustifiedRow([
+    JustifiedColumn([
+      DarkCard([
+        JustifiedRow([
+          JustifiedColumn([
+            RowToColumn([
+              JustifiedRow([
+                JustifiedColumn([
+                  EnvelopeIcon(["h-20", `text-[${COLOR_LIGHT}]`]),
+                ]),
+              ]),
+              JustifiedRow([
+                JustifiedColumn([
+                  JustifiedColumn([
+                    Subtitle("Presencial", [`text-[${COLOR_LIGHT}]`]),
+                  ], ["gap-4"]),
+                ]),
+              ]),
+            ], ["gap-4", "md:gap-6"]),
           ]),
         ]),
       ], 1),
-    ], 1, "./assets/images/paper-5.jpg"),
-  ])
-
-const ReceptionGeoCard = async () =>
-  Item([
-    Card([
-      EvenColumn([
-        Item([
-          GeoIcon(["h-8", "md:h-10", `text-[${COLOR_MEDIUM_DARK}]`]),
-        ]),
-        Item([
-          EvenColumn([
-            Paragraph(
-              "Restaurante Las Pampas, Salón Redondel", 
-              ["font-bold", `text-[${COLOR_MEDIUM_DARK}]`]),
-            Paragraph(
-              "Av. Eugenio Garza Sada Sur #2401, Col. Roma", 
-              ["font-bold", `text-[${COLOR_MEDIUM_DARK}]`]),
-            Paragraph(
-              "Monterrey, N.L.", 
-              ["font-bold", `text-[${COLOR_MEDIUM_DARK}]`]),
-          ], 0),
-        ]),
-        Item([
-          Link(
-            "Ver Mapa", 
-            "https://maps.app.goo.gl/PCBKeFJTs2nqAg1M9",
-            null,
-            [
-              `bg-[${COLOR_MEDIUM_DARK}]`, 
-              "opacity-100", "hover:opacity-90", "active:opacity-80",
-              "p-2",
-              "text-[1.3rem]",
-              "font-roboto", "font-bold", 
-              `text-[${COLOR_LIGHT}]`,
-            ]
-          ),
-        ]),
-      ], 5),
-    ], -1, "./assets/images/paper-4.jpg"),
-  ])
-
-const ItinerarySection3 = async () => 
-  SectionContainer([
-    EvenColumn([
-      ItineraryEpilogueTitle(),
-      Item([
-        ItineraryEpilogueCard(),
-      ]),
     ]),
-  ], [`bg-[${COLOR_LIGHT}]`])
-
-const ItineraryEpilogueTitle = async () =>
-  Item([
-     WatchIcon(["h-14", "md:h-16", `text-[${COLOR_MEDIUM_DARK}]`]),
   ])
 
-const ItineraryEpilogueCard = async () =>
-  Item([
-    ColumnRow([
-      Item([
-        Card([
-          Item([
-            EvenColumn([
-              TieIcon(["h-12", "md:h-14", `text-[${COLOR_MEDIUM_DARK}]`]),
-              Subtitle("Vestimenta formal.", [`text-[${COLOR_MEDIUM_DARK}]`]),
-            ]),
-          ])
-        ], -1, "./assets/images/paper-4.jpg"),
-      ]),
-      Item([
-        Card([
-          Item([
-            EvenColumn([
-              ForkKnifeIcon(["h-14", "md:h-16", `text-[${COLOR_LIGHT}]`]),
-              Paragraph(
-                "Cena a tres tiempos", 
-                ["font-bold", `text-[${COLOR_LIGHT}]`]),
-              Paragraph(
-                "Comida y bebida con moderación (1 Cor 10:31)", 
-                ["font-bold", `text-[${COLOR_LIGHT}]`]),
-              Paragraph(
-                "Costo Valet Parking: $50", 
-                ["font-bold", `text-[${COLOR_LIGHT}]`]),
-            ], 5),
-          ]),
-        ], 1, "./assets/images/paper-5.jpg"),
-      ]),
-    ], 5)
-  ])
-
-const GiftRegistrySection1 = async () => 
-  SectionContainer([
-    EvenColumn([
-      GiftRegistryTitle1(),
-      Item([
-        ColumnRow([
-          GiftRegistryCard1(),
-          GiftRegistryCard2(),
-        ], 5),
-      ]),
-    ]),
-  ], [`bg-[${COLOR_MEDIUM_LIGHT}]`])
-
-const GiftRegistryTitle1 = async () =>
-  Item([
-    EvenColumn([
-      GiftIcon(["h-12", "mxd:h-14", `text-[${COLOR_MEDIUM_DARK}]`]),
-      Title("Obsequios", [`text-[${COLOR_MEDIUM_DARK}]`]),
-    ], 5),
-  ])
-
-const GiftRegistryCard1 = async () =>
-  Item([
-    Card([
-      EvenColumn([
-        Item([
-          EvenColumn([
-            LiverpoolIcon(["h-12", "mxd:h-14", `text-[${COLOR_LIGHT}]`]),
-            Paragraph(
-              "Mesa de Regalos de Liverpool", 
-              ["font-bold", `text-[${COLOR_LIGHT}]`]),
-          ]),
-        ]),
-        Item([
-          Link(
-            "Visitar", 
-            "https://mesaderegalos.liverpool.com.mx/milistaderegalos/51537751",
-            null,
-            [
-              `bg-[${COLOR_LIGHT}]`, 
-              "opacity-100", "hover:opacity-90", "active:opacity-80",
-              "p-2",
-              "text-[1.3rem]",
-              "font-roboto", "font-bold", 
-              `text-[${COLOR_MEDIUM_DARK}]`,
-            ]
-          ),
-        ]),
-      ]),
-    ], 1, "./assets/images/paper-5.jpg"),
-  ])
-
-const GiftRegistryCard2 = async () =>
-  Item([
-    Card([
-      EvenColumn([
-        Item([
-          EvenColumn([
-            AmazonIcon(["h-12", "mxd:h-14", `text-[${COLOR_MEDIUM_DARK}]`]),
-            Paragraph(
-              "Mesa de Regalos de Amazon", 
-              ["font-bold", `text-[${COLOR_MEDIUM_DARK}]`]),
-          ]),
-        ]),
-        Item([
-          Link(
-            "Visitar", 
-            "https://www.amazon.com.mx/wedding/share/carlos-chelsea-2024",
-            null,
-            [
-              `bg-[${COLOR_MEDIUM_DARK}]`, 
-              "opacity-100", "hover:opacity-90", "active:opacity-80",
-              "p-2",
-              "text-[1.3rem]",
-              "font-roboto", "font-bold", 
-              `text-[${COLOR_LIGHT}]`,
-            ]
-          ),
-        ]),
-      ]),
-    ], -1, "./assets/images/paper-4.jpg"),
-  ])
+// -- Gift Registry Section 2 --
 
 const GiftRegistrySection2 = async () => 
-  SectionContainer([
-    EvenColumn([
+  Section([
+    JustifiedColumn([
       GiftRegistryTitle2(),
-      Item([
-        ColumnRow([
-          GiftRegistryCard3(),
-          GiftRegistryCard4(),
-        ], 10),
-      ]),
-    ]),
-  ], [`bg-[${COLOR_MEDIUM_DARK}]`])
+      JustifiedRow([
+        JustifiedColumn([
+          BankTransferCard(),
+        ]),
+      ], ["px-4"]),
+    ], ["w-full", "h-full"]),
+  ], COLOR_MEDIUM_DARK)
 
 const GiftRegistryTitle2 = async () =>
-  Item([
-    GiftIcon(["h-14", "mxd:h-16", `text-[${COLOR_LIGHTEST}]`]),
-  ])
+  JustifiedRow([
+    GiftIcon(["h-16", "md:h-20", `text-[${COLOR_LIGHTEST}]`]),
+  ], ["px-4"])
 
-const GiftRegistryCard3 = async () =>
-  Item([
-    Card([
-      EvenColumn([
-        Item([
-          EvenColumn([
-            CreditCardIcon(["h-12", "mxd:h-14", `text-[${COLOR_MEDIUM_DARK}]`]),
-            Paragraph(
-              "CLABE Interbancaria", 
-              ["font-bold", `text-[${COLOR_MEDIUM_DARK}]`]),
-            Paragraph(
-              "646069206856994873", 
-              [`text-[${COLOR_MEDIUM_DARK}]`]),
+const BankTransferCard = async () =>
+  JustifiedRow([
+    JustifiedColumn([
+      LightCard([
+        JustifiedColumn([
+          JustifiedRow([
+            JustifiedColumn([
+              JustifiedRow([
+                JustifiedColumn([
+                  CreditCardIcon(["h-20", `text-[${COLOR_MEDIUM_DARK}]`]),
+                ]),
+              ]),
+              JustifiedRow([
+                JustifiedColumn([
+                  Subtitle("Transferencia", [`text-[${COLOR_MEDIUM_DARK}]`]),
+                ]),
+              ]),
+            ]),
           ]),
-        ]),
-        Item([
-          h("a", {
-            href: "#", 
-            on: (self) => {
-              let timeoutID = null
+          JustifiedRow([
+            JustifiedColumn([
+              JustifiedColumn([
+                Paragraph("Institución", 
+                  ["font-bold", `text-[${COLOR_MEDIUM_DARK}]`]),
+                Paragraph("STP", 
+                  [`text-[${COLOR_MEDIUM_DARK}]`]),
+              ]),
+              JustifiedColumn([
+                Paragraph("Titular", 
+                  ["font-bold", `text-[${COLOR_MEDIUM_DARK}]`]),
+                Paragraph("CARLOS ITIEL LOPEZ ESPINOZA", 
+                  [`text-[${COLOR_MEDIUM_DARK}]`]),
+              ]),
+              JustifiedRow([  
+                JustifiedColumn([
+                  Paragraph("No. de Tarjeta", [
+                    "text-left",
+                    "font-bold", 
+                    `text-[${COLOR_MEDIUM_DARK}]`, 
+                  ]),
+                  Paragraph("5428 7801 5717 1356", [
+                    `text-[${COLOR_MEDIUM_DARK}]`
+                  ]),
+                ], ["grow"]),
+                JustifiedRow([
+                  JustifiedColumn([
+                    Link("Copiar", "#", [
+                      `bg-[${COLOR_MEDIUM_DARK}]`, 
+                      `text-[${COLOR_LIGHT}]`,
+                      "opacity-100", "hover:opacity-90", "active:opacity-80",
+                      "p-2",
+                      "text-[1.3rem]",
+                      "font-roboto", "font-bold", 
+                    ], {}, {
+                      on: (self) => {
+                        let timeoutID = null
 
-              return ({ 
-                click: async (e) => {
-                  e.preventDefault()
+                        return { 
+                          click: async (e) => {
+                            e.preventDefault()
 
-                  self.innerHTML = "Copiado"
+                            self.innerHTML = "Copiado"
 
-                  clearTimeout(timeoutID)
+                            if (timeoutID !== null) 
+                              clearTimeout(timeoutID)
 
-                  timeoutID = setTimeout(() => {
-                    self.innerHTML = "Copiar"
-                  }, 2000)
+                            timeoutID = setTimeout(() => {
+                              self.innerHTML = "Copiar"
+                            }, 1500)
 
-                  copyTextToClipboard("646069206856994873")
-                },
-              })
-            },
-            classList: [
-              `bg-[${COLOR_MEDIUM_DARK}]`, 
-              `text-[${COLOR_LIGHT}]`,
-              "opacity-100", "hover:opacity-90", "active:opacity-80",
-              "p-2",
-              "text-[1.3rem]",
-              "font-roboto", "font-bold", 
-            ],
-          }, [
-            "Copiar", 
+                            copyTextToClipboard("5428780157171356")
+                          },
+                        }
+                      },
+                    }),
+                  ]),
+                ]),
+              ], ["gap-2"]),
+              JustifiedRow([
+                JustifiedColumn([
+                  Paragraph("CLABE", [
+                    "text-left",
+                    "font-bold", 
+                    `text-[${COLOR_MEDIUM_DARK}]`, 
+                  ]),
+                  Paragraph("646069206856994873", [
+                    `text-[${COLOR_MEDIUM_DARK}]`
+                  ]),
+                ], ["grow"]),
+                JustifiedRow([
+                  JustifiedColumn([
+                    Link("Copiar", "#", [
+                      `bg-[${COLOR_MEDIUM_DARK}]`, 
+                      `text-[${COLOR_LIGHT}]`,
+                      "opacity-100", "hover:opacity-90", "active:opacity-80",
+                      "p-2",
+                      "text-[1.3rem]",
+                      "font-roboto", "font-bold", 
+                    ], {}, {
+                      on: (self) => {
+                        let timeoutID = null
+
+                        return { 
+                          click: async (e) => {
+                            e.preventDefault()
+
+                            self.innerHTML = "Copiado"
+
+                            if (timeoutID !== null) 
+                              clearTimeout(timeoutID)
+
+                            timeoutID = setTimeout(() => {
+                              self.innerHTML = "Copiar"
+                            }, 1500)
+
+                            copyTextToClipboard("646069206856994873")
+                          },
+                        }
+                      },
+                    }),
+                  ]),
+                ]),
+              ], ["gap-2"]),
+            ], ["gap-3"]),
           ]),
-        ]),
-      ]),
-    ], -1, "./assets/images/paper-4.jpg"),
+        ], ["gap-5"]),
+      ], -1),
+    ]),
   ])
 
-const GiftRegistryCard4 = async () =>
-  Item([
-    Card([
-      EvenColumn([
-        Item([
-          EvenColumn([
-            Item(GiftIcon(["h-12", "mxd:h-14", `text-[${COLOR_LIGHT}]`])),
-            EvenColumn([
-              Paragraph(
-                "Presencialmente", 
-                ["font-bold", `text-[${COLOR_LIGHT}]`]),
-              Paragraph(
-                "En el lugar del evento", 
-                ["font-bold", `text-[${COLOR_LIGHT}]`]),
-            ], 0),
-            Item(EnvelopeIcon(["h-12", "mxd:h-14", `text-[${COLOR_LIGHT}]`])),
-          ], 3),
-        ]),
-      ]),
-    ], 1, "./assets/images/paper-5.jpg"),
-  ])
+// -- Gallery Section --
 
 const GallerySection = async () => 
-  SectionContainer([
-    EvenColumn([
+  Section([
+    JustifiedColumn([
       GalleryTitle(),
       GallerySlideshow(),
-    ]),
-  ], [`bg-[${COLOR_MEDIUM_LIGHT}]`])
+    ], ["w-full", "h-full"]),
+  ], COLOR_MEDIUM_LIGHT)
 
 const GalleryTitle = async () =>
-  Item([
-    PostageIcon(["h-14", "mxd:h-16", `text-[${COLOR_MEDIUM_DARK}]`]),
-  ])
+  JustifiedRow([
+    PostageIcon(["h-16", "mxd:h-20", `text-[${COLOR_MEDIUM_DARK}]`]),
+  ], ["px-4"])
 
 const GallerySlideshow = async () =>
-  Item([
-    h("section", {
-      dataSet: { role: "slideshow-wrapper", },
-      classList: [
-        "w-[100vw]", 
-        "p-10",
-        "flex", "flex-row", "gap-10",
-        "snap-x", "snap-mandatory", "overflow-x-auto",
-      ],
-    }, [
-      SlideshowPicture("./assets/images/slideshow/1.jpg"),
-      SlideshowPicture("./assets/images/slideshow/2.jpg"),
-      SlideshowPicture("./assets/images/slideshow/3.jpg"),
-      SlideshowPicture("./assets/images/slideshow/4.jpg"),
-      SlideshowPicture("./assets/images/slideshow/5.jpg"),
-    ])
+  HorizontalSlider([
+    SlideshowPicture("./assets/images/slideshow/1.jpg"),
+    SlideshowPicture("./assets/images/slideshow/2.jpg"),
+    SlideshowPicture("./assets/images/slideshow/3.jpg"),
+    SlideshowPicture("./assets/images/slideshow/4.jpg"),
+    SlideshowPicture("./assets/images/slideshow/5.jpg"),
+  ], [
+    "gap-24",
+    "p-10",
   ])
 
 const SlideshowPicture = async (src = null) =>
-  h("section", {
-    classList: [
-      "snap-center",
-      "flex", "flex-row", 
-      "items-center", "justify-center",
-    ],
-  }, [
-    Card([
+  SliderPanel([
+    LightCard([
       h("img", {
         src: src,
         loading: "lazy",
         classList: [
-          "max-h-[70vh]", "max-w-[70vw]",
+          "max-h-[60vh]", "max-w-[70vw]",
         ],
       }),
-    ], 
-    Math.round(Math.random() * 6) - 3, 
-    "./assets/images/paper-4.jpg",
-    ["hover:scale-[1.05]"]),
+    ], Math.round(Math.random() * 6) - 3),
   ])
+
+// -- Generics --
+
+const Wrapper = 
+  async (children = null, classList = [], dataAttributes = {}, attributes = {}) =>
+    h("section", {
+      dataSet: { 
+        role: "wrapper", 
+        ...dataAttributes, 
+      }, classList: [
+        ...classList,
+      ],
+    }, [children])
+
+const FullscreenWrapper = 
+  async (children = null, classList = [], dataAttributes = {}, attributes = {}) =>
+    h("section", {
+      dataSet: { 
+        role: "fullscreen-wrapper", 
+        ...dataAttributes, 
+      }, classList: [
+        "w-screen", "h-screen", "fixed", 
+        ...classList,
+      ],
+    }, [children])
+
+const Row = 
+  async (children = null, classList = [], dataAttributes = {}, attributes = {}) =>
+    Wrapper(children, [
+      "flex", "flex-row", 
+      ...classList,
+    ], { 
+      role: "column", 
+      ...dataAttributes, 
+    }, attributes)
+
+const Column = 
+  async (children = null, classList = [], dataAttributes = {}, attributes = {}) =>
+    Wrapper(children, [
+      "flex", "flex-col", 
+      ...classList,
+    ], { 
+      role: "column", 
+      ...dataAttributes, 
+    }, attributes)
+
+const CenteredRow = 
+  async (children = null, classList = [], dataAttributes = {}, attributes = {}) =>
+    Wrapper(children, [
+      "flex", "flex-row", "items-center",
+      ...classList,
+    ], { 
+      role: "centered-row", 
+      ...dataAttributes, 
+    }, attributes)
+
+const CenteredColumn = 
+  async (children = null, classList = [], dataAttributes = {}, attributes = {}) =>
+    Wrapper(children, [
+      "flex", "flex-col", "items-center",
+      ...classList,
+    ], { 
+      role: "centered-column", 
+      ...dataAttributes, 
+    }, attributes)
+
+const JustifiedRow = 
+  async (children = null, classList = [], dataAttributes = {}, attributes = {}) =>
+    Wrapper(children, [
+      "flex", "flex-row", "justify-evenly",
+      ...classList,
+    ], { 
+      role: "justified-row", 
+      ...dataAttributes, 
+    }, attributes)
+
+const JustifiedColumn = 
+  async (children = null, classList = [], dataAttributes = {}, attributes = {}) =>
+    Wrapper(children, [
+      "flex", "flex-col", "justify-evenly",
+      ...classList,
+    ], { 
+      role: "justified-column", 
+      ...dataAttributes, 
+    }, attributes)
+
+const HorizontalSlider = 
+  async (children = null, classList = [], dataAttributes = {}, attributes = {}) =>
+    Row(children, [
+      "snap-mandatory", "snap-x", 
+      "overflow-x-scroll",
+      ...classList,
+    ], { 
+      role: "horizontal-slider", 
+      ...dataAttributes, 
+    }, attributes)
+
+const VerticalSlider = 
+  async (children = null, classList = [], dataAttributes = {}, attributes = {}) =>
+    Column(children, [
+      "snap-mandatory", "snap-y", 
+      "overflow-y-scroll",
+      ...classList,
+    ], { 
+      role: "vertical-slider", 
+      ...dataAttributes, 
+    }, attributes)
+
+const SliderPanel = 
+  async (children = null, classList = [], dataAttributes = {}, attributes = {}) =>
+    Wrapper(children, [
+      "snap-center",
+      ...classList,
+    ], { 
+      role: "slider-panel", 
+      ...dataAttributes, 
+    }, attributes)
+
+const Section = 
+  async (children = null, bgColor = null) =>
+    JustifiedRow([
+      Column(children, [
+        "w-full", "md:w-[45rem]", "lg:w-[60rem]", 
+      ], { 
+        role: "section-column", 
+      }),
+    ], [
+      "w-full", "h-full",
+      ...(bgColor ? [`bg-[${bgColor}]`] : [])
+    ], { 
+      role: "section-container", 
+    })
 
 const Title = async (content, classList = []) =>
   h("h1", {
@@ -802,60 +1102,29 @@ const Subtitle = async (content, classList = []) =>
     ],
   }, [content])
 
-const Item = async (children, dataAttributes = {}) =>
-  h("section", {
-    dataSet: { role: "item-wrapper", ...dataAttributes, },
-    classList: [
-      "px-4",
-      "flex", "flex-col",
-      "justify-center",
-    ],
-  }, [
-    h("article", { 
-      dataSet: { role: "item", },
-      classList: [
-        "self-center",
-        "flex", "flex-col", "items-center",
-      ],
-    }, [
-      children,
-    ]),
-  ])
+const ColumnToRow = 
+  async (children, classList = [], dataAttributes = {}, attributes = {}) =>
+    h("section", {
+      dataSet: { 
+        role: "column-to-row", 
+        ...dataAttributes,
+      }, classList: [
+        "flex", "flex-col", "md:flex-row", 
+        ...classList,
+      ], ...attributes,
+    }, [children])
 
-const EvenRow = async (children, gap = 3) =>
-  h("section", {
-    dataSet: { role: "even-row", },
-    classList: [
-      "w-full", "h-full",
-      "flex", "flex-row", `gap-${gap}`,
-      "justify-evenly",
-    ],
-  }, [
-    children,
-  ])
-
-const EvenColumn = async (children, gap = 3) =>
-  h("section", {
-    dataSet: { role: "even-column", },
-    classList: [
-      "w-full", "h-full",
-      "flex", "flex-col", `gap-${gap}`,
-      "justify-evenly",
-    ],
-  }, [
-    children,
-  ])
-
-const ColumnRow = async (children, gap = 3) =>
-  h("section", {
-    dataSet: { role: "column-row", },
-    classList: [
-      "w-full", "h-full",
-      "flex", "flex-col", "md:flex-row", `gap-${gap}`,
-    ],
-  }, [
-    children,
-  ])
+const RowToColumn = 
+  async (children, classList = [], dataAttributes = {}, attributes = {}) =>
+    h("section", {
+      dataSet: { 
+        role: "row-to-column", 
+        ...dataAttributes,
+      }, classList: [
+        "flex", "flex-row", "md:flex-col", 
+        ...classList,
+      ], ...attributes,
+    }, [children])
 
 const PostageIcon = async (classList = []) =>
   h("svg:svg", {
@@ -888,17 +1157,15 @@ const SpinnerIcon = async (classList = []) =>
     }),
   ])
 
-const ChatIcon = async (classList = []) =>
+const TelephoneIcon = async (classList = []) =>
   h("svg:svg", {
     fill: "currentColor", 
     $viewBox: "0 0 16 16",
     classList: [...classList],
   }, [
     h("svg:path", {
-      d: "M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z",
-    }),
-    h("svg:path", {
-      d: "M8 3.993c1.664-1.711 5.825 1.283 0 5.132-5.825-3.85-1.664-6.843 0-5.132",
+      fillRule: "evenodd", 
+      d: "M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z",
     }),
   ])
 
@@ -1135,55 +1402,48 @@ const BalloonIcon = async (classList = []) =>
     }),
   ])
 
-const SectionContainer = async (children, classList = []) =>
-  h("section", {
-    dataSet: { role: "section-container", },
-    classList: [
-      "w-full", "h-full",
-      "flex", "flex-row",
-      "justify-center",
-      ...classList,
-    ],
-  }, [
-    h("section", {
-      dataSet: { role: "section-column", },
-      classList: [
-        "w-full", "md:w-[45rem]", "lg:w-[60rem]"
-      ],
-    }, [
-      children,
-    ]),
-  ])
+const Card = 
+  async (children, rotation = 0, backgroundURL = null, classList = [], dataAttributes = {}, attributes) => 
+  Wrapper(children, [
+    "p-5", "md:p-7",
+    "shadow-xl",
+    "bg-contain",
+    `rotate-[${rotation}deg]`, 
+    `bg-[url('${backgroundURL}')]`,
+    ...classList,
+  ], { 
+    role: "card",
+    ...dataAttributes,
+  }, attributes)
 
-const Card = async (children, rotation = 0, backgroundURL = null, classList = []) => 
-  h("article", {
-    dataSet: { role: "card", }, 
-    classList: [
-      `rotate-[${rotation}deg]`, "shadow-xl",
-      "p-5", "md:p-7",
-      `bg-[url('${backgroundURL}')]`,
-      "bg-contain",
-      ...classList,
-    ],
-  }, [
-    children,
-  ])
+const LightCard = 
+  async (children, rotation = 0, classList = [], dataAttributes = {}, attributes) => 
+  Card(children, rotation, 
+    "./assets/images/textures/1.jpg", 
+    classList, dataAttributes, attributes)
 
-const Link = async (content, ref = "#", onClick = null, classList = [], attributes = {}) => 
-  h("a", {
-    href: ref, 
-    on: { click: onClick, },
-    classList: [...classList],
-    ...attributes,
-  }, [
-    content,
-  ])
+const DarkCard = 
+  async (children, rotation = 0, classList = [], dataAttributes = {}, attributes) => 
+  Card(children, rotation, 
+    "./assets/images/textures/2.jpg", 
+    classList, dataAttributes, attributes)
+
+const Link = 
+  async (children, ref = "#", classList = [], dataAttributes = {}, attributes = {}) => 
+    h("a", {
+      dataSet: { 
+        role: "link", 
+        ...dataAttributes,
+      }, classList: [
+        ...classList
+      ], href: ref, 
+      ...attributes,
+    }, [children])
 
 const Paragraph = async (content, classList = []) => 
   h("p", {
     classList: [
       "font-roboto", 
-      "text-center",
       "text-lg", "md:text-xl", 
       ...classList,
     ],
