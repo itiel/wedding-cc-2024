@@ -37,6 +37,22 @@ const COLOR_DARKEST = "#704f2c"
 
 const main = async () => {
   await append(App())
+
+  const slideshow = await findByData({ role: "gallery-slideshow", })
+  
+  const observer = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        slideshow.classList.add("animate-swipe")
+
+        observer.unobserve(entry.target)
+      }
+    })
+  }, { 
+    threshold: 0.1, 
+  })
+  
+  observer.observe(slideshow)
 }
 
 // -- App --
@@ -94,6 +110,7 @@ const IntroLogo = async () =>
       src: "./assets/images/logo.png",
       classList: [
         "max-h-[50vh]", 
+        "animate-swipe",
       ],
     }),
   ], ["px-4"])
@@ -1256,8 +1273,10 @@ const GallerySlideshow = async () =>
     SlideshowPicture("./assets/images/slideshow/5.jpg"),
   ], [
     "gap-24",
-    "py-10", "px-32",
-  ])
+    "py-10", "px-36",
+  ], {
+    role: "gallery-slideshow",
+  })
 
 const SlideshowPicture = async (src = null) =>
   SliderPanel([
