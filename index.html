@@ -3,9 +3,14 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta charset="utf-8">
+
   <link rel="stylesheet" type="text/css" href="./styles/fonts.css">
+  <link rel="stylesheet" type="text/css" href="./styles/animations.css">
+  
   <link rel="icon" href="./favicon.ico" type="image/x-icon">
+  
   <script src="./scripts/tailwind.js"></script>
+  
   <title>Carlos & Chelsea - 2024</title>
 </head>
 <body>
@@ -38,56 +43,60 @@ const main = async () => {
 
 const App = async () => 
   [
-    FullscreenWrapper([
-      VerticalSlider([
-        SliderPanel(IntroSection(), ["min-w-screen", "min-h-svh"]),
-        SliderPanel(DateSection(), ["min-w-screen", "min-h-svh"]),
-        SliderPanel(AttendanceSection(), ["min-w-screen", "min-h-svh"]),
-        SliderPanel(ItinerarySection1(), ["min-w-screen", "min-h-svh"]),
-        SliderPanel(ItinerarySection2(), ["min-w-screen", "min-h-svh"]),
-        SliderPanel(ItinerarySection3(), ["min-w-screen", "min-h-svh"]),
-        SliderPanel(GiftRegistrySection1(), ["min-w-screen", "min-h-svh"]),
-        SliderPanel(GiftRegistrySection2(), ["min-w-screen", "min-h-svh"]),
-        SliderPanel(GallerySection(), ["min-w-screen", "min-h-svh"]),
-      ], ["w-full", "h-full"]),
+    MainSlider([
+      MainPanel(IntroLogoSection()),
+      MainPanel(IntroEpilogueSection()),
+      MainPanel(DatePrologueSection()),
+      MainPanel(DateCalendarSection()),
+      MainPanel(AttendancePrologueSection()),
+      MainPanel(AttendanceFormSection()),
+      MainPanel(AttendanceMessageSection()),
+      MainPanel(ItineraryPrologueSection()),
+      MainPanel(ItinerarySpeechSection()),
+      MainPanel(ItineraryReceptionSection()),
+      MainPanel(ItineraryEpilogueSection()),
+      MainPanel(GiftRegistryPrologueSection()),
+      MainPanel(GiftRegistryOptionsSection()),
+      MainPanel(GiftRegistryBankTransferSection()),
+      MainPanel(GallerySection()),
     ]),
   ]
 
-// -- Intro Section --
-  
-const IntroSection = async () => 
-  Section([
-    JustifiedColumn([
-      IntroPrologue(),
-      IntroLogo(),
-      IntroStamp(),
-    ], ["w-full", "h-full"])
-  ], COLOR_LIGHTEST)
-
-const IntroPrologue = async () =>
-  JustifiedRow([
-    h("span", {
-      classList: [
-        "font-roboto", 
-        "text-center",
-        "text-2xl", "md:text-3xl",
-        "font-bold",
-        `text-[${COLOR_MEDIUM_DARK}]`,
-      ],
-    }, [
-      "Acompáñanos a celebrar nuestra unión.",
+const MainSlider = async (children) =>
+  FullscreenWrapper([
+    VerticalSlider([children], [
+      "w-full", "h-full"
     ]),
   ])
+
+const MainPanel = async (children) =>
+  SliderPanel([children], [
+    "min-w-screen", "min-h-svh"
+  ])
+
+// -- Intro Logo Section --
+  
+const IntroLogoSection = async () => 
+  SectionWrapper([
+    JustifiedColumn([
+      JustifiedRow([
+        JustifiedColumn([
+          IntroLogo(),
+          IntroStamp(),
+        ], ["gap-16", "md:gap-12"]),
+      ]),
+    ], ["w-full", "h-full"])
+  ], COLOR_LIGHTEST)
 
 const IntroLogo = async () => 
   JustifiedRow([
     h("img", {
       src: "./assets/images/logo.png",
       classList: [
-        "h-[12rem]", "sm:h-[15rem]", "md:h-[21rem]", 
+        "max-h-[50vh]", 
       ],
     }),
-  ])
+  ], ["px-4"])
 
 const IntroStamp = async () => 
   JustifiedRow([
@@ -95,8 +104,8 @@ const IntroStamp = async () =>
       src: "./assets/images/stamp.png",
       classList: [
         "opacity-70",
-        "h-[6rem]", "md:h-[8rem]", 
-        "hover:scale-[1.02]", "active:scale-[1.02]", 
+        "h-[25vw]", "max-h-[18vh]", 
+        "animate-breathe",
       ],
       on: {
         click: async () => {
@@ -111,18 +120,105 @@ const IntroStamp = async () =>
         }
       }
     }),
-  ])
+  ], ["px-4"])
 
-// -- Date Section --
-    
-const DateSection = async () => 
-  Section([
+// -- Intro Epilogue Section --
+
+const IntroEpilogueSection = async () => 
+  SectionWrapper([
     JustifiedColumn([
-      DateCalendar(),
+      JustifiedRow([
+        JustifiedColumn([
+          IntroEpilogueTitle(),
+          IntroEpilogueParagraph(),
+        ], ["gap-16", "md:gap-20"]),
+      ]),
+    ], ["w-full", "h-full"])
+  ], COLOR_LIGHTEST)
+
+const IntroEpilogueTitle = async () =>
+  JustifiedRow([
+    JustifiedColumn([
+      HeartsIcon([
+        "h-24", "md:h-28", 
+        `text-[${COLOR_MEDIUM_DARK}]`,
+        "animate-breathe",
+      ]),
+    ]),
+  ], ["px-4"])
+
+const IntroEpilogueParagraph = async () =>
+  JustifiedRow([
+    h("span", {
+      classList: [
+        "font-roboto", 
+        "text-center",
+        "text-2xl", "md:text-3xl",
+        "font-bold",
+        `text-[${COLOR_MEDIUM_DARK}]`,
+      ],
+    }, [
+      "Únete a nosotros para celebrar el comienzo de nuestro camino juntos.",
+    ]),
+  ], ["px-8"])
+
+// -- Date Prologue Section --
+    
+const DatePrologueSection = async () => 
+  SectionWrapper([
+    JustifiedColumn([
+      JustifiedRow([
+        JustifiedColumn([
+          DatePrologueTitle(),
+          DatePrologueParagraph(),
+        ], ["gap-16", "md:gap-20"]),
+      ]),
+    ], ["w-full", "h-full"]),
+  ], COLOR_LIGHT)
+
+const DatePrologueTitle = async () =>
+  JustifiedRow([
+    JustifiedColumn([
+      CalendarIcon([
+        "h-24", "md:h-28", 
+        `text-[${COLOR_MEDIUM_DARK}]`,
+        "animate-breathe",
+      ]),
+    ]),
+  ], ["px-4"])
+
+const DatePrologueParagraph = async () =>
+  JustifiedRow([
+    h("span", {
+      classList: [
+        "font-roboto", 
+        "text-center",
+        "text-2xl", "md:text-3xl",
+        "font-bold",
+        `text-[${COLOR_MEDIUM_DARK}]`,
+      ],
+    }, [
+      "Reserva la fecha para un día lleno de recuerdos inolvidables.",
+    ]),
+  ], ["px-8"])
+
+// -- Date Calendar Section --
+    
+const DateCalendarSection = async () => 
+  SectionWrapper([
+    JustifiedColumn([
       DateTitle(),
+      DateCalendar(),
       DateCountdown(),
     ], ["w-full", "h-full"]),
   ], COLOR_LIGHT)
+
+const DateTitle = async () =>
+  JustifiedRow([
+    JustifiedColumn([
+      CalendarIcon(["h-20", "md:h-24", `text-[${COLOR_MEDIUM_DARK}]`]),
+    ]),
+  ], ["px-4"])
 
 const DateCalendar = async () => 
   JustifiedRow([
@@ -133,73 +229,122 @@ const DateCalendar = async () =>
         h("img", {
           src: "./assets/images/calendar.png",
           classList: [
-            "w-96", "md:w-[40rem]",
+            "max-h-[50vh]",
           ],
         }),
       ]),
     ], -1),
-  ], ["px-4"])
-
-const DateTitle = async () =>
-  JustifiedRow([
-    CalendarIcon(["w-14", "md:w-16", `text-[${COLOR_MEDIUM_DARK}]`]),
-  ], ["px-4"])
+  ], ["px-8"])
 
 const DateCountdown = async () => 
   JustifiedRow([
-    Title([
-      async () => {
-        const days = await getRemainingDays("2024-12-07")
-        return `Faltan ${days} días`
-      },
-    ], [`text-[${COLOR_MEDIUM_DARK}]`]),
+    JustifiedColumn([
+      Title([
+        async () => {
+          const days = await getRemainingDays("2024-12-07")
+          return `Faltan ${days} días`
+        },
+      ], [`text-[${COLOR_MEDIUM_DARK}]`]),
+    ]),
   ], ["px-4"])
 
-// -- Attendance --
-
-const AttendanceSection = async () => 
-  Section([
+// -- Attendance Prologue Section --
+    
+const AttendancePrologueSection = async () => 
+  SectionWrapper([
     JustifiedColumn([
-      AttendanceTitle(),
       JustifiedRow([
-        ColumnToRow([
-          AttendancePrologue(),
-          AttendanceEpilogue(),
-        ], ["gap-6", "md:gap-16"]),
-      ], ["px-4"]),
+        JustifiedColumn([
+          AttendancePrologueTitle(),
+          AttendancePrologueParagraph(),
+        ], ["gap-16", "md:gap-20"]),
+      ]),
     ], ["w-full", "h-full"]),
   ], COLOR_MEDIUM_LIGHT)
 
-const AttendanceTitle = async () =>
+const AttendancePrologueTitle = async () =>
   JustifiedRow([
-    ClipboardIcon(["h-16", "md:h-20", `text-[${COLOR_MEDIUM_DARK}]`]),
+    JustifiedColumn([
+      ClipboardIcon([
+        "h-24", "md:h-28", 
+        `text-[${COLOR_MEDIUM_DARK}]`,
+        "animate-breathe",
+      ]),
+    ]),
   ], ["px-4"])
 
-const AttendancePrologue = async () =>
-  JustifiedColumn([
-    DarkCard([
-      JustifiedColumn([
-        JustifiedColumn([
-          Subtitle(
-            "Confirma tu asistencia aquí", 
-            [`text-[${COLOR_LIGHT}]`]
-          ),
+const AttendancePrologueParagraph = async () =>
+  JustifiedRow([
+    h("span", {
+      classList: [
+        "font-roboto", 
+        "text-center",
+        "text-2xl", "md:text-3xl",
+        "font-bold",
+        `text-[${COLOR_MEDIUM_DARK}]`,
+      ],
+    }, [
+      "Por favor, confírmanos si puedes acompañarnos en este día tan especial.",
+    ]),
+  ], ["px-8"])
+
+// -- Attendance Form Section --
+
+const AttendanceFormSection = async () => 
+  SectionWrapper([
+    JustifiedColumn([
+      AttendanceFormTitle(),
+      AttendanceFormCard(), 
+    ], ["w-full", "h-full"]),
+  ], COLOR_MEDIUM_LIGHT)
+
+const AttendanceFormTitle = async () =>
+  JustifiedRow([
+    JustifiedColumn([
+      ClipboardIcon(["h-20", "md:h-24", `text-[${COLOR_MEDIUM_DARK}]`]),
+    ]),
+  ], ["px-4"])
+
+const AttendanceFormCard = async () =>
+  JustifiedRow([
+    JustifiedColumn([
+      DarkCard([
+        JustifiedRow([
           JustifiedColumn([
-            Paragraph("Fecha límite", [
-              "font-bold",
-              "text-center",
-              `text-[${COLOR_LIGHT}]`,
-            ]),
-            Paragraph("Octubre 23, 2024", [
-              "text-center",
-              `text-[${COLOR_LIGHT}]`,
-            ]),
-          ]),
-        ], ["gap-3"]),
-        AttendanceForm(),
-      ], ["gap-5"]),
-    ], 1),
-  ])
+
+            JustifiedColumn([
+              JustifiedRow([
+                JustifiedColumn([
+                  Subtitle("Confirma tu asistencia", [
+                    `text-[${COLOR_LIGHT}]`,
+                  ]),
+                  Subtitle("aquí mismo", [
+                    `text-[${COLOR_LIGHT}]`,
+                  ]),
+                ]),
+              ]),
+
+              JustifiedColumn([
+                Paragraph("Fecha límite", [
+                  "font-bold",
+                  "text-center",
+                  `text-[${COLOR_LIGHT}]`,
+                ]),
+                Paragraph("Octubre 23, 2024", [
+                  "text-center",
+                  `text-[${COLOR_LIGHT}]`,
+                ]),
+              ]),
+
+            ], ["gap-5"]),
+
+            AttendanceForm(),
+
+          ], ["gap-8"]),
+        ]),
+      ], 1),
+    ]),
+  ], ["px-4"])
 
 const AttendanceForm = async () =>
   h("form", {
@@ -302,105 +447,179 @@ const AttendanceForm = async () =>
     ], ["gap-2"]),
   ])
 
-const AttendanceEpilogue = async () =>
-  JustifiedColumn([
-    JustifiedRow([
-      LightCard([
-        JustifiedRow([
-          JustifiedColumn([
-            JustifiedRow([
-              Subtitle("O en un mensaje", [`text-[${COLOR_MEDIUM_DARK}]`]),
-            ]),
-            JustifiedRow([
-              JustifiedColumn([
-                Link([
-                  JustifiedRow([
-                    JustifiedColumn([
-                      WhatsAppIcon([
-                        "h-6", "md:h-8", 
-                        `text-[${COLOR_MEDIUM_DARK}]`,
-                      ]),
-                    ]),
-                    JustifiedRow([
-                      JustifiedColumn([
-                        Paragraph("(+52) 811-222-3642", [
-                          "font-bold", 
-                          "text-[1.3rem]",
-                          "text-center",
-                          `text-[${COLOR_MEDIUM_DARK}]`,
-                        ]),
-                      ]),
-                    ]),
-                  ], [
-                    "gap-2", "p-2",
-                    `bg-[${COLOR_MEDIUM_LIGHT}]`, 
-                    "opacity-100", "hover:opacity-90", "active:opacity-80",
-                    "hover:scale-[1.02]", "active:scale-[1.02]", 
-                  ]),
-                ], "https://wa.me/qr/KKWAAEAGEP25O1", [], {}, { 
-                  target: "_blank",
-                }),
-                Link([
-                  JustifiedRow([
-                    JustifiedColumn([
-                      WhatsAppIcon([
-                        "h-6", "md:h-8", 
-                        `text-[${COLOR_MEDIUM_DARK}]`,
-                      ]),
-                    ]),
-                    JustifiedRow([
-                      JustifiedColumn([
-                        Paragraph("(+52) 812-627-1626", [
-                          "font-bold", 
-                          "text-[1.3rem]",
-                          "text-center",
-                          `text-[${COLOR_MEDIUM_DARK}]`,
-                        ]),
-                      ]),
-                    ]),
-                  ], [
-                    "gap-2", "p-2",
-                    `bg-[${COLOR_MEDIUM_LIGHT}]`, 
-                    "opacity-100", "hover:opacity-90", "active:opacity-80",
-                    "hover:scale-[1.02]", "active:scale-[1.02]", 
-                  ]),
-                ], "https://wa.me/qr/WNLUZI5D727TA1", [], {}, { 
-                  target: "_blank",
-                }),
-              ], ["gap-2"]),
-            ]),
-          ], ["gap-4"]),
-        ]),
-      ], -1),
+const AttendanceFormThanks = async () =>
+  JustifiedRow([
+    JustifiedColumn([
+      Subtitle("Gracias por responder", [
+        `text-[${COLOR_LIGHT}]`
+      ]),
     ]),
   ])
 
-const AttendanceFormThanks = async () =>
-  Subtitle(
-    "Gracias por responder", 
-    [`text-[${COLOR_LIGHT}]`])
+// -- Attendance Message Section --
 
-// -- Itinerary Section 1 --
-
-const ItinerarySection1 = async () => 
-  Section([
+const AttendanceMessageSection = async () => 
+  SectionWrapper([
     JustifiedColumn([
-      ItineraryTitle1(),
+      AttendanceMessageTitle(),
+      AttendanceMessageCard(), 
+    ], ["w-full", "h-full"]),
+  ], COLOR_MEDIUM_LIGHT)
+
+const AttendanceMessageTitle = async () =>
+  JustifiedRow([
+    JustifiedColumn([
+      ClipboardIcon(["h-20", "md:h-24", `text-[${COLOR_MEDIUM_DARK}]`]),
+    ]),
+  ], ["px-4"])
+
+const AttendanceMessageCard = async () =>
+  JustifiedRow([
+    JustifiedColumn([
+      LightCard([
+        JustifiedRow([
+          JustifiedColumn([
+            
+            JustifiedRow([
+              JustifiedColumn([
+                Subtitle("O confirma", [
+                  `text-[${COLOR_MEDIUM_DARK}]`
+                ]),
+                Subtitle("con un mensaje", [
+                  `text-[${COLOR_MEDIUM_DARK}]`
+                ]),
+              ]),
+            ]),
+
+            JustifiedColumn([
+              h("a", {
+                href: "https://wa.me/qr/KKWAAEAGEP25O1", 
+                target: "_blank",
+                classList: [
+                  "p-3",
+                  `bg-[${COLOR_MEDIUM_LIGHT}]`, 
+                  "opacity-100", "hover:opacity-90", "active:opacity-80",
+                  "hover:scale-[1.02]", "active:scale-[1.02]", 
+                  `text-[${COLOR_MEDIUM_DARK}]`,
+                  "text-center",
+                ]
+              }, [
+                Row([
+                  JustifiedRow([
+                    JustifiedColumn([
+                      WhatsAppIcon(["h-6", "md:h-8"]),
+                    ]),
+                  ]),
+
+                  JustifiedRow([
+                    JustifiedColumn([
+                      h("span", {
+                        classList: ["text-[1.5rem]"],
+                      }, ["(+52) 811-222-3642"]),
+                    ]),
+                  ]),
+                ], ["gap-2"]),
+              ]),
+
+              h("a", {
+                href: "https://wa.me/qr/WNLUZI5D727TA1", 
+                target: "_blank",
+                classList: [
+                  "p-3",
+                  `bg-[${COLOR_MEDIUM_LIGHT}]`, 
+                  "opacity-100", "hover:opacity-90", "active:opacity-80",
+                  "hover:scale-[1.02]", "active:scale-[1.02]", 
+                  `text-[${COLOR_MEDIUM_DARK}]`,
+                  "text-center",
+                ]
+              }, [
+                Row([
+                  JustifiedRow([
+                    JustifiedColumn([
+                      WhatsAppIcon(["h-6", "md:h-8"]),
+                    ]),
+                  ]),
+
+                  JustifiedRow([
+                    JustifiedColumn([
+                      h("span", {
+                        classList: ["text-[1.5rem]"],
+                      }, ["(+52) 812-627-1626"]),
+                    ]),
+                  ]),
+                ], ["gap-2"]),
+              ]),
+
+            ], ["gap-5"]),
+
+          ], ["gap-5"]),
+        ]),
+      ], -1),
+    ]),
+  ], ["px-4"])
+
+// -- Itinerary Prologue Section --
+    
+const ItineraryPrologueSection = async () => 
+  SectionWrapper([
+    JustifiedColumn([
       JustifiedRow([
-        ColumnToRow([
-          SpeechTimeCard(),
-          SpeechGeoCard(),
-        ], ["gap-12", "md:gap-16"]),
+        JustifiedColumn([
+          ItineraryPrologueTitle(),
+          ItineraryPrologueParagraph(),
+        ], ["gap-16", "md:gap-20"]),
+      ]),
+    ], ["w-full", "h-full"]),
+  ], COLOR_MEDIUM_DARK)
+
+const ItineraryPrologueTitle = async () =>
+  JustifiedRow([
+    JustifiedColumn([
+      WatchIcon([
+        "h-24", "md:h-28", 
+        `text-[${COLOR_LIGHTEST}]`,
+        "animate-breathe",
+      ]),
+    ]),
+  ], ["px-4"])
+
+const ItineraryPrologueParagraph = async () =>
+  JustifiedRow([
+    h("span", {
+      classList: [
+        "font-roboto", 
+        "text-center",
+        "text-2xl", "md:text-3xl",
+        "font-bold",
+        `text-[${COLOR_LIGHTEST}]`,
+      ],
+    }, [
+      "Aquí tienes un adelanto de cómo se desarrollará el gran día.",
+    ]),
+  ], ["px-8"])
+
+// -- Itinerary Speech Section --
+
+const ItinerarySpeechSection = async () => 
+  SectionWrapper([
+    JustifiedColumn([
+      ItinerarySpeechTitle(),
+      JustifiedRow([
+        JustifiedColumn([
+          ColumnToRow([
+            SpeechTimeCard(),
+            SpeechGeoCard(),
+          ], ["gap-12", "md:gap-16"]),
+        ]),
       ], ["px-4"]),
     ], ["w-full", "h-full"]),
   ], COLOR_MEDIUM_DARK)
 
-const ItineraryTitle1 = async () =>
+const ItinerarySpeechTitle = async () =>
   JustifiedRow([
     JustifiedColumn([
-      WatchIcon(["h-12", "md:h-14", `text-[${COLOR_LIGHTEST}]`]),
-      Title("Itinerario", [`text-[${COLOR_LIGHTEST}]`]),
-    ], ["gap-3"]),
+      WatchIcon(["h-20", "md:h-24", `text-[${COLOR_LIGHTEST}]`]),
+    ]),
   ], ["px-4"])
 
 const SpeechTimeCard = async () =>
@@ -412,6 +631,7 @@ const SpeechTimeCard = async () =>
             ClockIcon(["h-8", "md:h-10", `text-[${COLOR_MEDIUM_DARK}]`]),
             Subtitle("3:00 PM", [`text-[${COLOR_MEDIUM_DARK}]`]),
           ], ["gap-1"]),
+
           JustifiedColumn([
             BookIcon(["h-8", "md:h-10", `text-[${COLOR_MEDIUM_DARK}]`]),
             Subtitle("Discurso", [`text-[${COLOR_MEDIUM_DARK}]`]),
@@ -428,7 +648,9 @@ const SpeechGeoCard = async () =>
         JustifiedRow([
           JustifiedColumn([
             JustifiedRow([
-              GeoIcon(["h-8", "md:h-10", `text-[${COLOR_LIGHT}]`]),
+              JustifiedColumn([
+                GeoIcon(["h-8", "md:h-10", `text-[${COLOR_LIGHT}]`]),
+              ]),
             ]),
             JustifiedRow([
               JustifiedColumn([
@@ -466,11 +688,9 @@ const SpeechGeoCard = async () =>
                 "hover:scale-[1.02]", "active:scale-[1.02]", 
                 "p-2",
                 "text-[1.3rem]",
-                "font-roboto", "font-bold", 
+                "font-bold", 
                 `text-[${COLOR_MEDIUM_DARK}]`,
-              ], {}, {
-                target: "_blank",
-              }),
+              ]),
             ]),
           ], ["gap-4"]),
         ]),
@@ -478,24 +698,28 @@ const SpeechGeoCard = async () =>
     ]),
   ])
 
-// -- Itinerary Section 2 --
+// -- Itinerary Reception Section --
 
-const ItinerarySection2 = async () => 
-  Section([
+const ItineraryReceptionSection = async () => 
+  SectionWrapper([
     JustifiedColumn([
-      ItineraryTitle2(),
+      ItineraryReceptionTitle(),
       JustifiedRow([
-        ColumnToRow([
-          ReceptionTimeCard(),
-          ReceptionGeoCard(),
-        ], ["gap-12", "md:gap-16"]),
+        JustifiedColumn([
+          ColumnToRow([
+            ReceptionTimeCard(),
+            ReceptionGeoCard(),
+          ], ["gap-12", "md:gap-16"]),
+        ]),
       ], ["px-4"]),
     ], ["w-full", "h-full"]),
-  ], COLOR_MEDIUM_LIGHT)
+  ], COLOR_MEDIUM_DARK)
 
-const ItineraryTitle2 = async () =>
+const ItineraryReceptionTitle = async () =>
   JustifiedRow([
-     WatchIcon(["h-16", "md:h-20", `text-[${COLOR_MEDIUM_DARK}]`]),
+    JustifiedColumn([
+      WatchIcon(["h-20", "md:h-24", `text-[${COLOR_LIGHTEST}]`]),
+    ]),
   ], ["px-4"])
 
 const ReceptionTimeCard = async () =>
@@ -514,7 +738,7 @@ const ReceptionTimeCard = async () =>
         ], ["gap-5"]),
       ], 1),
     ]),
-  ], ["px-4"])
+  ])
 
 const ReceptionGeoCard = async () =>
   JustifiedRow([
@@ -523,7 +747,9 @@ const ReceptionGeoCard = async () =>
         JustifiedRow([
           JustifiedColumn([
             JustifiedRow([
-              GeoIcon(["h-8", "md:h-10", `text-[${COLOR_MEDIUM_DARK}]`]),
+              JustifiedColumn([
+                GeoIcon(["h-8", "md:h-10", `text-[${COLOR_MEDIUM_DARK}]`]),
+              ]),
             ]),
             JustifiedRow([
               JustifiedColumn([
@@ -561,36 +787,38 @@ const ReceptionGeoCard = async () =>
                 "hover:scale-[1.02]", "active:scale-[1.02]", 
                 "p-2",
                 "text-[1.3rem]",
-                "font-roboto", "font-bold", 
+                "font-bold", 
                 `text-[${COLOR_MEDIUM_DARK}]`,
-              ], {}, {
-                target: "_blank",
-              }),
+              ]),
             ]),
           ], ["gap-4"]),
         ]),
       ], -1),
     ]),
-  ], ["px-4"])
+  ])
 
-// -- Itinerary Section 3 --
+// -- Itinerary Epilogue Section --
 
-const ItinerarySection3 = async () => 
-  Section([
+const ItineraryEpilogueSection = async () => 
+  SectionWrapper([
     JustifiedColumn([
-      ItineraryTitle3(),
+      ItineraryEpilogueTitle(),
       JustifiedRow([
-        ColumnToRow([
-          DressCodeCard(),
-          ReceptionEpilogueCard(),
-        ], ["gap-12", "md:gap-16"])
+        JustifiedColumn([
+          ColumnToRow([
+            DressCodeCard(),
+            ReceptionEpilogueCard(),
+          ], ["gap-12", "md:gap-16"]),
+        ]),
       ], ["px-4"]),
     ], ["w-full", "h-full"]),
-  ], COLOR_LIGHT)
+  ], COLOR_MEDIUM_DARK)
 
-const ItineraryTitle3 = async () =>
+const ItineraryEpilogueTitle = async () =>
   JustifiedRow([
-     WatchIcon(["h-16", "md:h-20", `text-[${COLOR_MEDIUM_DARK}]`]),
+    JustifiedColumn([
+      WatchIcon(["h-20", "md:h-24", `text-[${COLOR_LIGHTEST}]`]),
+    ]),
   ], ["px-4"])
 
 const DressCodeCard = async () =>
@@ -620,24 +848,29 @@ const ReceptionEpilogueCard = () =>
         JustifiedRow([
           JustifiedColumn([
             JustifiedRow([
-              ForkKnifeIcon(["h-14", "md:h-16", `text-[${COLOR_LIGHT}]`]),
+              JustifiedColumn([
+                ForkKnifeIcon(["h-14", "md:h-16", `text-[${COLOR_LIGHT}]`]),
+              ]),
             ]),
+
             JustifiedColumn([
               Paragraph("Cena a tres tiempos", [
-                  "font-bold", 
-                  "text-center", 
-                  `text-[${COLOR_LIGHT}]`,
-                ]), 
+                "font-bold", 
+                "text-center", 
+                `text-[${COLOR_LIGHT}]`,
+              ]), 
+
               Paragraph("Comida y bebida con moderación (1 Cor 10:31)", [
-                  "font-bold", 
-                  "text-center", 
-                  `text-[${COLOR_LIGHT}]`,
-                ]),
+                "font-bold", 
+                "text-center", 
+                `text-[${COLOR_LIGHT}]`,
+              ]),
+
               Paragraph("Costo Valet Parking: $50", [
-                  "font-bold", 
-                  "text-center", 
-                  `text-[${COLOR_LIGHT}]`,
-                ]),
+                "font-bold", 
+                "text-center", 
+                `text-[${COLOR_LIGHT}]`,
+              ]),
             ], ["gap-3"]),
           ], ["gap-5"]),
         ]),
@@ -645,150 +878,207 @@ const ReceptionEpilogueCard = () =>
     ]),
   ])
 
-// -- Gift Registry Section 1 --
-
-const GiftRegistrySection1 = async () => 
-  Section([
+// -- Gift Registry Prologue Section --
+    
+const GiftRegistryPrologueSection = async () => 
+  SectionWrapper([
     JustifiedColumn([
-      GiftRegistryTitle1(),
       JustifiedRow([
-        ColumnToRow([
-          LiverpoolRegistryCard(),
-          AmazonRegistryCard(),
-          InPersonGiftCard(),
-        ], ["gap-6", "md:gap-20"]),
-      ], ["px-4"]),
+        JustifiedColumn([
+          GiftRegistryPrologueTitle(),
+          GiftRegistryPrologueParagraph(),
+        ], ["gap-16", "md:gap-20"]),
+      ]),
     ], ["w-full", "h-full"]),
   ], COLOR_MEDIUM_LIGHT)
 
-const GiftRegistryTitle1 = async () =>
+const GiftRegistryPrologueTitle = async () =>
   JustifiedRow([
     JustifiedColumn([
-      GiftIcon(["h-12", "md:h-14", `text-[${COLOR_MEDIUM_DARK}]`]),
-      Title("Mesa de Regalos", [`text-[${COLOR_MEDIUM_DARK}]`]),
-    ], ["gap-3"]),
+      GiftIcon([
+        "h-24", "md:h-28", 
+        `text-[${COLOR_MEDIUM_DARK}]`,
+        "animate-breathe",
+      ]),
+    ]),
   ], ["px-4"])
 
-const LiverpoolRegistryCard = async () =>
+const GiftRegistryPrologueParagraph = async () =>
   JustifiedRow([
-    JustifiedColumn([
-      DarkCard([
-        JustifiedRow([
-          RowToColumn([
-            JustifiedRow([
-              JustifiedColumn([
-                LiverpoolIcon(["h-20", `text-[${COLOR_LIGHT}]`]),
-              ]),
-            ]),
-            JustifiedColumn([
-              JustifiedRow([
-                JustifiedColumn([
-                  Subtitle("Liverpool", [`text-[${COLOR_LIGHT}]`]),
-                ]),
-              ]),
-              JustifiedRow([
-                Link("Visitar", 
-                  "https://mesaderegalos.liverpool.com.mx/milistaderegalos/51537751", [
-                  `bg-[${COLOR_LIGHT}]`, 
-                  "opacity-100", "hover:opacity-90", "active:opacity-80",
-                  "hover:scale-[1.02]", "active:scale-[1.02]", 
-                  "p-2",
-                  "text-[1.3rem]",
-                  "font-roboto", "font-bold", 
-                  `text-[${COLOR_MEDIUM_DARK}]`,
-                ], {}, {
-                  target: "_blank",
-                }),
-              ]),
-            ], ["gap-4"]),
-          ], ["gap-6", "md:gap-4"]),
-        ]),
-      ], 1),
+    h("span", {
+      classList: [
+        "font-roboto", 
+        "text-center",
+        "text-2xl", "md:text-3xl",
+        "font-bold",
+        `text-[${COLOR_MEDIUM_DARK}]`,
+      ],
+    }, [
+      "Tu presencia es el mejor regalo, pero si deseas contribuir de otras formas, aquí hay algunas ideas.",
     ]),
-  ])
+  ], ["px-8"])
 
-const AmazonRegistryCard = async () =>
-  JustifiedRow([
+// -- Gift Registry Options Section --
+
+const GiftRegistryOptionsSection = async () => 
+  SectionWrapper([
     JustifiedColumn([
-      LightCard([
-        JustifiedRow([
-          RowToColumn([
-            JustifiedRow([
-              JustifiedColumn([
-                AmazonIcon(["h-20", `text-[${COLOR_MEDIUM_DARK}]`]),
-              ]),
-            ]),
-            JustifiedColumn([
-              JustifiedRow([
-                JustifiedColumn([
-                  Subtitle("Amazon", [`text-[${COLOR_MEDIUM_DARK}]`]),
-                ]),
-              ]),
-              JustifiedRow([
-                Link("Visitar", 
-                  "https://www.amazon.com.mx/wedding/share/carlos-chelsea-2024", [
-                  `bg-[${COLOR_MEDIUM_DARK}]`, 
-                  "opacity-100", "hover:opacity-90", "active:opacity-80",
-                  "hover:scale-[1.02]", "active:scale-[1.02]", 
-                  "p-2",
-                  "text-[1.3rem]",
-                  "font-roboto", "font-bold", 
-                  `text-[${COLOR_LIGHT}]`,
-                ], {}, {
-                  target: "_blank",
-                }),
-              ]),
-            ], ["gap-4"]),
-          ], ["gap-6", "md:gap-4"]),
-        ]),
-      ], -1),
-    ]),
-  ])
+      GiftRegistryOptionsCard(),
+    ], ["w-full", "h-full"]),
+  ], COLOR_MEDIUM_LIGHT)
 
-const InPersonGiftCard = async () =>
+const GiftRegistryOptionsCard = async () =>
   JustifiedRow([
     JustifiedColumn([
       DarkCard([
         JustifiedRow([
           JustifiedColumn([
-            RowToColumn([
-              JustifiedRow([
-                JustifiedColumn([
-                  EnvelopeIcon(["h-20", `text-[${COLOR_LIGHT}]`]),
-                ]),
-              ]),
-              JustifiedRow([
-                JustifiedColumn([
+            
+            JustifiedRow([
+              JustifiedColumn([
+                
+                JustifiedRow([
                   JustifiedColumn([
-                    Subtitle("Presencial", [`text-[${COLOR_LIGHT}]`]),
-                  ], ["gap-4"]),
+                    GiftIcon(["h-14", "md:h-16", `text-[${COLOR_LIGHT}]`]),
+                  ]),
                 ]),
-              ]),
-            ], ["gap-6", "md:gap-4"]),
-          ]),
+
+                JustifiedRow([
+                  JustifiedColumn([
+                    Subtitle("Mesas de regalos", [`text-[${COLOR_LIGHT}]`]),
+                  ]),
+                ]),
+
+              ], ["gap-2"]),
+            ]),
+
+            JustifiedRow([
+              JustifiedColumn([
+
+                Row([
+                  JustifiedRow([
+                    JustifiedColumn([
+                      JustifiedRow([
+                        JustifiedColumn([
+                          LiverpoolIcon(["h-10", "md:h-12", `text-[${COLOR_LIGHT}]`]),
+                        ]),
+                      ]),
+
+                      JustifiedRow([
+                        JustifiedColumn([
+                          h("span", {
+                            classList: [
+                              "font-roboto", 
+                              "text-center",
+                              "text-[1.3rem]", "md:text-[1.4rem]",
+                              "font-bold",
+                              `text-[${COLOR_LIGHT}]`,
+                            ],
+                          }, ["Liverpool"]),
+                        ]),
+                      ]),
+                    ], ["gap-2"]),
+                  ], ["grow"]),
+
+                  JustifiedRow([
+                    JustifiedColumn([
+                      Link("Visitar", 
+                        "https://mesaderegalos.liverpool.com.mx/milistaderegalos/51537751", [
+                        `bg-[${COLOR_LIGHT}]`, 
+                        "opacity-100", "hover:opacity-90", "active:opacity-80",
+                        "hover:scale-[1.02]", "active:scale-[1.02]", 
+                        "p-1",
+                        "text-[1.1rem]", "md:text-[1.2rem]",
+                        "font-roboto", "font-bold", 
+                        `text-[${COLOR_MEDIUM_DARK}]`,
+                      ]),
+                    ]),
+                  ]),
+
+                ], ["justify-between", "gap-6", "md:gap-8"]),
+
+                Row([
+                  JustifiedRow([
+                    JustifiedColumn([
+                      JustifiedRow([
+                        JustifiedColumn([
+                          AmazonIcon(["h-10", "md:h-12", `text-[${COLOR_LIGHT}]`]),
+                        ]),
+                      ]),
+
+                      JustifiedRow([
+                        JustifiedColumn([
+                          h("span", {
+                            classList: [
+                              "font-roboto", 
+                              "text-center",
+                              "text-[1.3rem]", "md:text-[1.4rem]",
+                              "font-bold",
+                              `text-[${COLOR_LIGHT}]`,
+                            ],
+                          }, ["Amazon"]),
+                        ]),
+                      ]),
+                    ], ["gap-2"]),
+                  ], ["grow"]),
+
+                  JustifiedRow([
+                    JustifiedColumn([
+                      Link("Visitar", 
+                        "https://www.amazon.com.mx/wedding/share/carlos-chelsea-2024", [
+                        `bg-[${COLOR_LIGHT}]`, 
+                        "opacity-100", "hover:opacity-90", "active:opacity-80",
+                        "hover:scale-[1.02]", "active:scale-[1.02]", 
+                        "p-1",
+                        "text-[1.1rem]", "md:text-[1.2rem]",
+                        "font-roboto", "font-bold", 
+                        `text-[${COLOR_MEDIUM_DARK}]`,
+                      ]),
+                    ]),
+                  ]),
+                ], ["justify-between", "gap-6", "md:gap-8"]),
+
+
+                JustifiedRow([
+                  JustifiedColumn([
+                    JustifiedRow([
+                      JustifiedColumn([
+                        EnvelopeIcon(["h-10", "md:h-12", `text-[${COLOR_LIGHT}]`]),
+                      ]),
+                    ]),
+
+                    JustifiedRow([
+                      JustifiedColumn([
+                        h("span", {
+                          classList: [
+                            "font-roboto", 
+                            "text-center",
+                            "text-[1.3rem]", "md:text-[1.4rem]",
+                            "font-bold",
+                            `text-[${COLOR_LIGHT}]`,
+                          ],
+                        }, ["Presencial"]),
+                      ]),
+                    ]),
+                  ], ["gap-2"]),
+                ]),
+
+              ], ["gap-3"]),
+            ]),
+          ], ["gap-8"]),
         ]),
-      ], 1),
+      ], -1),
     ]),
-  ])
-
-// -- Gift Registry Section 2 --
-
-const GiftRegistrySection2 = async () => 
-  Section([
-    JustifiedColumn([
-      GiftRegistryTitle2(),
-      JustifiedRow([
-        JustifiedColumn([
-          BankTransferCard(),
-        ]),
-      ], ["px-4"]),
-    ], ["w-full", "h-full"]),
-  ], COLOR_MEDIUM_DARK)
-
-const GiftRegistryTitle2 = async () =>
-  JustifiedRow([
-    GiftIcon(["h-16", "md:h-20", `text-[${COLOR_LIGHTEST}]`]),
   ], ["px-4"])
+
+// -- Gift Registry Bank Transfer Section --
+
+const GiftRegistryBankTransferSection = async () => 
+  SectionWrapper([
+    JustifiedColumn([
+      BankTransferCard(),
+    ], ["w-full", "h-full"]),
+  ], COLOR_MEDIUM_LIGHT)
 
 const BankTransferCard = async () =>
   JustifiedRow([
@@ -801,7 +1091,7 @@ const BankTransferCard = async () =>
               
               JustifiedRow([
                 JustifiedColumn([
-                  CreditCardIcon(["h-20", `text-[${COLOR_MEDIUM_DARK}]`]),
+                  CreditCardIcon(["h-14", "md:h-16", `text-[${COLOR_MEDIUM_DARK}]`]),
                 ]),
               ]),
 
@@ -811,7 +1101,7 @@ const BankTransferCard = async () =>
                 ]),
               ]),
 
-            ]),
+            ], ["gap-2"]),
           ]),
 
           JustifiedRow([
@@ -936,23 +1226,25 @@ const BankTransferCard = async () =>
             ], ["gap-3"]),
           ]),
         ], ["gap-5"]),
-      ], -1),
+      ], 1),
     ]),
-  ])
+  ], ["px-4"])
 
 // -- Gallery Section --
 
 const GallerySection = async () => 
-  Section([
+  JustifiedRow([
     JustifiedColumn([
       GalleryTitle(),
       GallerySlideshow(),
     ], ["w-full", "h-full"]),
-  ], COLOR_MEDIUM_LIGHT)
+  ], ["w-full", "h-full", `bg-[${COLOR_LIGHT}]`])
 
 const GalleryTitle = async () =>
   JustifiedRow([
-    PostageIcon(["h-16", "mxd:h-20", `text-[${COLOR_MEDIUM_DARK}]`]),
+    JustifiedColumn([
+      PostageIcon(["h-20", "mxd:h-24", `text-[${COLOR_MEDIUM_DARK}]`]),
+    ]),
   ], ["px-4"])
 
 const GallerySlideshow = async () =>
@@ -964,7 +1256,7 @@ const GallerySlideshow = async () =>
     SlideshowPicture("./assets/images/slideshow/5.jpg"),
   ], [
     "gap-24",
-    "p-10",
+    "py-10", "px-32",
   ])
 
 const SlideshowPicture = async (src = null) =>
@@ -974,7 +1266,7 @@ const SlideshowPicture = async (src = null) =>
         src: src,
         loading: "lazy",
         classList: [
-          "max-h-[60vh]", "max-w-[70vw]",
+          "max-h-[50vh]", "max-w-[70vw]",
         ],
       }),
     ], Math.round(Math.random() * 6) - 3),
@@ -1011,7 +1303,7 @@ const Row =
       "flex", "flex-row", 
       ...classList,
     ], { 
-      role: "column", 
+      role: "row", 
       ...dataAttributes, 
     }, attributes)
 
@@ -1077,7 +1369,7 @@ const SliderPanel =
       ...dataAttributes, 
     }, attributes)
 
-const Section = 
+const SectionWrapper = 
   async (children = null, bgColor = null) =>
     JustifiedRow([
       Column(children, [
@@ -1086,7 +1378,7 @@ const Section =
         role: "section-column", 
       }),
     ], [
-      "w-full", "h-full",
+      "w-full", "h-full", "relative",
       ...(bgColor ? [`bg-[${bgColor}]`] : [])
     ], { 
       role: "section-container", 
@@ -1173,8 +1465,10 @@ const Link =
         role: "link", 
         ...dataAttributes,
       }, classList: [
+        "font-roboto",
         ...classList
       ], href: ref, 
+      target: "_blank",
       ...attributes,
     }, [children])
 
@@ -1190,6 +1484,18 @@ const Paragraph = async (content, classList = []) =>
   ])
 
 // -- Icons --
+
+const HeartsIcon = async (classList = []) =>
+  h("svg:svg", {
+    fill: "currentColor", 
+    $viewBox: "0 0 16 16", 
+    classList: [...classList],
+  }, [
+    h("svg:path", {
+      fillRule: "evenodd",
+      d: "M4.931.481c1.627-1.671 5.692 1.254 0 5.015-5.692-3.76-1.626-6.686 0-5.015m6.84 1.794c1.084-1.114 3.795.836 0 3.343-3.795-2.507-1.084-4.457 0-3.343M7.84 7.642c2.71-2.786 9.486 2.09 0 8.358-9.487-6.268-2.71-11.144 0-8.358",
+    }),
+  ])
 
 const PostageIcon = async (classList = []) =>
   h("svg:svg", {
