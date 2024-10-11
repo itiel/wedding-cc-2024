@@ -1302,30 +1302,32 @@ const GalleryTitle = async () =>
  
 const GallerySlideshow = async () => 
   HorizontalSlider([ 
-    SlideshowPicture("./assets/images/slideshow/1.jpg"), 
-    SlideshowPicture("./assets/images/slideshow/2.jpg"), 
-    SlideshowPicture("./assets/images/slideshow/3.jpg"), 
-    SlideshowPicture("./assets/images/slideshow/4.jpg"), 
-    SlideshowPicture("./assets/images/slideshow/5.jpg"), 
+    Array.from({ length: 14 }, 
+      (_, x) => SlideshowPicture(`./assets/images/slideshow/${x + 1}.jpg`)
+    ),
   ], [ 
-    "gap-24", "md:gap-32", 
+    "gap-[15vw]", 
     "py-10", 
-    "px-36", "md:px-44", 
+    "px-[40vw]", 
   ], { 
     role: "gallery-slideshow", 
   }) 
  
 const SlideshowPicture = async (src = null) => 
   SliderPanel([ 
-    LightCard([ 
-      h("img", { 
-        src: src, 
-        loading: "lazy", 
-        classList: [ 
-          "max-h-[50vh]", "max-w-[70vw]", 
-        ], 
-      }), 
-    ], Math.round(Math.random() * 6) - 3), 
+    JustifiedRow([
+      JustifiedColumn([
+        LightCard([ 
+          h("img", { 
+            src: src, 
+            loading: "lazy", 
+            classList: [ 
+              "max-h-[50vh]", "max-w-[70vw]", 
+            ], 
+          }), 
+        ], Math.round(Math.random() * 6) - 3), 
+      ]),
+    ], ["w-full", "h-full"]),
   ]) 
  
 // -- Generics -- 
