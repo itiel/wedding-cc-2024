@@ -775,7 +775,7 @@ const ReceptionGeoCard = async () =>
                   "text-center", 
                   `text-[${COLOR_MEDIUM_DARK}]`, 
                 ]), 
-                Paragraph("Av. Eugenio Garza Sada Sur #2401", [ 
+                Paragraph("Av. E. Garza Sada Sur #2401", [ 
                   "font-bold", 
                   "text-center", 
                   `text-[${COLOR_MEDIUM_DARK}]`, 
@@ -872,12 +872,20 @@ const ReceptionEpilogueCard = async () =>
                 `text-[${COLOR_LIGHT}]`, 
               ]), 
  
-              Paragraph("Comida y bebida con moderación (1 Cor 10:31)", [ 
-                "font-bold", 
-                "text-center", 
-                `text-[${COLOR_LIGHT}]`, 
-              ]), 
- 
+              JustifiedColumn([
+                Paragraph("Comida y bebida con moderación", [ 
+                  "font-bold", 
+                  "text-center", 
+                  `text-[${COLOR_LIGHT}]`, 
+                ]), 
+
+                Paragraph("(1 Cor 10:31)", [ 
+                  "font-bold", 
+                  "text-center", 
+                  `text-[${COLOR_LIGHT}]`, 
+                ]), 
+              ]),
+              
               Paragraph("Costo Valet Parking: $50", [ 
                 "font-bold", 
                 "text-center", 
@@ -949,7 +957,7 @@ const GiftRegistryOptionsSection = async () =>
 const OnlineGiftOptionsCard = async () => 
   JustifiedRow([ 
     JustifiedColumn([ 
-      DarkCard([ 
+      LightCard([ 
         JustifiedRow([ 
           JustifiedColumn([ 
 
@@ -958,7 +966,7 @@ const OnlineGiftOptionsCard = async () =>
               JustifiedRow([
                 JustifiedColumn([
                   JustifiedColumn([ 
-                    Subtitle("En línea", [`text-[${COLOR_LIGHT}]`]), 
+                    Subtitle("En línea", [`text-[${COLOR_MEDIUM_DARK}]`]), 
                   ]),
                 ]),
               ]),
@@ -977,7 +985,10 @@ const OnlineGiftOptionsCard = async () =>
 
                             JustifiedRow([ 
                               JustifiedColumn([ 
-                                LiverpoolIcon(["h-12", "md:h-14", `text-[${COLOR_LIGHT}]`]), 
+                                LiverpoolIcon([
+                                  "h-14", "md:h-16", 
+                                  `text-[${COLOR_MEDIUM_DARK}]`,
+                                  ]), 
                               ]), 
                             ]),
 
@@ -989,7 +1000,7 @@ const OnlineGiftOptionsCard = async () =>
                                     "text-center", 
                                     "text-[1.3rem]", "md:text-[1.4rem]", 
                                     "font-bold", 
-                                    `text-[${COLOR_LIGHT}]`, 
+                                    `text-[${COLOR_MEDIUM_DARK}]`, 
                                   ], 
                                 }, ["Liverpool"]), 
                               ]), 
@@ -1002,12 +1013,12 @@ const OnlineGiftOptionsCard = async () =>
 
                               Link("Visitar", 
                                 "https://mesaderegalos.liverpool.com.mx/milistaderegalos/51537751", [ 
-                                `bg-[${COLOR_LIGHT}]`, 
+                                `bg-[${COLOR_MEDIUM_LIGHT}]`, 
                                 "opacity-100", "hover:opacity-90", "active:opacity-80", 
                                 "hover:scale-[1.02]", "active:scale-[1.02]", 
-                                "p-1", 
-                                "text-[1.1rem]", "md:text-[1.2rem]", 
-                                "font-roboto", "font-bold", 
+                                "p-2", 
+                                "text-[1.3rem]", 
+                                "font-bold", 
                                 `text-[${COLOR_MEDIUM_DARK}]`, 
                               ]), 
 
@@ -1028,7 +1039,10 @@ const OnlineGiftOptionsCard = async () =>
 
                             JustifiedRow([ 
                               JustifiedColumn([ 
-                                AmazonIcon(["h-12", "md:h-14", `text-[${COLOR_LIGHT}]`]), 
+                                AmazonIcon([
+                                  "h-14", "md:h-16", 
+                                  `text-[${COLOR_MEDIUM_DARK}]`,
+                                ]), 
                               ]), 
                             ]),
 
@@ -1040,7 +1054,7 @@ const OnlineGiftOptionsCard = async () =>
                                     "text-center", 
                                     "text-[1.3rem]", "md:text-[1.4rem]", 
                                     "font-bold", 
-                                    `text-[${COLOR_LIGHT}]`, 
+                                    `text-[${COLOR_MEDIUM_DARK}]`, 
                                   ], 
                                 }, ["Amazon"]), 
                               ]), 
@@ -1053,12 +1067,12 @@ const OnlineGiftOptionsCard = async () =>
 
                               Link("Visitar", 
                                 "https://www.amazon.com.mx/wedding/share/carlos-chelsea-2024", [ 
-                                `bg-[${COLOR_LIGHT}]`, 
+                                `bg-[${COLOR_MEDIUM_LIGHT}]`, 
                                 "opacity-100", "hover:opacity-90", "active:opacity-80", 
                                 "hover:scale-[1.02]", "active:scale-[1.02]", 
-                                "p-1", 
-                                "text-[1.1rem]", "md:text-[1.2rem]", 
-                                "font-roboto", "font-bold", 
+                                "p-2", 
+                                "text-[1.3rem]", 
+                                "font-bold", 
                                 `text-[${COLOR_MEDIUM_DARK}]`, 
                               ]), 
 
@@ -1070,7 +1084,7 @@ const OnlineGiftOptionsCard = async () =>
                       ]),
                     ]),
 
-                  ], ["gap-8"]),
+                  ], ["gap-10"]),
 
                 ]),
               ]),
@@ -1090,28 +1104,20 @@ const InPersonGiftCard = async () =>
  
         JustifiedRow([ 
           JustifiedColumn([ 
- 
+
             JustifiedRow([ 
               JustifiedColumn([ 
-                EnvelopeIcon(["h-12", "md:h-14", `text-[${COLOR_LIGHT}]`]), 
+                Subtitle("Presencial", [`text-[${COLOR_LIGHT}]`]), 
               ]), 
             ]), 
  
             JustifiedRow([ 
               JustifiedColumn([ 
-                h("span", { 
-                  classList: [ 
-                    "font-roboto", 
-                    "text-center", 
-                    "text-[1.3rem]", "md:text-[1.4rem]", 
-                    "font-bold", 
-                    `text-[${COLOR_LIGHT}]`, 
-                  ], 
-                }, ["Presencial"]), 
+                EnvelopeIcon(["h-16", "md:h-20", `text-[${COLOR_LIGHT}]`]), 
               ]), 
             ]), 
  
-          ], ["gap-2"]), 
+          ], ["gap-8"]), 
         ]), 
  
       ], -1), 
@@ -1273,7 +1279,7 @@ const BankTransferCard = async () =>
             ], ["gap-3"]), 
           ]), 
         ], ["gap-5"]), 
-      ], 1), 
+      ], -1), 
     ]), 
   ], ["px-4"]) 
  
