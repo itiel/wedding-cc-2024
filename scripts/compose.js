@@ -182,19 +182,22 @@ const eachOf = async (arr, callback) => {
 const camelToKebab = (str) => 
   str.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase()
 
+const dataToQuery = (attributes) => 
+  Object.entries(attributes)
+  .map(([key, value]) => `[data-${camelToKebab(key)}=${value}]`)
+  .join("")
+
 export const find = async (query, parent = document) => 
   parent.querySelector(query)
 
 export const findAll = async (query, parent = document) => 
   parent.querySelectorAll(query)
 
-export const findByData = async (attributes, parent = document) => {
-  const query = Object.entries(attributes)
-    .map(([key, value]) => `[data-${camelToKebab(key)}=${value}]`)
-    .join("")
+export const findByData = async (attributes, parent = document) => 
+  await find(dataToQuery(attributes), parent)
 
-  return await find(query, parent)
-}
+export const findAllByData = async (attributes, parent = document) => 
+  await findAll(dataToQuery(attributes), parent)
 
 export const appendNode = async (child, parent = document.body) => {
   if (isPromise(child))

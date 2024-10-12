@@ -13,22 +13,6 @@
   }
 }
 
-.animate-swipe {
-  animation: 1s ease-in-out swipe;
-}
-
-@keyframes swipe {
-  0% {
-    transform: translateX(0);
-  }
-  50% {
-    transform: translateX(-10%);
-  }
-  100% {
-    transform: translateX(0);
-  }
-}
-
 .animate-appear {
   animation: 2s appear;
 }

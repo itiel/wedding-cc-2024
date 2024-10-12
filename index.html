@@ -22,6 +22,7 @@ import {
   replaceNode as replace, 
   appendChildren as append, 
   findByData, 
+  findAllByData,
 } from "./scripts/compose.js" 
  
 // -- Constants -- 
@@ -38,19 +39,30 @@ const COLOR_DARKEST = "#704f2c"
 const main = async () => { 
   await append(App()) 
  
-  const slideshow = await findByData({ role: "gallery-slideshow", }) 
- 
   const observer = new IntersectionObserver((entries, observer) => { 
-    entries.forEach(entry => { 
+    entries.forEach(async entry => { 
       if (entry.isIntersecting) { 
-        slideshow.classList.add("animate-swipe") 
- 
         observer.unobserve(entry.target) 
+
+        const slideshow = await findByData({ role: "gallery-slideshow", }) 
+        const pictures = await findAllByData({ role: "slideshow-picture", }, slideshow)
+
+        if (pictures.length > 2) 
+          setTimeout(() => {
+            pictures[2].scrollIntoView({ behavior: "smooth", })
+
+            setTimeout(() => {
+              pictures[0].scrollIntoView({ behavior: "smooth", })
+            }, 1000)
+          }, 0)
       } 
     }) 
-  }, { threshold: 0.1 }) 
+  }, { 
+    threshold: 1.0, 
+  }) 
  
-  observer.observe(slideshow) 
+  const gallery = await findByData({ role: "gallery-panel", }) 
+  observer.observe(gallery) 
 } 
  
 // -- App -- 
@@ -175,9 +187,9 @@ const IntroPolaroid = async () =>
       click: async (e) => { 
         e.preventDefault() 
  
-        const slideshow = await findByData({ role: "gallery-slideshow", }) 
+        const gallery = await findByData({ role: "gallery-panel", }) 
  
-        slideshow.scrollIntoView({ behavior: "smooth", }) 
+        gallery.scrollIntoView({ behavior: "smooth", }) 
       }, 
     } 
   }, [ 
@@ -1346,8 +1358,6 @@ const BankTransferCard = async () =>
  
 const GallerySection = async () => 
   JustifiedRow([ 
-
-
     JustifiedColumn([ 
       
       HomeButton(),
@@ -1359,7 +1369,9 @@ const GallerySection = async () =>
     "w-full", "h-full", 
     `bg-[${COLOR_LIGHT}]`,
     "relative",
-  ]) 
+  ], {
+    role: "gallery-panel",
+  }) 
  
 const GalleryTitle = async () => 
   JustifiedRow([ 
@@ -1374,7 +1386,7 @@ const GallerySlideshow = async () =>
       (_, x) => SlideshowPicture(`./assets/images/slideshow/${x + 1}.jpg`) 
     ), 
   ], [ 
-    "gap-[15vw]", 
+    "gap-[30vw]", 
     "py-10", 
     "px-[40vw]", 
   ], { 
@@ -1396,7 +1408,9 @@ const SlideshowPicture = async (src = null) =>
         ], Math.round(Math.random() * 6) - 3), 
       ]), 
     ], ["w-full", "h-full"]), 
-  ]) 
+  ], [], { 
+    role: "slideshow-picture", 
+  }) 
  
 const HomeButton = async () => 
   h("a", { 
@@ -1476,7 +1490,7 @@ const JustifiedRow =
       ...classList, 
     ], { 
       role: "justified-row", 
-      ...dataAttributes, 
+      ...dataAttributes,
     }, attributes) 
  
 const JustifiedColumn = 
