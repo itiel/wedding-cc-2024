@@ -28,3 +28,18 @@
     transform: translateX(0);
   }
 }
+
+.animate-appear {
+  animation: 1.5s appear;
+}
+
+@keyframes appear {
+  from {
+    transform: translateY(10%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 100%;
+  }
+}

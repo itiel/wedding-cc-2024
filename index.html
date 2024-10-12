@@ -89,50 +89,105 @@ const MainPanel = async (children) =>
 // -- Intro Logo Section -- 
  
 const IntroLogoSection = async () => 
-  SectionWrapper([ 
+  JustifiedRow([ 
+    IntroPolaroid(), 
+ 
     JustifiedColumn([ 
+ 
       JustifiedRow([ 
         JustifiedColumn([ 
-          IntroLogo(), 
-          IntroStamp(), 
-        ], ["gap-16", "md:gap-12"]), 
+ 
+          JustifiedColumn([ 
+            IntroLogo(), 
+            IntroStamp(), 
+          ], [ 
+            "gap-20", "md:gap-12", 
+            "animate-appear" 
+          ]), 
+ 
+        ]), 
       ]), 
-    ], ["w-full", "h-full"]) 
-  ], COLOR_LIGHTEST) 
+ 
+    ], ["w-full", "h-full"]), 
+  ], [ 
+    "w-full", "h-full", 
+    `bg-[${COLOR_LIGHTEST}]`, 
+    "relative", 
+  ], {
+    role: "intro-panel",
+  }) 
  
 const IntroLogo = async () => 
   JustifiedRow([ 
-    h("img", { 
-      src: "./assets/images/logo.png", 
-      classList: [ 
-        "max-h-[50vh]", 
-      ], 
-    }), 
-  ], ["px-4"]) 
+    JustifiedColumn([ 
+ 
+      h("img", { 
+        src: "./assets/images/logo.png", 
+        classList: [ 
+          "max-h-[50vh]",  "max-w-[90vw]", 
+        ], 
+      }), 
+ 
+    ]), 
+  ]) 
  
 const IntroStamp = async () => 
   JustifiedRow([ 
-    h("img", { 
-      src: "./assets/images/stamp.png", 
-      classList: [ 
-        "opacity-70", 
-        "h-[25vw]", "max-h-[18vh]", 
-        "animate-breathe", 
-      ], 
-      on: { 
-        click: async () => { 
-          await document.documentElement.requestFullscreen() 
+    JustifiedColumn([ 
  
-          if (screen.orientation && screen.orientation.lock) 
-            try { 
-              await screen.orientation.lock("portrait") 
-            } catch (error) { 
-              console.error(error) 
-            } 
+      h("img", { 
+        src: "./assets/images/stamp.png", 
+        classList: [ 
+          "opacity-70", 
+          "max-w-[30vw]", "max-h-[20vh]", 
+          "animate-breathe", 
+        ], 
+        on: { 
+          click: async (e) => { 
+            e.preventDefault() 
+ 
+            await document.documentElement.requestFullscreen() 
+ 
+            if (screen.orientation && screen.orientation.lock) 
+              try { 
+                await screen.orientation.lock("portrait") 
+              } catch (error) { 
+                console.error(error) 
+              } 
+          } 
         } 
-      } 
+      }), 
+ 
+    ]), 
+  ]) 
+ 
+const IntroPolaroid = async () => 
+  h("a", { 
+    href: "#", 
+    classList: [ 
+      "absolute", 
+      "bottom-0", "right-0", 
+      "m-4", "sm:m-6", "md:m-10", 
+      "hover:scale-[1.1]", "active:scale-[1.1]", 
+    ], 
+    on: { 
+      click: async (e) => { 
+        e.preventDefault() 
+ 
+        const slideshow = await findByData({ role: "gallery-slideshow", }) 
+ 
+        slideshow.scrollIntoView({ behavior: "smooth", }) 
+      }, 
+    } 
+  }, [ 
+    h("img", { 
+      src: "./assets/images/polaroid.png", 
+      classList: [ 
+        "max-h-[30vh]", "max-w-[30vw]", 
+        "rotate-[2deg]", 
+      ], 
     }), 
-  ], ["px-4"]) 
+  ]) 
  
 // -- Intro Epilogue Section -- 
  
@@ -143,7 +198,7 @@ const IntroEpilogueSection = async () =>
         JustifiedColumn([ 
           IntroEpilogueTitle(), 
           IntroEpilogueParagraph(), 
-        ], ["gap-16", "md:gap-20"]), 
+        ], ["gap-14", "md:gap-16"]), 
       ]), 
     ], ["w-full", "h-full"]) 
   ], COLOR_LIGHTEST) 
@@ -161,16 +216,18 @@ const IntroEpilogueTitle = async () =>
  
 const IntroEpilogueParagraph = async () => 
   JustifiedRow([ 
-    h("span", { 
-      classList: [ 
-        "font-roboto", 
-        "text-center", 
-        "text-2xl", "md:text-3xl", 
-        "font-bold", 
-        `text-[${COLOR_MEDIUM_DARK}]`, 
-      ], 
-    }, [ 
-      "Únete a nosotros para celebrar el comienzo de nuestro camino juntos.", 
+    JustifiedColumn([ 
+      h("span", { 
+        classList: [ 
+          "font-roboto", 
+          "text-center", 
+          "text-2xl", "md:text-3xl", 
+          "font-bold", 
+          `text-[${COLOR_MEDIUM_DARK}]`, 
+        ], 
+      }, [ 
+        "Únete a nosotros para celebrar el comienzo de nuestro camino juntos.", 
+      ]), 
     ]), 
   ], ["px-8"]) 
  
@@ -872,20 +929,20 @@ const ReceptionEpilogueCard = async () =>
                 `text-[${COLOR_LIGHT}]`, 
               ]), 
  
-              JustifiedColumn([
+              JustifiedColumn([ 
                 Paragraph("Comida y bebida con moderación", [ 
                   "font-bold", 
                   "text-center", 
                   `text-[${COLOR_LIGHT}]`, 
                 ]), 
-
+ 
                 Paragraph("(1 Cor 10:31)", [ 
                   "font-bold", 
                   "text-center", 
                   `text-[${COLOR_LIGHT}]`, 
                 ]), 
-              ]),
-              
+              ]), 
+ 
               Paragraph("Costo Valet Parking: $50", [ 
                 "font-bold", 
                 "text-center", 
@@ -960,38 +1017,38 @@ const OnlineGiftOptionsCard = async () =>
       LightCard([ 
         JustifiedRow([ 
           JustifiedColumn([ 
-
-            JustifiedColumn([
-
-              JustifiedRow([
-                JustifiedColumn([
+ 
+            JustifiedColumn([ 
+ 
+              JustifiedRow([ 
+                JustifiedColumn([ 
                   JustifiedColumn([ 
                     Subtitle("En línea", [`text-[${COLOR_MEDIUM_DARK}]`]), 
-                  ]),
-                ]),
-              ]),
-
-              JustifiedRow([
-                JustifiedColumn([
-
-                  JustifiedRow([
-
-                    JustifiedRow([
-                      JustifiedColumn([
-
-                        JustifiedColumn([
-
-                          JustifiedColumn([
-
+                  ]), 
+                ]), 
+              ]), 
+ 
+              JustifiedRow([ 
+                JustifiedColumn([ 
+ 
+                  JustifiedRow([ 
+ 
+                    JustifiedRow([ 
+                      JustifiedColumn([ 
+ 
+                        JustifiedColumn([ 
+ 
+                          JustifiedColumn([ 
+ 
                             JustifiedRow([ 
                               JustifiedColumn([ 
-                                LiverpoolIcon([
+                                LiverpoolIcon([ 
                                   "h-14", "md:h-16", 
-                                  `text-[${COLOR_MEDIUM_DARK}]`,
+                                  `text-[${COLOR_MEDIUM_DARK}]`, 
                                   ]), 
                               ]), 
-                            ]),
-
+                            ]), 
+ 
                             JustifiedRow([ 
                               JustifiedColumn([ 
                                 h("span", { 
@@ -1005,12 +1062,12 @@ const OnlineGiftOptionsCard = async () =>
                                 }, ["Liverpool"]), 
                               ]), 
                             ]), 
-
-                          ], ["gap-3"]),
-
-                          JustifiedRow([
-                            JustifiedColumn([
-
+ 
+                          ], ["gap-3"]), 
+ 
+                          JustifiedRow([ 
+                            JustifiedColumn([ 
+ 
                               Link("Visitar", 
                                 "https://mesaderegalos.liverpool.com.mx/milistaderegalos/51537751", [ 
                                 `bg-[${COLOR_MEDIUM_LIGHT}]`, 
@@ -1021,31 +1078,31 @@ const OnlineGiftOptionsCard = async () =>
                                 "font-bold", 
                                 `text-[${COLOR_MEDIUM_DARK}]`, 
                               ]), 
-
-                            ]),
-                          ]),
-
-                        ], ["gap-3"]),
-
-                      ]),
-                    ]),
-
-                    JustifiedRow([
-                      JustifiedColumn([
-
-                        JustifiedColumn([
-
-                          JustifiedColumn([
-
+ 
+                            ]), 
+                          ]), 
+ 
+                        ], ["gap-3"]), 
+ 
+                      ]), 
+                    ]), 
+ 
+                    JustifiedRow([ 
+                      JustifiedColumn([ 
+ 
+                        JustifiedColumn([ 
+ 
+                          JustifiedColumn([ 
+ 
                             JustifiedRow([ 
                               JustifiedColumn([ 
-                                AmazonIcon([
+                                AmazonIcon([ 
                                   "h-14", "md:h-16", 
-                                  `text-[${COLOR_MEDIUM_DARK}]`,
+                                  `text-[${COLOR_MEDIUM_DARK}]`, 
                                 ]), 
                               ]), 
-                            ]),
-
+                            ]), 
+ 
                             JustifiedRow([ 
                               JustifiedColumn([ 
                                 h("span", { 
@@ -1059,12 +1116,12 @@ const OnlineGiftOptionsCard = async () =>
                                 }, ["Amazon"]), 
                               ]), 
                             ]), 
-
-                          ], ["gap-3"]),
-
-                          JustifiedRow([
-                            JustifiedColumn([
-
+ 
+                          ], ["gap-3"]), 
+ 
+                          JustifiedRow([ 
+                            JustifiedColumn([ 
+ 
                               Link("Visitar", 
                                 "https://www.amazon.com.mx/wedding/share/carlos-chelsea-2024", [ 
                                 `bg-[${COLOR_MEDIUM_LIGHT}]`, 
@@ -1075,28 +1132,28 @@ const OnlineGiftOptionsCard = async () =>
                                 "font-bold", 
                                 `text-[${COLOR_MEDIUM_DARK}]`, 
                               ]), 
-
-                            ]),
-                          ]),
-
-                        ], ["gap-3"]),
-
-                      ]),
-                    ]),
-
-                  ], ["gap-10"]),
-
-                ]),
-              ]),
-
-            ], ["gap-8"]),
-
+ 
+                            ]), 
+                          ]), 
+ 
+                        ], ["gap-3"]), 
+ 
+                      ]), 
+                    ]), 
+ 
+                  ], ["gap-10"]), 
+ 
+                ]), 
+              ]), 
+ 
+            ], ["gap-8"]), 
+ 
           ]), 
         ]), 
       ], 1), 
     ]), 
   ]) 
-
+ 
 const InPersonGiftCard = async () => 
   JustifiedRow([ 
     JustifiedColumn([ 
@@ -1104,7 +1161,7 @@ const InPersonGiftCard = async () =>
  
         JustifiedRow([ 
           JustifiedColumn([ 
-
+ 
             JustifiedRow([ 
               JustifiedColumn([ 
                 Subtitle("Presencial", [`text-[${COLOR_LIGHT}]`]), 
@@ -1287,11 +1344,20 @@ const BankTransferCard = async () =>
  
 const GallerySection = async () => 
   JustifiedRow([ 
+
+
     JustifiedColumn([ 
+      
+      HomeButton(),
+
       GalleryTitle(), 
       GallerySlideshow(), 
     ], ["w-full", "h-full"]), 
-  ], ["w-full", "h-full", `bg-[${COLOR_LIGHT}]`]) 
+  ], [
+    "w-full", "h-full", 
+    `bg-[${COLOR_LIGHT}]`,
+    "relative",
+  ]) 
  
 const GalleryTitle = async () => 
   JustifiedRow([ 
@@ -1303,8 +1369,8 @@ const GalleryTitle = async () =>
 const GallerySlideshow = async () => 
   HorizontalSlider([ 
     Array.from({ length: 14 }, 
-      (_, x) => SlideshowPicture(`./assets/images/slideshow/${x + 1}.jpg`)
-    ),
+      (_, x) => SlideshowPicture(`./assets/images/slideshow/${x + 1}.jpg`) 
+    ), 
   ], [ 
     "gap-[15vw]", 
     "py-10", 
@@ -1315,8 +1381,8 @@ const GallerySlideshow = async () =>
  
 const SlideshowPicture = async (src = null) => 
   SliderPanel([ 
-    JustifiedRow([
-      JustifiedColumn([
+    JustifiedRow([ 
+      JustifiedColumn([ 
         LightCard([ 
           h("img", { 
             src: src, 
@@ -1326,10 +1392,36 @@ const SlideshowPicture = async (src = null) =>
             ], 
           }), 
         ], Math.round(Math.random() * 6) - 3), 
-      ]),
-    ], ["w-full", "h-full"]),
+      ]), 
+    ], ["w-full", "h-full"]), 
   ]) 
  
+const HomeButton = async () => 
+  h("a", { 
+    href: "#", 
+    classList: [ 
+      "absolute", 
+      "top-0", "right-0", 
+      "m-4", "sm:m-6", "md:m-8", 
+      "hover:scale-[1.1]", "active:scale-[1.1]", 
+    ], 
+    on: { 
+      click: async (e) => { 
+        e.preventDefault() 
+ 
+        const introPanel = await findByData({ role: "intro-panel", }) 
+ 
+        introPanel.scrollIntoView({ behavior: "smooth", }) 
+      }, 
+    } 
+  }, [ 
+    HouseIcon([
+      "h-10", "md:h-12", 
+      `text-[${COLOR_MEDIUM_DARK}]`,
+      "opacity-70",
+    ]),
+  ]) 
+
 // -- Generics -- 
  
 const Wrapper = 
@@ -1542,6 +1634,20 @@ const Paragraph = async (content, classList = []) =>
   ]) 
  
 // -- Icons -- 
+ 
+const HouseIcon = (classList = []) => 
+  h("svg:svg", { 
+    fill: "currentColor", 
+    $viewBox: "0 0 16 16", 
+    classList: [...classList], 
+  }, [ 
+    h("svg:path", { 
+      d: "M7.293 1.5a1 1 0 0 1 1.414 0L11 3.793V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v3.293l2.354 2.353a.5.5 0 0 1-.708.707L8 2.207 1.354 8.853a.5.5 0 1 1-.708-.707z", 
+    }), 
+    h("svg:path", { 
+      d: "m14 9.293-6-6-6 6V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5zm-6-.811c1.664-1.673 5.825 1.254 0 5.018-5.825-3.764-1.664-6.691 0-5.018", 
+    }), 
+  ]) 
  
 const HeartsIcon = async (classList = []) => 
   h("svg:svg", { 
