@@ -30,7 +30,7 @@
 }
 
 .animate-appear {
-  animation: 1.5s appear;
+  animation: 2s appear;
 }
 
 @keyframes appear {
