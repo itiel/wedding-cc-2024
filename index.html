@@ -227,7 +227,7 @@ const IntroEpilogueParagraph = async () =>
           `text-[${COLOR_MEDIUM_DARK}]`, 
         ], 
       }, [ 
-        "Únete a nosotros para celebrar el comienzo de nuestro camino juntos.", 
+        "Acompáñanos a celebrar el inicio de nuestra unión.", 
       ]), 
     ]), 
   ], ["px-8"]) 
@@ -268,7 +268,7 @@ const DatePrologueParagraph = async () =>
         `text-[${COLOR_MEDIUM_DARK}]`, 
       ], 
     }, [ 
-      "Reserva la fecha para un día lleno de recuerdos inolvidables.", 
+      "Reserva la fecha para un día de recuerdos inolvidables.", 
     ]), 
   ], ["px-8"]) 
  
@@ -312,7 +312,7 @@ const DateCountdown = async () =>
       Title([ 
         async () => { 
           const days = await getRemainingDays("2024-12-07") 
-          return `Faltan ${days} días` 
+          return `Faltan ${days} días.` 
         }, 
       ], [`text-[${COLOR_MEDIUM_DARK}]`]), 
     ]), 
@@ -388,19 +388,19 @@ const AttendanceFormCard = async () =>
                   Subtitle("Confirma tu asistencia", [ 
                     `text-[${COLOR_LIGHT}]`, 
                   ]), 
-                  Subtitle("aquí mismo", [ 
+                  Subtitle("aquí mismo.", [ 
                     `text-[${COLOR_LIGHT}]`, 
                   ]), 
                 ]), 
               ]), 
  
               JustifiedColumn([ 
-                Paragraph("Fecha límite", [ 
+                Paragraph("Fecha límite:", [ 
                   "font-bold", 
                   "text-center", 
                   `text-[${COLOR_LIGHT}]`, 
                 ]), 
-                Paragraph("Octubre 23, 2024", [ 
+                Paragraph("Octubre 23, 2024.", [ 
                   "text-center", 
                   `text-[${COLOR_LIGHT}]`, 
                 ]), 
@@ -431,7 +431,7 @@ const AttendanceForm = async () =>
  
         const spinner = await SpinnerIcon([ 
           "h-14", "md:h-16", 
-          `text-[${COLOR_DARK}]`, 
+          `text-[${COLOR_LIGHT}]`, 
           "animate-spin", 
         ]) 
  
@@ -453,7 +453,7 @@ const AttendanceForm = async () =>
       JustifiedRow([ 
         h("input", { 
           type: "text", name: "name", 
-          placeholder: "Persona o Familia", 
+          placeholder: "Persona o Familia.", 
           required: true, 
           classList: [ 
             "w-full", 
@@ -488,7 +488,7 @@ const AttendanceForm = async () =>
                 `text-[${COLOR_LIGHT}]`, 
               ], 
             }, [ 
-              "Sí podré asistir", 
+              "Sí podré asistir.", 
             ]), 
           ]) 
         ], ["gap-3"]), 
@@ -520,7 +520,7 @@ const AttendanceForm = async () =>
 const AttendanceFormThanks = async () => 
   JustifiedRow([ 
     JustifiedColumn([ 
-      Subtitle("Gracias por responder", [ 
+      Subtitle("Gracias por responder.", [ 
         `text-[${COLOR_LIGHT}]` 
       ]), 
     ]), 
@@ -555,7 +555,7 @@ const AttendanceMessageCard = async () =>
                 Subtitle("O confirma", [ 
                   `text-[${COLOR_MEDIUM_DARK}]` 
                 ]), 
-                Subtitle("con un mensaje", [ 
+                Subtitle("con un mensaje.", [ 
                   `text-[${COLOR_MEDIUM_DARK}]` 
                 ]), 
               ]), 
@@ -699,12 +699,12 @@ const SpeechTimeCard = async () =>
         RowToColumn([ 
           JustifiedColumn([ 
             ClockIcon(["h-8", "md:h-10", `text-[${COLOR_MEDIUM_DARK}]`]), 
-            Subtitle("3:00 PM", [`text-[${COLOR_MEDIUM_DARK}]`]), 
+            Subtitle("3:00 PM.", [`text-[${COLOR_MEDIUM_DARK}]`]), 
           ], ["gap-1"]), 
  
           JustifiedColumn([ 
             BookIcon(["h-8", "md:h-10", `text-[${COLOR_MEDIUM_DARK}]`]), 
-            Subtitle("Discurso", [`text-[${COLOR_MEDIUM_DARK}]`]), 
+            Subtitle("Discurso.", [`text-[${COLOR_MEDIUM_DARK}]`]), 
           ], ["gap-1"]), 
         ], ["gap-5"]), 
       ], -1), 
@@ -799,11 +799,11 @@ const ReceptionTimeCard = async () =>
         RowToColumn([ 
           JustifiedColumn([ 
             ClockFillIcon(["h-8", "md:h-10", `text-[${COLOR_LIGHT}]`]), 
-            Subtitle("7:30 PM", [`text-[${COLOR_LIGHT}]`]), 
+            Subtitle("7:30 PM.", [`text-[${COLOR_LIGHT}]`]), 
           ], ["gap-1"]), 
           JustifiedColumn([ 
             ForkKnifeIcon(["h-10", "md:h-12", `text-[${COLOR_LIGHT}]`]), 
-            Subtitle("Recepción", [`text-[${COLOR_LIGHT}]`]), 
+            Subtitle("Recepción.", [`text-[${COLOR_LIGHT}]`]), 
           ], ["gap-1"]), 
         ], ["gap-5"]), 
       ], 1), 
@@ -903,7 +903,8 @@ const DressCodeCard = async () =>
           ]), 
           JustifiedRow([ 
             JustifiedColumn([ 
-              Subtitle("Vestimenta formal.", [`text-[${COLOR_MEDIUM_DARK}]`]), 
+              Subtitle("Vestimenta", [`text-[${COLOR_MEDIUM_DARK}]`]), 
+              Subtitle("formal.", [`text-[${COLOR_MEDIUM_DARK}]`]), 
             ]), 
           ]), 
         ], ["gap-5"]), 
@@ -924,7 +925,7 @@ const ReceptionEpilogueCard = async () =>
             ]), 
  
             JustifiedColumn([ 
-              Paragraph("Cena a tres tiempos", [ 
+              Paragraph("Cena a tres tiempos.", [ 
                 "font-bold", 
                 "text-center", 
                 `text-[${COLOR_LIGHT}]`, 
@@ -937,14 +938,14 @@ const ReceptionEpilogueCard = async () =>
                   `text-[${COLOR_LIGHT}]`, 
                 ]), 
  
-                Paragraph("(1 Cor 10:31)", [ 
+                Paragraph("(1 Cor 10:31).", [ 
                   "font-bold", 
                   "text-center", 
                   `text-[${COLOR_LIGHT}]`, 
                 ]), 
               ]), 
  
-              Paragraph("Costo Valet Parking: $50", [ 
+              Paragraph("Costo Valet Parking: $50.", [ 
                 "font-bold", 
                 "text-center", 
                 `text-[${COLOR_LIGHT}]`, 
@@ -1024,7 +1025,7 @@ const OnlineGiftOptionsCard = async () =>
               JustifiedRow([ 
                 JustifiedColumn([ 
                   JustifiedColumn([ 
-                    Subtitle("En línea", [`text-[${COLOR_MEDIUM_DARK}]`]), 
+                    Subtitle("En línea.", [`text-[${COLOR_MEDIUM_DARK}]`]), 
                   ]), 
                 ]), 
               ]), 
@@ -1165,7 +1166,7 @@ const InPersonGiftCard = async () =>
  
             JustifiedRow([ 
               JustifiedColumn([ 
-                Subtitle("Presencial", [`text-[${COLOR_LIGHT}]`]), 
+                Subtitle("Presencial.", [`text-[${COLOR_LIGHT}]`]), 
               ]), 
             ]), 
  
@@ -1208,7 +1209,7 @@ const BankTransferCard = async () =>
  
               JustifiedRow([ 
                 JustifiedColumn([ 
-                  Subtitle("Transferencia", [`text-[${COLOR_MEDIUM_DARK}]`]), 
+                  Subtitle("Transferencia.", [`text-[${COLOR_MEDIUM_DARK}]`]), 
                 ]), 
               ]), 
  
@@ -1218,14 +1219,14 @@ const BankTransferCard = async () =>
           JustifiedRow([ 
             JustifiedColumn([ 
               JustifiedColumn([ 
-                Paragraph("Institución", 
+                Paragraph("Institución:", 
                   ["font-bold", `text-[${COLOR_MEDIUM_DARK}]`]), 
                 Paragraph("STP", 
                   [`text-[${COLOR_MEDIUM_DARK}]`]), 
               ]), 
  
               JustifiedColumn([ 
-                Paragraph("Titular", 
+                Paragraph("Titular:", 
                   ["font-bold", `text-[${COLOR_MEDIUM_DARK}]`]), 
                 Paragraph("CARLOS ITIEL LOPEZ ESPINOZA", 
                   [`text-[${COLOR_MEDIUM_DARK}]`]), 
@@ -1235,7 +1236,7 @@ const BankTransferCard = async () =>
                 Row([ 
                   JustifiedRow([ 
                     JustifiedColumn([ 
-                      Paragraph("No. de Tarjeta", [ 
+                      Paragraph("No. de Tarjeta:", [ 
                         "text-left", 
                         "font-bold", 
                         `text-[${COLOR_MEDIUM_DARK}]`, 
@@ -1287,7 +1288,7 @@ const BankTransferCard = async () =>
                 Row([ 
                   JustifiedRow([ 
                     JustifiedColumn([ 
-                      Paragraph("CLABE", [ 
+                      Paragraph("CLABE:", [ 
                         "text-left", 
                         "font-bold", 
                         `text-[${COLOR_MEDIUM_DARK}]`, 
