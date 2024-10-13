@@ -39,30 +39,25 @@ const COLOR_DARKEST = "#704f2c"
 const main = async () => { 
   await append(App()) 
  
-  const observer = new IntersectionObserver((entries, observer) => { 
+  const galleryObserver = new IntersectionObserver((entries, observer) => { 
     entries.forEach(async entry => { 
       if (entry.isIntersecting) { 
+        const slideshow = await findByData({ 
+          role: "gallery-slideshow", 
+        }) 
+
+        setTimeout(() => {
+          slideshow.classList.add("animate-swipe-left")
+        }, 0)
+
         observer.unobserve(entry.target) 
-
-        const slideshow = await findByData({ role: "gallery-slideshow", }) 
-        const pictures = await findAllByData({ role: "slideshow-picture", }, slideshow)
-
-        if (pictures.length > 2) 
-          setTimeout(() => {
-            pictures[2].scrollIntoView({ behavior: "smooth", })
-
-            setTimeout(() => {
-              pictures[0].scrollIntoView({ behavior: "smooth", })
-            }, 1000)
-          }, 0)
       } 
     }) 
   }, { 
     threshold: 1.0, 
   }) 
  
-  const gallery = await findByData({ role: "gallery-panel", }) 
-  observer.observe(gallery) 
+  galleryObserver.observe(await findByData({ role: "gallery-panel", })) 
 } 
  
 // -- App -- 
@@ -1017,8 +1012,8 @@ const GiftRegistryOptionsSection = async () =>
       JustifiedRow([ 
         JustifiedColumn([ 
           ColumnToRow([ 
-            OnlineGiftOptionsCard(), 
             InPersonGiftCard(), 
+            OnlineGiftOptionsCard(), 
           ], ["gap-12", "md:gap-16"]) 
         ]) 
       ], ["px-4"]), 
@@ -1037,7 +1032,7 @@ const OnlineGiftOptionsCard = async () =>
               JustifiedRow([ 
                 JustifiedColumn([ 
                   JustifiedColumn([ 
-                    Subtitle("En línea.", [`text-[${COLOR_MEDIUM_DARK}]`]), 
+                    Subtitle("O en línea.", [`text-[${COLOR_MEDIUM_DARK}]`]), 
                   ]), 
                 ]), 
               ]), 
@@ -1381,17 +1376,26 @@ const GalleryTitle = async () =>
   ], ["px-4"]) 
  
 const GallerySlideshow = async () => 
-  HorizontalSlider([ 
-    Array.from({ length: 14 }, 
-      (_, x) => SlideshowPicture(`./assets/images/slideshow/${x + 1}.jpg`) 
-    ), 
-  ], [ 
-    "gap-[30vw]", 
-    "py-10", 
-    "px-[40vw]", 
-  ], { 
-    role: "gallery-slideshow", 
-  }) 
+  Column([
+    HorizontalSlider([ 
+      Array.from({ 
+        length: 14 
+      }, (_, n) => SlideshowPicture(`./assets/images/slideshow/${n + 1}.jpg`))
+    ], [
+      "w-[250vw]", 
+      "gap-[20vw]", 
+      "py-10", 
+      "px-[100vw]", 
+    ], { 
+      role: "gallery-slideshow", 
+    }), 
+  ], [
+    "w-[100vw]",
+    "items-center",
+    "overflow-hidden"
+  ], {
+    role: "gallery-wrapper",
+  })
  
 const SlideshowPicture = async (src = null) => 
   SliderPanel([ 

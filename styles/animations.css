@@ -27,3 +27,19 @@
     opacity: 100%;
   }
 }
+
+.animate-swipe-left {
+  animation: 1s swipe-left cubic-bezier(0.65, 0.05, 0.36, 1);
+}
+
+@keyframes swipe-left {
+  0% {
+    transform: translateX(0%);
+  }
+  50% {
+    transform: translateX(-30%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
