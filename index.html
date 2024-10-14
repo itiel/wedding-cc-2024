@@ -990,17 +990,30 @@ const GiftRegistryPrologueTitle = async () =>
   ], ["px-4"]) 
  
 const GiftRegistryPrologueParagraph = async () => 
-  JustifiedRow([ 
-    h("span", { 
-      classList: [ 
-        "font-roboto", 
-        "text-center", 
-        "text-2xl", "md:text-3xl", 
-        "font-bold", 
-        `text-[${COLOR_MEDIUM_DARK}]`, 
-      ], 
-    }, [ 
-      "Tu presencia es el mejor regalo. Si quisieras contribuir de otras formas, aquí hay algunas ideas sin compromiso.", 
+  JustifiedRow([
+    JustifiedColumn([
+      h("span", { 
+        classList: [ 
+          "font-roboto", 
+          "text-center", 
+          "text-2xl", "md:text-3xl", 
+          "font-bold", 
+          `text-[${COLOR_MEDIUM_DARK}]`, 
+        ], 
+      }, [ 
+        "Tu compañía es el regalo más valioso.", 
+      ]),
+      h("span", { 
+        classList: [ 
+          "font-roboto", 
+          "text-center", 
+          "text-2xl", "md:text-3xl", 
+          "font-bold", 
+          `text-[${COLOR_MEDIUM_DARK}]`, 
+        ], 
+      }, [ 
+        "Si quisieras contribuir de otras maneras, aquí hay algunas ideas, sin obligación.", 
+      ]), 
     ]), 
   ], ["px-8"]) 
  
@@ -1379,7 +1392,7 @@ const GallerySlideshow = async () =>
   Column([
     HorizontalSlider([ 
       Array.from({ 
-        length: 14 
+        length: 14, 
       }, (_, n) => SlideshowPicture(`./assets/images/slideshow/${n + 1}.jpg`))
     ], [
       "w-[250vw]", 
