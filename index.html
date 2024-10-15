@@ -310,8 +310,15 @@ const DateCountdown = async () =>
     JustifiedColumn([ 
       Title([ 
         async () => { 
-          const days = await getRemainingDays("2024-12-07") 
-          return `Faltan ${days} días.` 
+          const remainingDays = await getRemainingDays("2024-12-07") 
+ 
+          if (remainingDays > 0) 
+            if (remainingDays > 1) 
+              return `Faltan ${remainingDays} días.` 
+            else 
+              return `Faltan ${remainingDays} día.` 
+          else 
+            return `¡El día llegó!` 
         }, 
       ], [`text-[${COLOR_MEDIUM_DARK}]`]), 
     ]), 
