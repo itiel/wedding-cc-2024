@@ -193,6 +193,7 @@ const IntroPolaroid = async () =>
       src: "./assets/images/polaroid.png", 
       classList: [ 
         "max-h-[30vh]", "max-w-[30vw]", 
+        "rotate-[3deg]",
         "animate-wiggle",
       ], 
     }), 
@@ -226,16 +227,11 @@ const IntroEpilogueTitle = async () =>
 const IntroEpilogueParagraph = async () => 
   JustifiedRow([ 
     JustifiedColumn([ 
-      h("span", { 
-        classList: [ 
-          "font-roboto", 
-          "text-center", 
-          "text-2xl", "md:text-3xl", 
-          "font-bold", 
-          `text-[${COLOR_MEDIUM_DARK}]`, 
-        ], 
-      }, [ 
-        "Acompáñanos a celebrar el inicio de nuestra unión.", 
+      Span("Acompáñanos a celebrar el inicio de nuestra unión.", [ 
+        "text-center", 
+        "text-2xl", "md:text-3xl", 
+        "font-bold", 
+        `text-[${COLOR_MEDIUM_DARK}]`, 
       ]), 
     ]), 
   ], ["px-8"]) 
@@ -267,16 +263,11 @@ const DatePrologueTitle = async () =>
  
 const DatePrologueParagraph = async () => 
   JustifiedRow([ 
-    h("span", { 
-      classList: [ 
-        "font-roboto", 
-        "text-center", 
-        "text-2xl", "md:text-3xl", 
-        "font-bold", 
-        `text-[${COLOR_MEDIUM_DARK}]`, 
-      ], 
-    }, [ 
-      "Reserva la fecha para un día de recuerdos inolvidables.", 
+    Span("Reserva la fecha para un día de recuerdos inolvidables.", [ 
+      "text-center", 
+      "text-2xl", "md:text-3xl", 
+      "font-bold", 
+      `text-[${COLOR_MEDIUM_DARK}]`, 
     ]), 
   ], ["px-8"]) 
  
@@ -353,16 +344,11 @@ const AttendancePrologueTitle = async () =>
  
 const AttendancePrologueParagraph = async () => 
   JustifiedRow([ 
-    h("span", { 
-      classList: [ 
-        "font-roboto", 
-        "text-center", 
-        "text-2xl", "md:text-3xl", 
-        "font-bold", 
-        `text-[${COLOR_MEDIUM_DARK}]`, 
-      ], 
-    }, [ 
-      "Por favor, confírmanos si podrás acompañarnos en este día tan especial.", 
+    Span("Por favor, confírmanos si podrás acompañarnos en este día tan especial.", [ 
+      "text-center", 
+      "text-2xl", "md:text-3xl", 
+      "font-bold", 
+      `text-[${COLOR_MEDIUM_DARK}]`, 
     ]), 
   ], ["px-8"]) 
  
@@ -487,14 +473,9 @@ const AttendanceForm = async () =>
             h("label", { 
               for: "attendance-yes", 
             }, [ 
-              h("span", { 
-                classList: [ 
-                  "text-[1.3rem]", 
-                  "font-roboto", 
-                  `text-[${COLOR_LIGHT}]`, 
-                ], 
-              }, [ 
-                "Sí asistiré.", 
+              Span("Sí asistiré.", [ 
+                "text-[1.3rem]", 
+                `text-[${COLOR_LIGHT}]`, 
               ]), 
             ]) 
           ], ["gap-3"]), 
@@ -512,14 +493,9 @@ const AttendanceForm = async () =>
             h("label", { 
               for: "attendance-no", 
             }, [ 
-              h("span", { 
-                classList: [ 
-                  "text-[1.3rem]", 
-                  "font-roboto", 
-                  `text-[${COLOR_LIGHT}]`, 
-                ], 
-              }, [ 
-                "No asistiré.", 
+              Span("No asistiré.", [ 
+                "text-[1.3rem]", 
+                `text-[${COLOR_LIGHT}]`, 
               ]), 
             ]) 
           ], ["gap-3"]), 
@@ -538,14 +514,10 @@ const AttendanceForm = async () =>
             "p-2", 
           ] 
         }, [ 
-          h("span", { 
-            classList: [ 
-              "text-[1.3rem]", 
-              "font-roboto", "font-bold", 
-              `text-[${COLOR_MEDIUM_DARK}]`, 
-            ], 
-          }, [ 
-            "Siguiente", 
+          Span("Siguiente", [ 
+            "text-[1.3rem]", 
+            "font-bold", 
+            `text-[${COLOR_MEDIUM_DARK}]`, 
           ]), 
         ]) 
       ]), 
@@ -639,14 +611,10 @@ const AttendanceConfirmationForm = async (name, attendance) =>
                 "p-2", 
               ] 
             }, [ 
-              h("span", { 
-                classList: [ 
-                  "text-[1.3rem]", 
-                  "font-roboto", "font-bold", 
-                  `text-[${COLOR_MEDIUM_DARK}]`, 
-                ], 
-              }, [ 
-                "Regresar", 
+              Span("Regresar", [ 
+                "text-[1.3rem]", 
+                "font-bold", 
+                `text-[${COLOR_MEDIUM_DARK}]`, 
               ]), 
             ]),
 
@@ -661,14 +629,10 @@ const AttendanceConfirmationForm = async (name, attendance) =>
                 "animate-jump",
               ] 
             }, [ 
-              h("span", { 
-                classList: [ 
-                  "text-[1.3rem]", 
-                  "font-roboto", "font-bold", 
-                  `text-[${COLOR_MEDIUM_DARK}]`, 
-                ], 
-              }, [ 
-                "Enviar", 
+              Span("Enviar", [ 
+                "text-[1.3rem]", 
+                "font-bold", 
+                `text-[${COLOR_MEDIUM_DARK}]`, 
               ]), 
             ]),
 
@@ -754,19 +718,13 @@ const AttendanceMessageCard = async () =>
  
                   JustifiedRow([ 
                     JustifiedColumn([ 
-                      h("span", { 
-                        classList: [
-                          "font-roboto",
-                          "font-bold",
-                          "text-[1.4rem]",
-                        ], 
-                      }, ["Carlos López."]), 
-                      h("span", { 
-                        classList: [
-                          "font-roboto",
-                          "text-[1.1rem]",
-                        ], 
-                      }, ["(+52) 811-222-3642"]), 
+                      Span("Carlos López.", [
+                        "font-bold",
+                        "text-[1.4rem]",
+                      ]), 
+                      Span("(+52) 811-222-3642", [
+                        "text-[1.1rem]",
+                      ]), 
                     ]), 
                   ]), 
                 ], ["gap-4", "justify-around"]), 
@@ -793,19 +751,13 @@ const AttendanceMessageCard = async () =>
  
                   JustifiedRow([ 
                     JustifiedColumn([ 
-                      h("span", { 
-                        classList: [
-                          "font-roboto",
-                          "font-bold",
-                          "text-[1.4rem]",
-                        ], 
-                      }, ["Chelsea Cervantes."]), 
-                      h("span", { 
-                        classList: [
-                          "font-roboto",
-                          "text-[1.2rem]",
-                        ], 
-                      }, ["(+52) 812-627-1626"]), 
+                      Span("Chelsea Cervantes.", [
+                        "font-bold",
+                        "text-[1.4rem]",
+                      ]), 
+                      Span("(+52) 812-627-1626", [
+                        "text-[1.2rem]",
+                      ]), 
                     ]), 
                   ]), 
                 ], ["gap-4", "justify-around"]), 
@@ -846,16 +798,11 @@ const ItineraryPrologueTitle = async () =>
  
 const ItineraryPrologueParagraph = async () => 
   JustifiedRow([ 
-    h("span", { 
-      classList: [ 
-        "font-roboto", 
-        "text-center", 
-        "text-2xl", "md:text-3xl", 
-        "font-bold", 
-        `text-[${COLOR_LIGHTEST}]`, 
-      ], 
-    }, [ 
-      "Aquí tienes un adelanto de cómo se desarrollará el gran día.", 
+    Span("Aquí tienes un adelanto de cómo se desarrollará el gran día.", [ 
+      "text-center", 
+      "text-2xl", "md:text-3xl", 
+      "font-bold", 
+      `text-[${COLOR_LIGHTEST}]`, 
     ]), 
   ], ["px-8"]) 
  
@@ -1176,27 +1123,17 @@ const GiftRegistryPrologueTitle = async () =>
 const GiftRegistryPrologueParagraph = async () => 
   JustifiedRow([
     JustifiedColumn([
-      h("span", { 
-        classList: [ 
-          "font-roboto", 
-          "text-center", 
-          "text-2xl", "md:text-3xl", 
-          "font-bold", 
-          `text-[${COLOR_MEDIUM_DARK}]`, 
-        ], 
-      }, [ 
-        "Tu compañía es el regalo más valioso.", 
+      Span("Tu compañía es el regalo más valioso.", [ 
+        "text-center", 
+        "text-2xl", "md:text-3xl", 
+        "font-bold", 
+        `text-[${COLOR_MEDIUM_DARK}]`, 
       ]),
-      h("span", { 
-        classList: [ 
-          "font-roboto", 
-          "text-center", 
-          "text-2xl", "md:text-3xl", 
-          "font-bold", 
-          `text-[${COLOR_MEDIUM_DARK}]`, 
-        ], 
-      }, [ 
-        "Si quisieras contribuir de otras maneras, aquí hay algunas ideas, sin compromiso.", 
+      Span("Si quisieras contribuir de otras maneras, aquí hay algunas ideas, sin compromiso.", [ 
+        "text-center", 
+        "text-2xl", "md:text-3xl", 
+        "font-bold", 
+        `text-[${COLOR_MEDIUM_DARK}]`, 
       ]), 
     ]), 
   ], ["px-8"]) 
@@ -1257,15 +1194,12 @@ const OnlineGiftOptionsCard = async () =>
  
                             JustifiedRow([ 
                               JustifiedColumn([ 
-                                h("span", { 
-                                  classList: [ 
-                                    "font-roboto", 
-                                    "text-center", 
-                                    "text-[1.3rem]", "md:text-[1.4rem]", 
-                                    "font-bold", 
-                                    `text-[${COLOR_MEDIUM_DARK}]`, 
-                                  ], 
-                                }, ["Liverpool"]), 
+                                Span("Liverpool", [ 
+                                  "text-center", 
+                                  "text-[1.3rem]", "md:text-[1.4rem]", 
+                                  "font-bold", 
+                                  `text-[${COLOR_MEDIUM_DARK}]`, 
+                                ]), 
                               ]), 
                             ]), 
  
@@ -1311,15 +1245,13 @@ const OnlineGiftOptionsCard = async () =>
  
                             JustifiedRow([ 
                               JustifiedColumn([ 
-                                h("span", { 
-                                  classList: [ 
-                                    "font-roboto", 
-                                    "text-center", 
-                                    "text-[1.3rem]", "md:text-[1.4rem]", 
-                                    "font-bold", 
-                                    `text-[${COLOR_MEDIUM_DARK}]`, 
-                                  ], 
-                                }, ["Amazon"]), 
+                                Span("Amazon", [ 
+                                  "font-roboto", 
+                                  "text-center", 
+                                  "text-[1.3rem]", "md:text-[1.4rem]", 
+                                  "font-bold", 
+                                  `text-[${COLOR_MEDIUM_DARK}]`, 
+                                ]), 
                               ]), 
                             ]), 
  
@@ -1574,16 +1506,11 @@ const FarewellTitle = async () =>
 const FarewellParagraph = async () => 
   JustifiedRow([
     JustifiedColumn([
-      h("span", { 
-        classList: [ 
-          "font-roboto", 
-          "text-center", 
-          "text-2xl", "md:text-3xl", 
-          "font-bold", 
-          `text-[${COLOR_MEDIUM_DARK}]`, 
-        ], 
-      }, [ 
-        "Esperamos con emoción poder compartir ese día especial contigo.", 
+      Span("Esperamos con emoción poder compartir ese día especial contigo.", [ 
+        "text-center", 
+        "text-2xl", "md:text-3xl", 
+        "font-bold", 
+        `text-[${COLOR_MEDIUM_DARK}]`, 
       ]),
     ]), 
   ], ["px-8"]) 
@@ -1882,16 +1809,30 @@ const Link =
       ...attributes, 
     }, [children]) 
  
-const Paragraph = async (content, classList = []) => 
-  h("p", { 
-    classList: [ 
-      "font-roboto", 
-      "text-lg", "md:text-xl", 
-      ...classList, 
-    ], 
-  }, [ 
-    content, 
-  ]) 
+const Paragraph = 
+  async (children, classList = [], dataAttributes = {}, attributes = {}) => 
+    h("p", { 
+      dataSet: { 
+        role: "paragraph", 
+        ...dataAttributes, 
+      }, classList: [ 
+        "font-roboto", 
+        "text-lg", "md:text-xl", 
+        ...classList, 
+      ], ...attributes,
+    }, [children]) 
+
+const Span = 
+  async (children, classList = [], dataAttributes = {}, attributes = {}) => 
+    h("span", { 
+      dataSet: { 
+        role: "span", 
+        ...dataAttributes, 
+      }, classList: [ 
+        "font-roboto", 
+        ...classList, 
+      ], ...attributes,
+    }, [children]) 
  
 // -- Icons -- 
 
