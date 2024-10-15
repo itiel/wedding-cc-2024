@@ -4,11 +4,11 @@
 
 @keyframes breathe {
   from {
-    transform: scale(100%);
+    transform: scale(90%);
     opacity: 0%;
   }
   to {
-    transform: scale(110%);
+    transform: scale(115%);
     opacity: 100%;
   }
 }
