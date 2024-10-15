@@ -22,7 +22,7 @@ import {
   replaceNode as replace, 
   appendChildren as append, 
   findByData, 
-  findAllByData,
+  findAllByData, 
 } from "./scripts/compose.js" 
  
 // -- Constants -- 
@@ -45,11 +45,11 @@ const main = async () => {
         const slideshow = await findByData({ 
           role: "gallery-slideshow", 
         }) 
-
-        setTimeout(() => {
-          slideshow.classList.add("animate-swipe-left")
-        }, 0)
-
+ 
+        setTimeout(() => { 
+          slideshow.classList.add("animate-swipe-left") 
+        }, 0) 
+ 
         observer.unobserve(entry.target) 
       } 
     }) 
@@ -121,8 +121,8 @@ const IntroLogoSection = async () =>
     "w-full", "h-full", 
     `bg-[${COLOR_LIGHTEST}]`, 
     "relative", 
-  ], {
-    role: "intro-panel",
+  ], { 
+    role: "intro-panel", 
   }) 
  
 const IntroLogo = async () => 
@@ -177,7 +177,7 @@ const IntroPolaroid = async () =>
       "bottom-0", "right-0", 
       "m-4", "sm:m-6", "md:m-10", 
       "hover:scale-[1.1]", "active:scale-[1.1]", 
-      "animate-appear",
+      "animate-appear", 
     ], 
     on: { 
       click: async (e) => { 
@@ -193,8 +193,8 @@ const IntroPolaroid = async () =>
       src: "./assets/images/polaroid.png", 
       classList: [ 
         "max-h-[30vh]", "max-w-[30vw]", 
-        "rotate-[3deg]",
-        "animate-wiggle",
+        "rotate-[3deg]", 
+        "animate-wiggle", 
       ], 
     }), 
   ]) 
@@ -419,21 +419,21 @@ const AttendanceForm = async () =>
         e.preventDefault() 
  
         const name = e.target.elements.name.value 
-        const attendance = e.target.elements.attendance.value
-
+        const attendance = e.target.elements.attendance.value 
+ 
         const spinner = await SpinnerIcon([ 
           "h-14", "md:h-16", 
           `text-[${COLOR_LIGHT}]`, 
           "animate-spin", 
         ]) 
-
-        await replace(self, spinner)
-
-        setTimeout(async () => {
-          const confirmationForm = await AttendanceConfirmationForm(name, attendance)
-          await replace(spinner, confirmationForm)
-          confirmationForm.elements.submit.focus()
-        }, 300)
+ 
+        await replace(self, spinner) 
+ 
+        setTimeout(async () => { 
+          const confirmationForm = await AttendanceConfirmationForm(name, attendance) 
+          await replace(spinner, confirmationForm) 
+          confirmationForm.elements.submit.focus() 
+        }, 300) 
       } 
     }) 
   }, [ 
@@ -455,16 +455,16 @@ const AttendanceForm = async () =>
           ], 
         }) 
       ]), 
-
-      JustifiedRow([
-
+ 
+      JustifiedRow([ 
+ 
         JustifiedColumn([ 
           JustifiedRow([ 
             h("input", { 
               name: "attendance", 
               id: "attendance-yes", 
               type: "radio", 
-              value: "TRUE",
+              value: "TRUE", 
               checked: true, 
               classList: [ 
                 "w-5", 
@@ -479,13 +479,13 @@ const AttendanceForm = async () =>
               ]), 
             ]) 
           ], ["gap-3"]), 
-
+ 
           JustifiedRow([ 
             h("input", { 
               name: "attendance", 
               id: "attendance-no", 
               type: "radio", 
-              value: "FALSE",
+              value: "FALSE", 
               classList: [ 
                 "w-5", 
               ], 
@@ -499,11 +499,11 @@ const AttendanceForm = async () =>
               ]), 
             ]) 
           ], ["gap-3"]), 
-
+ 
         ]), 
-
-      ]),
-
+ 
+      ]), 
+ 
       JustifiedRow([ 
         h("button", { 
           type: "submit", 
@@ -524,7 +524,7 @@ const AttendanceForm = async () =>
     ], ["gap-2"]), 
   ]) 
  
-
+ 
 const AttendanceConfirmationForm = async (name, attendance) => 
   h("form", { 
     dataSet: { role: "attendance-confirmation-form", }, 
@@ -540,70 +540,70 @@ const AttendanceConfirmationForm = async (name, attendance) =>
         ]) 
  
         await replace(self, spinner) 
-
-        setTimeout(async () => {
+ 
+        setTimeout(async () => { 
           const [error, data] = await postAttendance(name, attendance) 
           if (!error) 
             await replace(spinner, await AttendanceThankyouMessage()) 
           else 
             await replace(spinner, await AttendanceErrorMessage()) 
-        }, 300)
+        }, 300) 
       }, 
-
+ 
       reset: async (e) => { 
         e.preventDefault() 
-
+ 
         const spinner = await SpinnerIcon([ 
           "h-14", "md:h-16", 
           `text-[${COLOR_LIGHT}]`, 
           "animate-spin", 
         ]) 
-
-        await replace(self, spinner)
-
-        setTimeout(async () => {
+ 
+        await replace(self, spinner) 
+ 
+        setTimeout(async () => { 
           const attendanceForm = await AttendanceForm() 
           await replace(spinner, attendanceForm) 
-          attendanceForm.elements.name.focus()
-        }, 300)
+          attendanceForm.elements.name.focus() 
+        }, 300) 
       } 
     }) 
   }, [ 
     JustifiedColumn([ 
-
-      JustifiedRow([
+ 
+      JustifiedRow([ 
         JustifiedColumn([ 
           Subtitle("Confirma los datos.", 
             [`text-[${COLOR_LIGHT}]`]), 
         ]), 
-      ]),
-      
+      ]), 
+ 
       JustifiedColumn([ 
         Paragraph("Nombre/Familia:", 
           ["font-bold", `text-[${COLOR_LIGHT}]`]), 
         Paragraph(name, 
           [`text-[${COLOR_LIGHT}]`]), 
       ]), 
-    
+ 
       JustifiedColumn([ 
         Paragraph("Respuesta:", 
           ["font-bold", `text-[${COLOR_LIGHT}]`]), 
-        Paragraph([
+        Paragraph([ 
           (attendance.toLowerCase() === "true") ? 
-            "Sí asistiré." :
+            "Sí asistiré." : 
             "No asistiré." 
         ], [`text-[${COLOR_LIGHT}]`]), 
       ]), 
-
-
+ 
+ 
       JustifiedRow([ 
-        JustifiedColumn([
-
-          JustifiedRow([
-
+        JustifiedColumn([ 
+ 
+          JustifiedRow([ 
+ 
             h("button", { 
-              name: "cancel",
-              type: "reset",
+              name: "cancel", 
+              type: "reset", 
               classList: [ 
                 `bg-[${COLOR_LIGHT}]`, 
                 "opacity-100", "hover:opacity-90", "active:opacity-80", 
@@ -616,17 +616,17 @@ const AttendanceConfirmationForm = async (name, attendance) =>
                 "font-bold", 
                 `text-[${COLOR_MEDIUM_DARK}]`, 
               ]), 
-            ]),
-
+            ]), 
+ 
             h("button", { 
-              name: "submit",
+              name: "submit", 
               type: "submit", 
               classList: [ 
                 `bg-[${COLOR_LIGHT}]`, 
                 "opacity-100", "hover:opacity-90", "active:opacity-80", 
                 "hover:scale-[1.02]", "active:scale-[1.02]", 
                 "p-2", 
-                "animate-jump",
+                "animate-jump", 
               ] 
             }, [ 
               Span("Enviar", [ 
@@ -634,11 +634,11 @@ const AttendanceConfirmationForm = async (name, attendance) =>
                 "font-bold", 
                 `text-[${COLOR_MEDIUM_DARK}]`, 
               ]), 
-            ]),
-
-          ], ["gap-3"]),
-
-        ]),
+            ]), 
+ 
+          ], ["gap-3"]), 
+ 
+        ]), 
       ]), 
     ], ["gap-4"]), 
   ]) 
@@ -651,7 +651,7 @@ const AttendanceThankyouMessage = async () =>
       ]), 
     ]), 
   ]) 
-
+ 
 const AttendanceErrorMessage = async () => 
   JustifiedRow([ 
     JustifiedColumn([ 
@@ -718,18 +718,18 @@ const AttendanceMessageCard = async () =>
  
                   JustifiedRow([ 
                     JustifiedColumn([ 
-                      Span("Carlos López.", [
-                        "font-bold",
-                        "text-[1.4rem]",
+                      Span("Carlos López.", [ 
+                        "font-bold", 
+                        "text-[1.4rem]", 
                       ]), 
-                      Span("(+52) 811-222-3642", [
-                        "text-[1.1rem]",
+                      Span("(+52) 811-222-3642", [ 
+                        "text-[1.1rem]", 
                       ]), 
                     ]), 
                   ]), 
                 ], ["gap-4", "justify-around"]), 
-              ]),
-
+              ]), 
+ 
               h("a", { 
                 href: "https://wa.me/qr/WNLUZI5D727TA1", 
                 target: "_blank", 
@@ -751,12 +751,12 @@ const AttendanceMessageCard = async () =>
  
                   JustifiedRow([ 
                     JustifiedColumn([ 
-                      Span("Chelsea Cervantes.", [
-                        "font-bold",
-                        "text-[1.4rem]",
+                      Span("Chelsea Cervantes.", [ 
+                        "font-bold", 
+                        "text-[1.4rem]", 
                       ]), 
-                      Span("(+52) 812-627-1626", [
-                        "text-[1.2rem]",
+                      Span("(+52) 812-627-1626", [ 
+                        "text-[1.2rem]", 
                       ]), 
                     ]), 
                   ]), 
@@ -1121,14 +1121,14 @@ const GiftRegistryPrologueTitle = async () =>
   ], ["px-4"]) 
  
 const GiftRegistryPrologueParagraph = async () => 
-  JustifiedRow([
-    JustifiedColumn([
+  JustifiedRow([ 
+    JustifiedColumn([ 
       Span("Tu compañía es el regalo más valioso.", [ 
         "text-center", 
         "text-2xl", "md:text-3xl", 
         "font-bold", 
         `text-[${COLOR_MEDIUM_DARK}]`, 
-      ]),
+      ]), 
       Span("Si quisieras contribuir de otras maneras, aquí hay algunas ideas, sin compromiso.", [ 
         "text-center", 
         "text-2xl", "md:text-3xl", 
@@ -1477,9 +1477,9 @@ const BankTransferCard = async () =>
       ], -1), 
     ]), 
   ], ["px-4"]) 
-
-// -- Farewell Section --
-
+ 
+// -- Farewell Section -- 
+ 
 const FarewellSection = async () => 
   SectionWrapper([ 
     JustifiedColumn([ 
@@ -1504,35 +1504,35 @@ const FarewellTitle = async () =>
   ], ["px-4"]) 
  
 const FarewellParagraph = async () => 
-  JustifiedRow([
-    JustifiedColumn([
+  JustifiedRow([ 
+    JustifiedColumn([ 
       Span("Esperamos con emoción poder compartir ese día especial contigo.", [ 
         "text-center", 
         "text-2xl", "md:text-3xl", 
         "font-bold", 
         `text-[${COLOR_MEDIUM_DARK}]`, 
-      ]),
+      ]), 
     ]), 
   ], ["px-8"]) 
-
+ 
  
 // -- Gallery Section -- 
  
 const GallerySection = async () => 
   JustifiedRow([ 
     JustifiedColumn([ 
-      
-      HomeButton(),
-
+ 
+      HomeButton(), 
+ 
       GalleryTitle(), 
       GallerySlideshow(), 
     ], ["w-full", "h-full"]), 
-  ], [
+  ], [ 
     "w-full", "h-full", 
-    `bg-[${COLOR_LIGHT}]`,
-    "relative",
-  ], {
-    role: "gallery-panel",
+    `bg-[${COLOR_LIGHT}]`, 
+    "relative", 
+  ], { 
+    role: "gallery-panel", 
   }) 
  
 const GalleryTitle = async () => 
@@ -1543,12 +1543,12 @@ const GalleryTitle = async () =>
   ], ["px-4"]) 
  
 const GallerySlideshow = async () => 
-  Column([
+  Column([ 
     HorizontalSlider([ 
       Array.from({ 
         length: 14, 
-      }, (_, n) => SlideshowPicture(`./assets/images/slideshow/${n + 1}.jpg`))
-    ], [
+      }, (_, n) => SlideshowPicture(`./assets/images/slideshow/${n + 1}.jpg`)) 
+    ], [ 
       "w-[250vw]", 
       "gap-[20vw]", 
       "py-10", 
@@ -1556,13 +1556,13 @@ const GallerySlideshow = async () =>
     ], { 
       role: "gallery-slideshow", 
     }), 
-  ], [
-    "w-[100vw]",
-    "items-center",
-    "overflow-hidden"
-  ], {
-    role: "gallery-wrapper",
-  })
+  ], [ 
+    "w-[100vw]", 
+    "items-center", 
+    "overflow-hidden" 
+  ], { 
+    role: "gallery-wrapper", 
+  }) 
  
 const SlideshowPicture = async (src = null) => 
   SliderPanel([ 
@@ -1602,13 +1602,13 @@ const HomeButton = async () =>
       }, 
     } 
   }, [ 
-    HouseIcon([
+    HouseIcon([ 
       "h-10", "md:h-12", 
-      `text-[${COLOR_MEDIUM_DARK}]`,
-      "opacity-70",
-    ]),
+      `text-[${COLOR_MEDIUM_DARK}]`, 
+      "opacity-70", 
+    ]), 
   ]) 
-
+ 
 // -- Generics -- 
  
 const Wrapper = 
@@ -1661,7 +1661,7 @@ const JustifiedRow =
       ...classList, 
     ], { 
       role: "justified-row", 
-      ...dataAttributes,
+      ...dataAttributes, 
     }, attributes) 
  
 const JustifiedColumn = 
@@ -1819,9 +1819,9 @@ const Paragraph =
         "font-roboto", 
         "text-lg", "md:text-xl", 
         ...classList, 
-      ], ...attributes,
+      ], ...attributes, 
     }, [children]) 
-
+ 
 const Span = 
   async (children, classList = [], dataAttributes = {}, attributes = {}) => 
     h("span", { 
@@ -1831,11 +1831,11 @@ const Span =
       }, classList: [ 
         "font-roboto", 
         ...classList, 
-      ], ...attributes,
+      ], ...attributes, 
     }, [children]) 
  
 // -- Icons -- 
-
+ 
 const StarsIcon = (classList = []) => 
   h("svg:svg", { 
     fill: "currentColor", 
@@ -2116,17 +2116,17 @@ const ClockIcon = async (classList = []) =>
  
 const getRemainingDays = async (date) => { 
   const diff = new Date(date) - new Date() 
-  const daysLeft = Math.ceil(diff / (1000 * 60 * 60 * 24)) 
-  return daysLeft 
+  const remainingDays = Math.ceil(diff / (1000 * 60 * 60 * 24)) 
+  return remainingDays 
 } 
  
 const postAttendance = async (name, attendance) => { 
   const id = "AKfycbyRHXXQUNlAj6beete3P3CrA1ha3gMRLXNlbesjwF48vPNECQd6g8W0zA5fp05sBsFu" 
   const url = `https://script.google.com/macros/s/${id}/exec` 
  
-  let response = null
-
-  try {
+  let response = null 
+ 
+  try { 
     response = await fetch(url, { 
       redirect: "follow", 
       method: "POST", 
@@ -2135,16 +2135,16 @@ const postAttendance = async (name, attendance) => {
         "Content-Type": "text/plain;charset=utf-8", 
       }, 
     }) 
-  } catch (e) {
-    console.log(e)
+  } catch (e) { 
+    console.log(e) 
     return [true, null] 
-  }
+  } 
  
   const responseData = await response.json() 
-
-  if (responseData.status !== "success")
-    return [true, null]
-      
+ 
+  if (responseData.status !== "success") 
+    return [true, null] 
+ 
   return [false, responseData.data] 
 } 
  
