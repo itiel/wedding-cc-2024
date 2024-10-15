@@ -432,28 +432,22 @@ const AttendanceForm = async () =>
       submit: async (e) => { 
         e.preventDefault() 
  
-        localStorage.getItem("attendance-was-sent") 
- 
         const name = e.target.elements.name.value 
-        const attendance = e.target.elements.attendance.checked 
- 
+        const attendance = e.target.elements.attendance.value
+
         const spinner = await SpinnerIcon([ 
           "h-14", "md:h-16", 
           `text-[${COLOR_LIGHT}]`, 
           "animate-spin", 
         ]) 
- 
-        replace(self, spinner) 
- 
-        const [error, data] = await postAttendance(name, attendance) 
- 
-        if (!error) { 
-          const { timestamp } = data 
-          localStorage.setItem("attendance-was-sent", true) 
-          replace(spinner, await AttendanceFormThanks()) 
-        } else { 
- 
-        } 
+
+        await replace(self, spinner)
+
+        setTimeout(async () => {
+          const confirmationForm = await AttendanceConfirmationForm(name, attendance)
+          await replace(spinner, confirmationForm)
+          confirmationForm.elements.submit.focus()
+        }, 300)
       } 
     }) 
   }, [ 
@@ -461,7 +455,7 @@ const AttendanceForm = async () =>
       JustifiedRow([ 
         h("input", { 
           type: "text", name: "name", 
-          placeholder: "Persona o Familia.", 
+          placeholder: "Tu nombre o familia.", 
           required: true, 
           classList: [ 
             "w-full", 
@@ -475,32 +469,65 @@ const AttendanceForm = async () =>
           ], 
         }) 
       ]), 
-      JustifiedRow([ 
-        JustifiedRow([ 
-          h("input", { 
-            name: "attendance", 
-            id: "attendance-check", 
-            type: "checkbox", 
-            checked: true, 
-            classList: [ 
-              "w-5", 
-            ], 
-          }), 
-          h("label", { 
-            for: "attendance-check", 
-          }, [ 
-            h("span", { 
+
+      JustifiedRow([
+
+        JustifiedColumn([ 
+          JustifiedRow([ 
+            h("input", { 
+              name: "attendance", 
+              id: "attendance-yes", 
+              type: "radio", 
+              value: "TRUE",
+              checked: true, 
               classList: [ 
-                "text-[1.3rem]", 
-                "font-roboto", 
-                `text-[${COLOR_LIGHT}]`, 
+                "w-5", 
               ], 
+            }), 
+            h("label", { 
+              for: "attendance-yes", 
             }, [ 
-              "Sí podré asistir.", 
-            ]), 
-          ]) 
-        ], ["gap-3"]), 
-      ]), 
+              h("span", { 
+                classList: [ 
+                  "text-[1.3rem]", 
+                  "font-roboto", 
+                  `text-[${COLOR_LIGHT}]`, 
+                ], 
+              }, [ 
+                "Sí asistiré.", 
+              ]), 
+            ]) 
+          ], ["gap-3"]), 
+
+          JustifiedRow([ 
+            h("input", { 
+              name: "attendance", 
+              id: "attendance-no", 
+              type: "radio", 
+              value: "FALSE",
+              classList: [ 
+                "w-5", 
+              ], 
+            }), 
+            h("label", { 
+              for: "attendance-no", 
+            }, [ 
+              h("span", { 
+                classList: [ 
+                  "text-[1.3rem]", 
+                  "font-roboto", 
+                  `text-[${COLOR_LIGHT}]`, 
+                ], 
+              }, [ 
+                "No asistiré.", 
+              ]), 
+            ]) 
+          ], ["gap-3"]), 
+
+        ]), 
+
+      ]),
+
       JustifiedRow([ 
         h("button", { 
           type: "submit", 
@@ -518,17 +545,153 @@ const AttendanceForm = async () =>
               `text-[${COLOR_MEDIUM_DARK}]`, 
             ], 
           }, [ 
-            "Enviar", 
+            "Siguiente", 
           ]), 
         ]) 
       ]), 
     ], ["gap-2"]), 
   ]) 
  
-const AttendanceFormThanks = async () => 
+
+const AttendanceConfirmationForm = async (name, attendance) => 
+  h("form", { 
+    dataSet: { role: "attendance-confirmation-form", }, 
+    classList : [], 
+    on: (self) => ({ 
+      submit: async (e) => { 
+        e.preventDefault() 
+ 
+        const spinner = await SpinnerIcon([ 
+          "h-14", "md:h-16", 
+          `text-[${COLOR_LIGHT}]`, 
+          "animate-spin", 
+        ]) 
+ 
+        await replace(self, spinner) 
+ 
+        const [error, data] = await postAttendance(name, attendance) 
+ 
+        if (!error) 
+          await replace(spinner, await AttendanceThankyouMessage()) 
+        else 
+          await replace(spinner, await AttendanceErrorMessage()) 
+      }, 
+
+      reset: async (e) => { 
+        e.preventDefault() 
+
+        const spinner = await SpinnerIcon([ 
+          "h-14", "md:h-16", 
+          `text-[${COLOR_LIGHT}]`, 
+          "animate-spin", 
+        ]) 
+
+        await replace(self, spinner)
+
+        setTimeout(async () => {
+          const attendanceForm = await AttendanceForm() 
+          await replace(spinner, attendanceForm) 
+          attendanceForm.elements.name.focus()
+        }, 300)
+ 
+      } 
+    }) 
+  }, [ 
+    JustifiedColumn([ 
+
+      JustifiedRow([
+        JustifiedColumn([ 
+          Subtitle("Confirma los datos.", 
+            [`text-[${COLOR_LIGHT}]`]), 
+        ]), 
+      ]),
+      
+      JustifiedColumn([ 
+        Paragraph("Nombre/Familia:", 
+          ["font-bold", `text-[${COLOR_LIGHT}]`]), 
+        Paragraph(name, 
+          [`text-[${COLOR_LIGHT}]`]), 
+      ]), 
+    
+      JustifiedColumn([ 
+        Paragraph("Respuesta:", 
+          ["font-bold", `text-[${COLOR_LIGHT}]`]), 
+        Paragraph([
+          (attendance.toLowerCase() === "true") ? 
+            "Sí asistiré." :
+            "No asistiré." 
+        ], [`text-[${COLOR_LIGHT}]`]), 
+      ]), 
+
+
+      JustifiedRow([ 
+        JustifiedColumn([
+
+          JustifiedRow([
+
+            h("button", { 
+              name: "cancel",
+              type: "reset",
+              classList: [ 
+                `bg-[${COLOR_LIGHT}]`, 
+                "opacity-100", "hover:opacity-90", "active:opacity-80", 
+                "hover:scale-[1.02]", "active:scale-[1.02]", 
+                "p-2", 
+              ] 
+            }, [ 
+              h("span", { 
+                classList: [ 
+                  "text-[1.3rem]", 
+                  "font-roboto", "font-bold", 
+                  `text-[${COLOR_MEDIUM_DARK}]`, 
+                ], 
+              }, [ 
+                "Regresar", 
+              ]), 
+            ]),
+
+            h("button", { 
+              name: "submit",
+              type: "submit", 
+              classList: [ 
+                `bg-[${COLOR_LIGHT}]`, 
+                "opacity-100", "hover:opacity-90", "active:opacity-80", 
+                "hover:scale-[1.02]", "active:scale-[1.02]", 
+                "p-2", 
+                "animate-jump",
+              ] 
+            }, [ 
+              h("span", { 
+                classList: [ 
+                  "text-[1.3rem]", 
+                  "font-roboto", "font-bold", 
+                  `text-[${COLOR_MEDIUM_DARK}]`, 
+                ], 
+              }, [ 
+                "Enviar", 
+              ]), 
+            ]),
+
+          ], ["gap-3"]),
+
+        ]),
+      ]), 
+    ], ["gap-4"]), 
+  ]) 
+ 
+const AttendanceThankyouMessage = async () => 
   JustifiedRow([ 
     JustifiedColumn([ 
       Subtitle("Gracias por responder.", [ 
+        `text-[${COLOR_LIGHT}]` 
+      ]), 
+    ]), 
+  ]) 
+
+const AttendanceErrorMessage = async () => 
+  JustifiedRow([ 
+    JustifiedColumn([ 
+      Subtitle("Vuelve a intentarlo más tarde.", [ 
         `text-[${COLOR_LIGHT}]` 
       ]), 
     ]), 
@@ -593,12 +756,15 @@ const AttendanceMessageCard = async () =>
                     JustifiedColumn([ 
                       h("span", { 
                         classList: ["text-[1.5rem]"], 
+                      }, ["Carlos López"]), 
+                      h("span", { 
+                        classList: ["text-[1.2rem]"], 
                       }, ["(+52) 811-222-3642"]), 
                     ]), 
                   ]), 
-                ], ["gap-2"]), 
-              ]), 
- 
+                ], ["gap-2", "justify-around"]), 
+              ]),
+
               h("a", { 
                 href: "https://wa.me/qr/WNLUZI5D727TA1", 
                 target: "_blank", 
@@ -622,10 +788,13 @@ const AttendanceMessageCard = async () =>
                     JustifiedColumn([ 
                       h("span", { 
                         classList: ["text-[1.5rem]"], 
+                      }, ["Chelsea Cervantes"]), 
+                      h("span", { 
+                        classList: ["text-[1.2rem]"], 
                       }, ["(+52) 812-627-1626"]), 
                     ]), 
                   ]), 
-                ], ["gap-2"]), 
+                ], ["gap-2", "justify-around"]), 
               ]), 
  
             ], ["gap-5"]), 

@@ -43,3 +43,19 @@
     transform: translateX(0%);
   }
 }
+
+.animate-jump {
+  animation: 1s jump ease-in-out;
+}
+
+@keyframes jump {
+  0% {
+    transform: translateY(0%);
+  }
+  50% {
+    transform: translateY(-30%);
+  }
+  100% {
+    transform: translateY(0%);
+  }
+}
