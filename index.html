@@ -193,7 +193,7 @@ const IntroPolaroid = async () =>
       src: "./assets/images/polaroid.png", 
       classList: [ 
         "max-h-[30vh]", "max-w-[30vw]", 
-        "rotate-[2deg]", 
+        "animate-wiggle",
       ], 
     }), 
   ]) 
@@ -568,13 +568,14 @@ const AttendanceConfirmationForm = async (name, attendance) =>
         ]) 
  
         await replace(self, spinner) 
- 
-        const [error, data] = await postAttendance(name, attendance) 
- 
-        if (!error) 
-          await replace(spinner, await AttendanceThankyouMessage()) 
-        else 
-          await replace(spinner, await AttendanceErrorMessage()) 
+
+        setTimeout(async () => {
+          const [error, data] = await postAttendance(name, attendance) 
+          if (!error) 
+            await replace(spinner, await AttendanceThankyouMessage()) 
+          else 
+            await replace(spinner, await AttendanceErrorMessage()) 
+        }, 300)
       }, 
 
       reset: async (e) => { 
@@ -593,7 +594,6 @@ const AttendanceConfirmationForm = async (name, attendance) =>
           await replace(spinner, attendanceForm) 
           attendanceForm.elements.name.focus()
         }, 300)
- 
       } 
     }) 
   }, [ 
@@ -760,7 +760,7 @@ const AttendanceMessageCard = async () =>
                           "font-bold",
                           "text-[1.4rem]",
                         ], 
-                      }, ["Carlos López"]), 
+                      }, ["Carlos López."]), 
                       h("span", { 
                         classList: [
                           "font-roboto",
@@ -799,7 +799,7 @@ const AttendanceMessageCard = async () =>
                           "font-bold",
                           "text-[1.4rem]",
                         ], 
-                      }, ["Chelsea Cervantes"]), 
+                      }, ["Chelsea Cervantes."]), 
                       h("span", { 
                         classList: [
                           "font-roboto",
@@ -2183,22 +2183,28 @@ const postAttendance = async (name, attendance) => {
   const id = "AKfycbyRHXXQUNlAj6beete3P3CrA1ha3gMRLXNlbesjwF48vPNECQd6g8W0zA5fp05sBsFu" 
   const url = `https://script.google.com/macros/s/${id}/exec` 
  
-  const response = await fetch(url, { 
-    redirect: "follow", 
-    method: "POST", 
-    body: JSON.stringify({ name, attendance }), 
-    headers: { 
-      "Content-Type": "text/plain;charset=utf-8", 
-    }, 
-  }) 
+  let response = null
+
+  try {
+    response = await fetch(url, { 
+      redirect: "follow", 
+      method: "POST", 
+      body: JSON.stringify({ name, attendance }), 
+      headers: { 
+        "Content-Type": "text/plain;charset=utf-8", 
+      }, 
+    }) 
+  } catch (e) {
+    console.log(e)
+    return [true, null] 
+  }
  
   const responseData = await response.json() 
- 
-  return ( 
-    responseData.status !== "success" ? 
-      [true, null] : 
-      [false, responseData.data] 
-  ) 
+
+  if (responseData.status !== "success")
+    return [true, null]
+      
+  return [false, responseData.data] 
 } 
  
 const copyToClipboardFromInput = async (input) => { 

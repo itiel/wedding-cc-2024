@@ -1,5 +1,5 @@
 .animate-breathe {
-  animation: 2s infinite alternate cubic-bezier(0, 0, 0.3, 1) breathe;
+  animation: breathe 2s cubic-bezier(0, 0, 0.3, 1) infinite alternate;
 }
 
 @keyframes breathe {
@@ -14,7 +14,7 @@
 }
 
 .animate-appear {
-  animation: 2s appear;
+  animation: appear 2s;
 }
 
 @keyframes appear {
@@ -29,33 +29,52 @@
 }
 
 .animate-swipe-left {
-  animation: 1s swipe-left cubic-bezier(0.65, 0.05, 0.36, 1);
+  animation: swipe-left 1s cubic-bezier(0.65, 0.05, 0.36, 1);
 }
 
 @keyframes swipe-left {
-  0% {
+  0%, 100% {
     transform: translateX(0%);
   }
   50% {
     transform: translateX(-30%);
   }
-  100% {
-    transform: translateX(0%);
-  }
 }
 
 .animate-jump {
-  animation: 1s jump ease-in-out;
+  animation: jump 1s ease-in-out;
 }
 
 @keyframes jump {
-  0% {
+  0%, 100% {
     transform: translateY(0%);
   }
   50% {
     transform: translateY(-30%);
   }
-  100% {
-    transform: translateY(0%);
+}
+
+.animate-wiggle {
+  animation: wiggle 7s infinite;
+}
+
+@keyframes wiggle {
+  0%, 100% {
+    transform: rotate(0);
+  }
+  5% {
+    transform: rotate(-1deg);
+  }
+  10% {
+    transform: rotate(1deg);
+  }
+  15% {
+    transform: rotate(-1.5deg);
+  }
+  20% {
+    transform: rotate(2deg);
+  }
+  25% {
+    transform: rotate(0);
   }
 }
