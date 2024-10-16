@@ -170,15 +170,22 @@ const IntroStamp = async () =>
   ]) 
  
 const IntroPolaroid = async () => 
-  h("a", { 
-    href: "#", 
-    classList: [ 
-      "absolute", 
-      "bottom-0", "right-0", 
-      "m-4", "sm:m-6", "md:m-10", 
-      "hover:scale-[1.1]", "active:scale-[1.1]", 
-      "animate-appear", 
-    ], 
+  Link([ 
+    h("img", { 
+      src: "./assets/images/polaroid.png", 
+      classList: [ 
+        "max-h-[30vh]", "max-w-[30vw]", 
+        "rotate-[3deg]", 
+        "animate-wiggle", 
+      ], 
+    }), 
+  ], "#", [ 
+    "absolute", 
+    "bottom-0", "right-0", 
+    "m-4", "sm:m-6", "md:m-10", 
+    "hover:scale-[1.1]", "active:scale-[1.1]", 
+    "animate-appear", 
+  ], {}, {
     on: { 
       click: async (e) => { 
         e.preventDefault() 
@@ -188,16 +195,7 @@ const IntroPolaroid = async () =>
         gallery.scrollIntoView({ behavior: "smooth", }) 
       }, 
     } 
-  }, [ 
-    h("img", { 
-      src: "./assets/images/polaroid.png", 
-      classList: [ 
-        "max-h-[30vh]", "max-w-[30vw]", 
-        "rotate-[3deg]", 
-        "animate-wiggle", 
-      ], 
-    }), 
-  ]) 
+  }) 
  
 // -- Intro Epilogue Section -- 
  
@@ -704,70 +702,69 @@ const AttendanceMessageCard = async () =>
             ]), 
  
             JustifiedColumn([ 
-              h("a", { 
-                href: "https://wa.me/qr/KKWAAEAGEP25O1", 
-                target: "_blank", 
-                classList: [ 
-                  "p-3", 
-                  `bg-[${COLOR_MEDIUM_LIGHT}]`, 
-                  "opacity-100", "hover:opacity-90", "active:opacity-80", 
-                  "hover:scale-[1.02]", "active:scale-[1.02]", 
-                  `text-[${COLOR_MEDIUM_DARK}]`, 
-                  "text-center", 
-                ] 
-              }, [ 
+
+              Link([ 
                 Row([ 
                   JustifiedRow([ 
                     JustifiedColumn([ 
-                      WhatsAppIcon(["h-6", "md:h-8"]), 
-                    ]), 
-                  ]), 
- 
-                  JustifiedRow([ 
-                    JustifiedColumn([ 
-                      Span("Carlos López.", [ 
-                        "font-bold", 
-                        "text-[1.4rem]", 
-                      ]), 
-                      Span("(+52) 811-222-3642", [ 
-                        "text-[1.1rem]", 
+                      WhatsAppIcon([
+                        "h-8", "md:h-9", 
+                        `text-[${COLOR_MEDIUM_DARK}]`,
                       ]), 
                     ]), 
                   ]), 
-                ], ["gap-4", "justify-around"]), 
-              ]), 
- 
-              h("a", { 
-                href: "https://wa.me/qr/WNLUZI5D727TA1", 
-                target: "_blank", 
-                classList: [ 
-                  "p-3", 
-                  `bg-[${COLOR_MEDIUM_LIGHT}]`, 
-                  "opacity-100", "hover:opacity-90", "active:opacity-80", 
-                  "hover:scale-[1.02]", "active:scale-[1.02]", 
-                  `text-[${COLOR_MEDIUM_DARK}]`, 
-                  "text-center", 
-                ] 
-              }, [ 
-                Row([ 
-                  JustifiedRow([ 
-                    JustifiedColumn([ 
-                      WhatsAppIcon(["h-6", "md:h-8"]), 
-                    ]), 
-                  ]), 
  
                   JustifiedRow([ 
-                    JustifiedColumn([ 
+                    Column([ 
                       Span("Chelsea Cervantes.", [ 
                         "font-bold", 
                         "text-[1.4rem]", 
+                        `text-[${COLOR_MEDIUM_DARK}]`,
                       ]), 
                       Span("(+52) 812-627-1626", [ 
-                        "text-[1.2rem]", 
+                        "text-[1.1rem]",
+                        `text-[${COLOR_MEDIUM_DARK}]`,
                       ]), 
                     ]), 
                   ]), 
-                ], ["gap-4", "justify-around"]), 
+                ], ["gap-3", "md:gap-4"]), 
+              ], "https://wa.me/qr/WNLUZI5D727TA1", [ 
+                `bg-[${COLOR_MEDIUM_LIGHT}]`, 
+                "opacity-100", "hover:opacity-90", "active:opacity-80", 
+                "hover:scale-[1.02]", "active:scale-[1.02]",  
+                "p-3", 
+              ]), 
+
+              Link([ 
+                Row([ 
+                  JustifiedRow([ 
+                    JustifiedColumn([ 
+                      WhatsAppIcon([
+                        "h-8", "md:h-9", 
+                        `text-[${COLOR_MEDIUM_DARK}]`,
+                      ]), 
+                    ]), 
+                  ]), 
+ 
+                  JustifiedRow([ 
+                    Column([ 
+                      Span("Carlos López.", [ 
+                        "font-bold", 
+                        "text-[1.4rem]", 
+                        `text-[${COLOR_MEDIUM_DARK}]`,
+                      ]), 
+                      Span("(+52) 811-222-3642", [ 
+                        "text-[1.1rem]",
+                        `text-[${COLOR_MEDIUM_DARK}]`,
+                      ]), 
+                    ]), 
+                  ]), 
+                ], ["gap-3", "md:gap-4"]), 
+              ], "https://wa.me/qr/KKWAAEAGEP25O1", [ 
+                `bg-[${COLOR_MEDIUM_LIGHT}]`, 
+                "opacity-100", "hover:opacity-90", "active:opacity-80", 
+                "hover:scale-[1.02]", "active:scale-[1.02]",  
+                "p-3", 
               ]), 
  
             ], ["gap-5"]), 
@@ -897,14 +894,17 @@ const SpeechGeoCard = async () =>
               ]), 
             ]), 
             JustifiedRow([ 
-              Link("Ver Mapa", "https://maps.app.goo.gl/iJiiv4FQhBk2BTaz7", [ 
+              Link([
+                Span("Ver Mapa", [
+                  "text-[1.3rem]", 
+                  "font-bold", 
+                  `text-[${COLOR_MEDIUM_DARK}]`, 
+                ]),
+              ], "https://maps.app.goo.gl/iJiiv4FQhBk2BTaz7", [ 
                 `bg-[${COLOR_LIGHT}]`, 
                 "opacity-100", "hover:opacity-90", "active:opacity-80", 
                 "hover:scale-[1.02]", "active:scale-[1.02]", 
                 "p-2", 
-                "text-[1.3rem]", 
-                "font-bold", 
-                `text-[${COLOR_MEDIUM_DARK}]`, 
               ]), 
             ]), 
           ], ["gap-4"]), 
@@ -996,14 +996,17 @@ const ReceptionGeoCard = async () =>
               ]), 
             ]), 
             JustifiedRow([ 
-              Link("Ver Mapa", "https://maps.app.goo.gl/PCBKeFJTs2nqAg1M9", [ 
+              Link([
+                Span("Ver Mapa", [
+                  "text-[1.3rem]", 
+                  "font-bold", 
+                  `text-[${COLOR_MEDIUM_DARK}]`, 
+                ]),
+              ], "https://maps.app.goo.gl/PCBKeFJTs2nqAg1M9", [ 
                 `bg-[${COLOR_MEDIUM_LIGHT}]`, 
                 "opacity-100", "hover:opacity-90", "active:opacity-80", 
                 "hover:scale-[1.02]", "active:scale-[1.02]", 
                 "p-2", 
-                "text-[1.3rem]", 
-                "font-bold", 
-                `text-[${COLOR_MEDIUM_DARK}]`, 
               ]), 
             ]), 
           ], ["gap-4"]), 
@@ -1215,15 +1218,17 @@ const OnlineGiftOptionsCard = async () =>
                           JustifiedRow([ 
                             JustifiedColumn([ 
  
-                              Link("Visitar", 
-                                "https://mesaderegalos.liverpool.com.mx/milistaderegalos/51537751", [ 
+                              Link([
+                                Span("Visitar", [
+                                  "text-[1.3rem]", 
+                                  "font-bold", 
+                                  `text-[${COLOR_MEDIUM_DARK}]`, 
+                                ]),
+                              ], "https://mesaderegalos.liverpool.com.mx/milistaderegalos/51537751", [ 
                                 `bg-[${COLOR_MEDIUM_LIGHT}]`, 
                                 "opacity-100", "hover:opacity-90", "active:opacity-80", 
                                 "hover:scale-[1.02]", "active:scale-[1.02]", 
                                 "p-2", 
-                                "text-[1.3rem]", 
-                                "font-bold", 
-                                `text-[${COLOR_MEDIUM_DARK}]`, 
                               ]), 
  
                             ]), 
@@ -1267,15 +1272,17 @@ const OnlineGiftOptionsCard = async () =>
                           JustifiedRow([ 
                             JustifiedColumn([ 
  
-                              Link("Visitar", 
-                                "https://www.amazon.com.mx/wedding/share/carlos-chelsea-2024", [ 
+                              Link([
+                                Span("Visitar", [
+                                  "text-[1.3rem]", 
+                                  "font-bold", 
+                                  `text-[${COLOR_MEDIUM_DARK}]`, 
+                                ]),
+                              ], "https://www.amazon.com.mx/wedding/share/carlos-chelsea-2024", [ 
                                 `bg-[${COLOR_MEDIUM_LIGHT}]`, 
                                 "opacity-100", "hover:opacity-90", "active:opacity-80", 
                                 "hover:scale-[1.02]", "active:scale-[1.02]", 
                                 "p-2", 
-                                "text-[1.3rem]", 
-                                "font-bold", 
-                                `text-[${COLOR_MEDIUM_DARK}]`, 
                               ]), 
  
                             ]), 
@@ -1389,13 +1396,16 @@ const BankTransferCard = async () =>
  
                   JustifiedRow([ 
                     JustifiedColumn([ 
-                      Link("Copiar", "#", [ 
+                      Link([
+                        Span("Copiar", [
+                          "font-bold", 
+                          `text-[${COLOR_MEDIUM_DARK}]`, 
+                        ]),
+                      ], "#", [ 
                         `bg-[${COLOR_MEDIUM_LIGHT}]`, 
-                        `text-[${COLOR_MEDIUM_DARK}]`, 
                         "opacity-100", "hover:opacity-90", "active:opacity-80", 
                         "hover:scale-[1.02]", "active:scale-[1.02]", 
                         "p-1", 
-                        "font-roboto", "font-bold", 
                       ], {}, { 
                         on: { 
                           click: async (e) => { 
@@ -1441,13 +1451,16 @@ const BankTransferCard = async () =>
  
                   JustifiedRow([ 
                     JustifiedColumn([ 
-                      Link("Copiar", "#", [ 
+                      Link([
+                        Span("Copiar", [
+                          "font-bold", 
+                          `text-[${COLOR_MEDIUM_DARK}]`, 
+                        ]),
+                      ], "#", [ 
                         `bg-[${COLOR_MEDIUM_LIGHT}]`, 
-                        `text-[${COLOR_MEDIUM_DARK}]`, 
                         "opacity-100", "hover:opacity-90", "active:opacity-80", 
                         "hover:scale-[1.02]", "active:scale-[1.02]", 
                         "p-1", 
-                        "font-roboto", "font-bold", 
                       ], {}, { 
                         on: { 
                           click: async (e) => { 
@@ -1591,14 +1604,18 @@ const SlideshowPicture = async (src = null) =>
   }) 
  
 const HomeButton = async () => 
-  h("a", { 
-    href: "#", 
-    classList: [ 
-      "absolute", 
-      "top-0", "right-0", 
-      "m-4", "sm:m-6", "md:m-8", 
-      "hover:scale-[1.1]", "active:scale-[1.1]", 
-    ], 
+  Link([ 
+    HouseIcon([ 
+      "h-10", "md:h-12", 
+      `text-[${COLOR_MEDIUM_DARK}]`, 
+      "opacity-70", 
+    ]) 
+  ], "#", [ 
+    "absolute", 
+    "top-0", "right-0", 
+    "m-4", "sm:m-6", "md:m-8", 
+    "hover:scale-[1.1]", "active:scale-[1.1]", 
+  ], {}, {
     on: { 
       click: async (e) => { 
         e.preventDefault() 
@@ -1607,14 +1624,8 @@ const HomeButton = async () =>
  
         introPanel.scrollIntoView({ behavior: "smooth", }) 
       }, 
-    } 
-  }, [ 
-    HouseIcon([ 
-      "h-10", "md:h-12", 
-      `text-[${COLOR_MEDIUM_DARK}]`, 
-      "opacity-70", 
-    ]), 
-  ]) 
+    }, 
+  }) 
  
 // -- Generics -- 
  
@@ -1728,29 +1739,35 @@ const SectionWrapper =
       role: "section-container", 
     }) 
  
-const Title = async (content, classList = []) => 
-  h("h1", { 
-    dataSet: { role: "title", }, 
-    classList: [ 
-      "font-roboto", 
-      "font-bold", 
-      "text-center", 
-      "text-3xl", "md:text-4xl", 
-      ...classList, 
-    ], 
-  }, [content]) 
+const Title = 
+  async (children, classList = [], dataAttributes = {}, attributes = {}) => 
+    h("h1", { 
+      dataSet: { 
+        role: "title", 
+        ...dataAttributes,
+      }, classList: [ 
+        "font-roboto", 
+        "font-bold", 
+        "text-center", 
+        "text-3xl", "md:text-4xl", 
+        ...classList, 
+      ], ...attributes,
+    }, [children]) 
  
-const Subtitle = async (content, classList = []) => 
-  h("h1", { 
-    dataSet: { role: "subtitle", }, 
-    classList: [ 
-      "font-roboto", 
-      "font-bold", 
-      "text-center", 
-      "text-[1.5rem]", "md:text-[1.8rem]", 
-      ...classList, 
-    ], 
-  }, [content]) 
+const Subtitle = 
+  async (children, classList = [], dataAttributes = {}, attributes = {}) => 
+    h("h1", { 
+      dataSet: { 
+        role: "subtitle", 
+        ...dataAttributes,
+      }, classList: [ 
+        "font-roboto", 
+        "font-bold", 
+        "text-center", 
+        "text-[1.5rem]", "md:text-[1.8rem]", 
+        ...classList, 
+      ], ...attributes,
+    }, [children]) 
  
 const ColumnToRow = 
   async (children, classList = [], dataAttributes = {}, attributes = {}) => 
@@ -1809,7 +1826,6 @@ const Link =
         role: "link", 
         ...dataAttributes, 
       }, classList: [ 
-        "font-roboto", 
         ...classList 
       ], href: ref, 
       target: "_blank", 
